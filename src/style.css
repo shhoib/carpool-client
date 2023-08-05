@@ -1,0 +1,109 @@
+.navDropdown{
+    /* display: flex; */
+    margin-right: 100px;
+    width: 100%;
+}
+
+.poolingImage{
+    box-shadow: 0 4px 9px rgba( 0, 0, 0, 1);
+    width: 85%;
+}
+.afraid-Image{
+    box-shadow: 0 4px 9px rgba( 0, 0, 0, 1);
+
+}
+.homeCard{
+    background-color: #072b41;
+}
+.joinImg{
+    width: 25rem;
+    height: 16rem;
+}
+.maintxt{
+    color: rgb(85, 85, 85);
+}
+.howToDiv{
+    background-color: #0c5583;
+}
+.howtotxt{
+    color: white;
+}
+.horizontal-line {
+    width: 75%;
+    border: 1px;
+    border-top: 4px solid #585858;
+    margin: 0 auto;
+
+  }
+  .carousel-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #072b41;
+    height: 300px;
+    padding: 20px;
+  }
+  
+  .reviewer-image-container {
+    width: 15%;
+    height: 70%;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  @media(max-width:600px){
+    .reviewer-image-container{
+        width:33%;
+        height:40%;
+    }
+    .poolingImage{
+      width: 70%;
+    }
+ }
+  
+  
+  .reviewer-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .review-content {
+    text-align: center;
+  }
+  
+  .review-text {
+    font-size: 16px;
+    color: white;
+  }
+  .icons{
+    width: 300px;
+    height: 300px;
+    font-size: 800%;
+  }
+  .nav{
+    background-color: #043e63;
+  }
+  .navdrop{
+    color: white;
+  }
+ .h-six-tags{
+  color: #055383;
+ }
+ .vertical-line {
+  width: 10px;
+  height: 100%;
+  background-color: black;
+  /* margin: 0 10px; */
+}
+
+        
+  
+  
+
