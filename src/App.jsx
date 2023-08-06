@@ -16,7 +16,7 @@ function App() {
     <>
     <context.Provider>
 
-     {!isLogin&&<NavigationBar/>}
+    <NavigationBar/>
 
      <Routes>
       <Route path="/" element={<Home/>}/>

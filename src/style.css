@@ -29,12 +29,12 @@
     color: white;
 }
 .horizontal-line {
-    width: 75%;
+    /* width: 75%; */
     border: 1px;
-    border-top: 4px solid #585858;
+    border-top: 4px solid #530606;
     margin: 0 auto;
-
   }
+
   .carousel-item-container {
     display: flex;
     flex-direction: column;
@@ -64,6 +64,7 @@
     .poolingImage{
       width: 70%;
     }
+   
  }
   
   
