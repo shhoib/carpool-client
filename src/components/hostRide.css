@@ -1,0 +1,10 @@
+.hostImg{
+    background-color: aqua;
+    /* width: 60%; */
+    height: 30%;
+}
+@media(max-width:600px){
+    .hostImg2{
+        /* display: none; */
+    }
+}

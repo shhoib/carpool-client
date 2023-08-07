@@ -1,16 +1,32 @@
 @media(max-width:600px){
     h2{
-        font-size: 21px;
+        font-size: 19px;
       }
     h4,h5{
         font-size: 15px;
     }
+    p{
+        font-size: 8px;
+        margin-left: 16%;
+    }
     .howToLogin{
         /* min-width:250px; */
-        margin-left: 0%;
+        margin-left: 15%;
+        width: 70%;
     }
     .dontHaveAccount2{
         margin: 0;
+    }
+}
+@media(min-width:601px){
+    .howToLogin {
+        width: 50%;
+        height: 8rem;
+        margin-left: 25%;
+    }
+    p{
+        font-size: 15px;
+        margin-left: 26%;
     }
 }
 .dontHaveAccount{
@@ -40,14 +56,13 @@
     transform: scale(1.05);
 }
 
-.howToLogin{
+/* .howToLogin{
     width: 50%;
     height: 8rem;
     margin-left: 25%;
-}
+} */
 .signIn{
     color: skyblue;
-    margin-left: 2%;
 }
 .horizontal-line {
     width: 100%;
@@ -56,6 +71,6 @@
     margin: 0 auto;
   }
   .arrow{
-    margin-left: 70px;
-  }
+    font-size: larger;
+}
   

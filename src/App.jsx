@@ -6,11 +6,13 @@ import { context } from "./store/context";
 import { Routes ,Route, useLocation} from "react-router-dom";
 import Join from "./components/join";
 import LoginPage from "./components/login";
+import Signup from "./components/signup";
+import HostRide from "./components/hostRide";
 
 function App() {
 
   const location = useLocation()
-  const isLogin = location.pathname==='/login'||'/register';
+  const isLogin = location.pathname==='/login'||'/Signup';
 
   return (
     <>
@@ -22,6 +24,8 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/join" element={<Join/>}/>
       <Route path="/login" element={<LoginPage/>}/>
+      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/hostRide" element={<HostRide/>}/>
      </Routes>
 
      {!isLogin&&<Footer/>}
