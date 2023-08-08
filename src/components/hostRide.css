@@ -1,10 +1,22 @@
-.hostImg{
-    background-color: aqua;
-    /* width: 60%; */
-    height: 30%;
+ @media (min-width: 601px) and (max-width: 1050px){
+  .overlay-form {
+      width: 50%;
+  }
 }
-@media(max-width:600px){
-    .hostImg2{
-        /* display: none; */
-    }
-}
+.overlay-form {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 3%;
+    background-color: rgba(243, 238, 167, 0.466);
+    border-radius: 10px;
+    text-align: center;
+  }
+  .hostImg{
+     height: 70%; 
+   } 
+
+  
