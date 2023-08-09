@@ -1,6 +1,10 @@
+ body{
+    color: #054652;
+    margin: 0;
+ }
  @media (min-width: 601px) and (max-width: 1050px){
   .overlay-form {
-      width: 50%;
+      /* width: 50%; */
   }
 }
 .overlay-form {
@@ -18,5 +22,12 @@
   .hostImg{
      height: 70%; 
    } 
+   .inputBox{
+    transition: all 0.6s ease; 
+   }
+   .inputBox:hover{
+    transform: scale(1.05);
+
+   }
 
   
