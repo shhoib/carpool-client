@@ -3,6 +3,8 @@ import { Image, Form, Button } from 'react-bootstrap';
 import './hostRide.css';
 import { GiReceiveMoney } from 'react-icons/gi';
 import { VscWorkspaceTrusted } from 'react-icons/vsc';
+import { TiTickOutline } from 'react-icons/ti';
+import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
 
 
 const HostRide = () => {
@@ -42,17 +44,35 @@ const HostRide = () => {
         <h className='text-center'>Share your ride with passengers on your way, and save every time you travel by car. Sign up as a driver to start saving on travel costs.</h>
      </Col>
      </Row>
-     <Col md={12}>
-      <h2>Publish your ride in just minutes</h2>
 
+     <hr className='horizontal-line my-5'/>
+     
+     <Col md={12} >
+      <h2 className='text-center'>Publish your ride in just minutes</h2>
+
+      <div className='d-flex '>
+      <h2 className='mt-4'><AiOutlineUserAdd/></h2>
+      <div className='mt-4 mx-3'>
       <h5>Create a Coride account</h5>
       <h>Add your profile picture, a few words about you and your phone number to increase trust between members.</h>
+      </div>
+      </div>
       
-      <h5>Publish your ride</h5>
+      <div className='d-flex'>
+      <h2 className='mt-4'><AiOutlineCar/></h2>
+      <div className='mt-4 mx-2'>
+      <h5 >Publish your ride</h5>
       <h>Indicate departure and arrival points, the date of the ride and check our recommended price to increase your chances of getting your first passengers and ratings.</h>
-     
-      <h5>Accept booking requests</h5>
+      </div>
+      </div>
+
+      <div className='d-flex'>
+      <h2 className='mt-4'><TiTickOutline/></h2>
+      <div className='mt-4 mx-3'>
+      <h5 >Accept booking requests</h5>
       <h>Review passenger profiles and accept their requests to ride with you. That’s how easy it is to start saving on travel costs!</h>
+      </div>
+      </div>
 
      </Col>
     </Col>
