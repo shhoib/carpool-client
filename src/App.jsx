@@ -12,7 +12,7 @@ import JoinRide from "./components/joinRide";
 function App() {
 
   const location = useLocation()
-  const isLogin = location.pathname==='/login'||'/Signup';
+  const isLogin = location.pathname=='/login'||'/Signup';
 
   return (
     <>

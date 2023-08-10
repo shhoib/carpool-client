@@ -1,5 +1,36 @@
 .joinBanner{
     background-color: rgb(52, 135, 230);
-    min-height: 200px;
-    max-height: 300px;
+    min-height: 30%;
 }
+  @media(max-width:600px){
+    .wholeInputBoxes{
+        display: flex;
+        flex-direction: column;
+    }
+    .inputBoxWithImage{
+        background-image : url('https://images.template.net/83682/free-simple-car-illustration-3v7wz.jpg');
+    }
+    .mainTXT{
+        font-size: x-large;
+
+    }
+    .inputBoxes{
+        margin: 0;
+    }
+    .bgIMG{
+        display: none;
+    }
+  }
+  .inputBoxWithImage{
+    /* background-image : url('https://images.template.net/83682/free-simple-car-illustration-3v7wz.jpg'); */
+    background-size: cover;
+    background-position: center;
+}
+.inputBoxes{
+    padding: 2rem;
+}
+.bgIMG{
+    width:20rem;
+}
+  
+  
