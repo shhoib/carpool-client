@@ -7,11 +7,11 @@ const JoinRide = () => {
   
   return (
     <>
-    <div>
-    <InputGroup className="mb-3 custom-input-group">
-      <Form.Control aria-label="From" placeholder="From"  className="custom-form-control"/>
-      <Form.Control aria-label="From" placeholder="To"  className="custom-form-control"/>
-      <Form.Control  aria-label="To" type="date" className="custom-form-control"/>
+    <div className='joinBanner'>
+    <InputGroup className="mb-3 w-50">
+      <Form.Control aria-label="From" placeholder="From..."  className="custom-form-control"/>
+      <Form.Control aria-label="To" placeholder="To..."  className="custom-form-control"/>
+      <Form.Control  aria-label="date" type="date" className="custom-form-control"/>
       <Form.Control aria-label="Passengers" type="number" className="custom-form-control" placeholder="Passengers"/>
       <Button>search</Button>
     </InputGroup>
