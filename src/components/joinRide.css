@@ -1,18 +1,17 @@
-.joinBanner{
-    background-color: rgb(52, 135, 230);
-    min-height: 30%;
-}
-  @media(max-width:600px){
+@media(max-width:600px){
     .wholeInputBoxes{
         display: flex;
         flex-direction: column;
     }
     .inputBoxWithImage{
         background-image : url('https://images.template.net/83682/free-simple-car-illustration-3v7wz.jpg');
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .mainTXT{
         font-size: x-large;
-
+        padding-top: 2rem;
     }
     .inputBoxes{
         margin: 0;
@@ -20,9 +19,17 @@
     .bgIMG{
         display: none;
     }
+    .horizontal-line {
+        display: none;
+    }
+    .tipss{
+        display: none;
+    } 
+
   }
+
+
   .inputBoxWithImage{
-    /* background-image : url('https://images.template.net/83682/free-simple-car-illustration-3v7wz.jpg'); */
     background-size: cover;
     background-position: center;
 }
@@ -30,7 +37,39 @@
     padding: 2rem;
 }
 .bgIMG{
-    width:20rem;
+    width:100%;
+}
+@media (min-width: 601px) {
+    .mainTXT {
+        padding-left: 4rem;
+        padding-bottom: 1rem;
+    }
+    .horizontal-line{
+        width: 75%;
+    }
 }
   
+.circle{
+    width: 20px;
+    height: 20px;
+    background-color: rgb(109, 108, 108);
+    border-radius: 20px;
+}
+.connectingLine{
+    border-width: 3px;
+    width: 90%;
+    color: rgb(109, 108, 108);
+}
+.rideList{
+    border: 1px solid rgb(177, 176, 176);
+    border-radius: 30px;
+    background-color: rgb(245, 245, 245);
+}
+.hosterDetails{
+    width: 95%;
+}
+.wholeRideList{
+    background-color: rgb(197, 197, 197);
+    width: 100%;
+}
   
