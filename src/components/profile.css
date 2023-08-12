@@ -9,10 +9,19 @@
 .profile-and-rating{
     width: 70%;
 }
-.add-profile-section,.rating-and-changePassword{
+.add-profile-section{
     margin-left: 10%;
+    transition: all 0.6s ease;
+    border-radius: 20px;
 }
-
+.rating-and-changePassword:hover{
+    background-color:rgb(226, 225, 225);
+    transform: scale(1.05);
+}
+.add-profile-section:hover{
+    background-color:rgb(226, 225, 225);
+    transform: scale(1.05);
+}
 .line{
     width: 62%;
     display: flex;
@@ -21,13 +30,29 @@
     /* border: 3px; */
     border-top: 3px solid #585858;
 }
+.rating-and-changePassword{
+    /* width: 80%; */
+    border-radius: 20px;
+    margin-left: 8%;
+    transition: all 0.6s ease;
+    padding: 10px;
+
+}
+.rating-and-changePassword{
+    padding-left: 5%;
+}
 
 @media(max-width:600px){
-    .user-profile-image{
-        /* width: 8rem; */
-        /* height: 8rem; */
-    }
     .add-profile-section{
         margin: 0;
+    }
+    .rating-and-changePassword{
+        /* width: 80%; */
+        border-radius: 20px;
+        margin-left: 4%;
+        transition: all 0.6s ease;
+        padding-left: 6%;
+        padding-bottom:5px ;
+        margin-top: 0;  
     }
 }
