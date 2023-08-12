@@ -28,6 +28,20 @@
 
   }
 
+  @media (min-width: 601px) {
+    .mainTXT {
+        padding-left: 4rem;
+        padding-bottom: 1rem;
+    }
+    .horizontal-line{
+        width: 75%;
+    }
+    .wholeInputBoxes{
+        background-color: #054652;
+        padding: 1rem;
+        border-radius: 30px;
+    }     
+}
 
   .inputBoxWithImage{
     background-size: cover;
@@ -39,15 +53,7 @@
 .bgIMG{
     width:100%;
 }
-@media (min-width: 601px) {
-    .mainTXT {
-        padding-left: 4rem;
-        padding-bottom: 1rem;
-    }
-    .horizontal-line{
-        width: 75%;
-    }
-}
+
   
 .circle{
     width: 20px;
@@ -72,4 +78,3 @@
     background-color: rgb(197, 197, 197);
     width: 100%;
 }
-  

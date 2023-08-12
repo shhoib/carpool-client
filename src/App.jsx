@@ -8,6 +8,7 @@ import LoginPage from "./components/login";
 import Signup from "./components/signup";
 import HostRide from "./components/hostRide";
 import JoinRide from "./components/joinRide";
+import Profile from "./components/profile";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/hostRide" element={<HostRide/>}/>
       <Route path="/JoinRide" element={<JoinRide/>}/>
+      <Route path="/Profile" element={<Profile/>}/>
      </Routes>
 
      {!isLogin&&<Footer/>}

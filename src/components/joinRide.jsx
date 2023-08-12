@@ -55,19 +55,22 @@ const JoinRide = () => {
     <Container className='rideList mt-3'>
      <Container className='d-flex justify-content-between mt-2 px-3'>
       <h5>Kannur</h5>
+      <h3><AiOutlineUser/>shoib</h3>
+      <h4>₹600</h4>
       <h5>Bangalore</h5>
      </Container>
 
-     <Container className='d-flex justify-content-center'>
-      <div className='circle mt-1'></div>
-      <hr  className='connectingLine'/>
-      <div className='circle mt-1'></div>
-     </Container>
-
+   
+{/* 
      <Container className='hosterDetails d-flex justify-content-between mb-2'>
       <div><AiOutlineUser/>shoib</div>
       <h6>Date & time negotiable</h6>
       <h6>₹600</h6>
+     </Container> */}
+     <Container className='d-flex justify-content-center'>
+      <div className='circle mt-1'></div>
+      <hr  className='connectingLine'/>
+      <div className='circle mt-1'></div>
      </Container>
     </Container>
     <Container className='rideList mt-3'>
