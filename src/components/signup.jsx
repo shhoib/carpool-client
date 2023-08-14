@@ -1,14 +1,39 @@
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-// import './loginPage.css'
-
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useEffect, useState } from 'react';
+import {auth,provider} from '../api/firebase'
 
 const Signup = () => {
 
+  const [googleID, setgoogleID] = useState('')
   const navigate = useNavigate()
 
   const handleNavigate=()=>{
-    navigate('/Signup')
+    navigate('/login')
+  }
+
+  // const auth = getAuth();
+
+  const handleSignupWithGoogle=()=>{
+    signInWithPopup(auth,provider)
+      .then((data)=>{
+        const credential = GoogleAuthProvider.credentialFromResult(data);
+    const token = credential.accessToken;
+    const user = data.user;
+    console.log(user.email);
+        
+      })
+      .catch((error)=>{
+        const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    console.log(errorCode); 
+    console.log(email);
+    console.log(credential);
+    console.log(errorMessage);
+      } );
   }
 
 
@@ -19,7 +44,7 @@ const Signup = () => {
       </div>
       <div  className="howToLogin d-flex flex-column justify-content-center  mt-3">
       <div className='loginWith d-flex align-items-center justify-content-between rounded-4'>
-       <h5 className='loginWith2'>Signup with email</h5>
+       <h5 className='loginWith2' onClick={handleSignupWithGoogle}>Signup with Google</h5>
        <p className='arrow'><MdKeyboardArrowRight/></p>
        </div>
       <hr className='horizontal-line'/>
