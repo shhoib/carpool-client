@@ -1,12 +1,12 @@
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useEffect, useState } from 'react';
+import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {auth,provider} from '../api/firebase'
+import axiosInstance from '../api/axios';
+import axios from 'axios';
 
 const Signup = () => {
 
-  const [googleID, setgoogleID] = useState('')
   const navigate = useNavigate()
 
   const handleNavigate=()=>{
@@ -15,26 +15,29 @@ const Signup = () => {
 
   // const auth = getAuth();
 
-  const handleSignupWithGoogle=()=>{
-    signInWithPopup(auth,provider)
-      .then((data)=>{
-        const credential = GoogleAuthProvider.credentialFromResult(data);
-    const token = credential.accessToken;
-    const user = data.user;
-    console.log(user.email);
-        
-      })
-      .catch((error)=>{
-        const errorCode = error.code;
-    const errorMessage = error.message;
-    const email = error.customData.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    console.log(errorCode); 
-    console.log(email);
-    console.log(credential);
-    console.log(errorMessage);
-      } );
-  }
+  const handleSignupWithGoogle = async () => {
+    try {
+      const data = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(data);
+      const user = data.user;
+      console.log(user.email);
+  
+      try {
+        const response = await axios.post('users/signup', user);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error sending POST request:", error);
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData?.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(errorCode, email, credential, errorMessage);
+    }
+  };
+  
+  
 
 
   return (

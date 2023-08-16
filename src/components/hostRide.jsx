@@ -5,24 +5,52 @@ import { GiReceiveMoney } from 'react-icons/gi';
 import { VscWorkspaceTrusted } from 'react-icons/vsc';
 import { TiTickOutline } from 'react-icons/ti';
 import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
+import { useState } from 'react';
+import axios from 'axios';
 
 
 const HostRide = () => {
+
+  const [formData, setFormData] = useState({
+    from: '',
+    to: '',
+    date: '',
+    passengers: '',
+  });
+
+  const handleFormData=(e)=>{
+    const {name,value} = e.target;
+    setFormData((prevData)=>({
+      ...prevData,
+      [name]:value,
+    }))
+  }
+
+  const handleSubmit= async(e)=>{
+    e.preventDefault();
+
+    try{
+      const repsonse = await axios.post('coride/user/host-ride',formData);
+      console.log(repsonse);
+    }catch(error){
+      console.log(error);
+    }
+  }
 
 
   return (
     <>
     <Row className='d-flex justify-content-center align-items-start w-100'>
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
-      <Form className='overlay-form'>
+      <Form className='overlay-form' onSubmit={handleSubmit}>
         <Form.Label>From</Form.Label>
-        <Form.Control className='inputBox' type='text' />
+        <Form.Control className='inputBox' type='text' name='from' onChange={handleFormData} />
         <Form.Label>To</Form.Label>
-        <Form.Control className='inputBox' type='text' />
+        <Form.Control className='inputBox' type='text' name='to' onChange={handleFormData} />
         <Form.Label>Date</Form.Label>
-        <Form.Control className='inputBox' type='date' />
+        <Form.Control className='inputBox' type='date' name='date' onChange={handleFormData}/>
         <Form.Label>Passengers</Form.Label>
-        <Form.Control className='inputBox' type='number' />
+        <Form.Control className='inputBox' type='number' name='passengers' onChange={handleFormData}/>
         <Button className='mt-2' type='submit'>Submit</Button>
       </Form>
       <Image src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1691386474/pexels-photo-876228_rfvfyy.jpg' className='hostImg2 rounded-3 w-100' />
