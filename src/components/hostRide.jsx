@@ -7,35 +7,85 @@ import { TiTickOutline } from 'react-icons/ti';
 import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
 import { useState } from 'react';
 import axios from 'axios';
+import mapboxgl from 'mapbox-gl';
+import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 
 
 const HostRide = () => {
 
-  const [formData, setFormData] = useState({
-    from: '',
-    to: '',
-    date: '',
-    passengers: '',
-  });
-
-  const handleFormData=(e)=>{
-    const {name,value} = e.target;
-    setFormData((prevData)=>({
-      ...prevData,
-      [name]:value,
-    }))
-  }
+  const [suggestions, setSuggestions] = useState([])
+  const [from, setFrom] = useState('');
+  const [to,setTo] = useState('');
+  
 
   const handleSubmit= async(e)=>{
     e.preventDefault();
-
-    try{
-      const repsonse = await axios.post('coride/user/host-ride',formData);
-      console.log(repsonse);
-    }catch(error){
-      console.log(error);
-    }
   }
+
+  mapboxgl.accessToken = 'pk.eyJ1Ijoieml5YWR1IiwiYSI6ImNsa2tyb3hycjBmMHQza28zY2JyeGE5bXEifQ.uK6EfNoLf37b1K6oFdjFJw'; 
+
+  const geocodingClient = MapboxSdk({ accessToken: mapboxgl.accessToken });
+
+  const handleFromInputChange = async (event) => {
+    const query = event.target.value;
+  
+
+    if (query) {
+        try {
+          const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
+            const response = await geocodingClient.forwardGeocode({
+                query: query,
+                limit: 5,
+                bbox:bbox
+            }).send();
+
+            setSuggestions(response.body.features);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    } else {
+        setSuggestions([]);
+    }
+    };
+  // const handleToInputChange = async (event) => {
+  //   const query = event.target.value;
+  
+
+  //   if (query) {
+  //       try {
+  //         const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
+  //           const response = await geocodingClient.forwardGeocode({
+  //               query: query,
+  //               limit: 5,
+  //               bbox:bbox
+  //           }).send();
+
+  //           setSuggestions(response.body.features);
+  //       } catch (error) {
+  //           console.error('Error fetching suggestions:', error);
+  //       }
+  //   } else {
+  //       setSuggestions([]);
+  //   }
+  //   };
+
+      const handleFromSuggestionClick = (suggestion) => {
+      setFrom(suggestion.place_name);
+      setSuggestions([]);
+    };
+    //   const handleToSuggestionClick = (suggestion) => {
+    //     console.log(suggestion);
+    //   setTo(suggestion.place_name);
+    //   setSuggestions([]);
+    // };
+
+    const handleInputBlur = () => {
+      setSuggestions('')
+        setTo('');
+        setFrom('');
+      
+    };
+
 
 
   return (
@@ -44,13 +94,31 @@ const HostRide = () => {
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
       <Form className='overlay-form' onSubmit={handleSubmit}>
         <Form.Label>From</Form.Label>
-        <Form.Control className='inputBox' type='text' name='from' onChange={handleFormData} />
-        <Form.Label>To</Form.Label>
-        <Form.Control className='inputBox' type='text' name='to' onChange={handleFormData} />
+        <Form.Control className='inputBox' type='text' value={from==""?null:from} onBlur={handleInputBlur}  name='from' onChange={handleFromInputChange} />
+        {suggestions.length > 0 && (
+        <ul className='suggestions'>
+        {suggestions.map((suggestion) => (
+            <li key={suggestion.id} onClick={() => handleFromSuggestionClick(suggestion)} >
+                {suggestion.place_name}
+            </li>
+        ))}
+    </ul>
+    )}
+        {/* <Form.Label>To</Form.Label>
+        <Form.Control className='inputBox' type='text' value={to==''?'':to} name='to' onChange={handleToInputChange} />
+        {suggestions.length > 0 && (
+        <ul className='suggestions'>
+        {suggestions.map((suggestion) => (
+            <li key={suggestion.id} onClick={() => handleToSuggestionClick(suggestion)} onBlur={handleInputBlur}>
+                {suggestion.place_name}
+            </li>
+        ))}
+    </ul>
+    )} */}
         <Form.Label>Date</Form.Label>
-        <Form.Control className='inputBox' type='date' name='date' onChange={handleFormData}/>
+        <Form.Control className='inputBox' type='date' name='date'/>
         <Form.Label>Passengers</Form.Label>
-        <Form.Control className='inputBox' type='number' name='passengers' onChange={handleFormData}/>
+        <Form.Control className='inputBox' type='number' name='passengers'/>
         <Button className='mt-2' type='submit'>Submit</Button>
       </Form>
       <Image src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1691386474/pexels-photo-876228_rfvfyy.jpg' className='hostImg2 rounded-3 w-100' />

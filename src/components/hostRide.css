@@ -29,5 +29,20 @@
     transform: scale(1.05);
 
    }
+   .suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+  }
+  .suggestions li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+  }
 
   
