@@ -23,7 +23,7 @@ const Signup = () => {
       console.log(user.email);
   
       try {
-        const response = await axios.post('users/signup', user);
+        const response = await axios.post('http://users/signup', user);
         console.log(response.data);
       } catch (error) {
         console.log("Error sending POST request:", error);

@@ -86,8 +86,6 @@ const HostRide = () => {
       
     // };
 
-  const fromValue = from==''?null:from;
-  console.log(fromValue);
 
   return (
     <>
