@@ -1,6 +1,7 @@
 import Home from "./components/Home"
 import NavigationBar from "./components/Navbar"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./components/footer";
 import { context } from "./store/context";
 import { Routes ,Route, useLocation} from "react-router-dom";

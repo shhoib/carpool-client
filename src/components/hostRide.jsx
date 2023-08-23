@@ -5,8 +5,8 @@ import { GiReceiveMoney } from 'react-icons/gi';
 import { VscWorkspaceTrusted } from 'react-icons/vsc';
 import { TiTickOutline } from 'react-icons/ti';
 import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
-import { useState } from 'react';
-// import axios from 'axios';
+import { useState, useRef } from 'react';
+import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 
@@ -16,20 +16,37 @@ const HostRide = () => {
   const [suggestions, setSuggestions] = useState([])
   const [from, setFrom] = useState('');
   const [to,setTo] = useState('');
-  
 
-  const handleSubmit= async(e)=>{
+ const inputRef = useRef(null);
+
+ 
+ const handleSubmit= async(e)=>{
+  try{
+
     e.preventDefault();
+    const fromValue = inputRef.current.from.value;
+    const toValue = inputRef.current.to.value;
+   const dateValue = inputRef.current.date.value;
+   const passengersValue = inputRef.current.passengers.value;
+
+   try {
+      const response = await axios.post("http://localhost:3000/hostRide",fromValue,toValue,dateValue,passengersValue)
+      
+   } catch (error) {
+    alert(error)
+     console.error(error.message);
+   }
+  }catch(error){
+    alert(error);
+    console.error(error);
+  }
   }
 
   mapboxgl.accessToken = 'pk.eyJ1Ijoieml5YWR1IiwiYSI6ImNsa2tyb3hycjBmMHQza28zY2JyeGE5bXEifQ.uK6EfNoLf37b1K6oFdjFJw'; 
-
   const geocodingClient = MapboxSdk({ accessToken: mapboxgl.accessToken });
 
   const handleFromInputChange = async (event) => {
     const query = event.target.value;
-  
-
     if (query) {
         try {
           const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
@@ -47,10 +64,10 @@ const HostRide = () => {
         setSuggestions([]);
     }
     };
+
+
   const handleToInputChange = async (event) => {
     const query = event.target.value;
-  
-
     if (query) {
         try {
           const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
@@ -69,6 +86,7 @@ const HostRide = () => {
     }
     };
 
+    
       const handleFromSuggestionClick = (suggestion) => {
       setFrom(suggestion.place_name);
       setSuggestions([]);
@@ -79,19 +97,12 @@ const HostRide = () => {
       setSuggestions([]);
     };
 
-    // const handleInputBlur = () => {
-    //   setSuggestions('')
-    //     setTo('');
-    //     setFrom('');
-      
-    // };
-
 
   return (
     <>
     <Row className='d-flex justify-content-center align-items-start w-100'>
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
-      <Form className='overlay-form' onSubmit={handleSubmit}>
+      <Form className='overlay-form' ref={inputRef} onSubmit={handleSubmit}>
         <Form.Label>From</Form.Label>
         <Form.Control className='inputBox' type='text' value={from==''?null:from}  name='from' onChange={handleFromInputChange} />
         {suggestions.length > 0 && (
