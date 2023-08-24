@@ -9,6 +9,8 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 const HostRide = () => {
@@ -19,21 +21,29 @@ const HostRide = () => {
 
  const inputRef = useRef(null);
 
- 
  const handleSubmit= async(e)=>{
   try{
-
     e.preventDefault();
-    const fromValue = inputRef.current.from.value;
-    const toValue = inputRef.current.to.value;
    const dateValue = inputRef.current.date.value;
    const passengersValue = inputRef.current.passengers.value;
+   const vehicle = inputRef.current.vehicle.value;
 
+
+   const requestData = {
+    from: from,
+    to: to,
+    date: dateValue,
+    passengers: passengersValue,
+    vehicle:vehicle
+  };
+  
    try {
-      const response = await axios.post("http://localhost:3000/hostRide",fromValue,toValue,dateValue,passengersValue)
-      
-   } catch (error) {
-    alert(error)
+    if(from==''||to===''||dateValue==''||passengersValue==''){
+      toast.error("please fill all details")
+    }else{
+    const response = await axios.post("http://localhost:3000/HostRide", requestData);
+    console.log(response);
+   }} catch (error) {
      console.error(error.message);
    }
   }catch(error){
@@ -92,7 +102,6 @@ const HostRide = () => {
       setSuggestions([]);
     };
       const handleToSuggestionClick = (suggestion) => {
-        console.log(suggestion);
       setTo(suggestion.place_name);
       setSuggestions([]);
     };
@@ -100,6 +109,7 @@ const HostRide = () => {
 
   return (
     <>
+    <ToastContainer/>
     <Row className='d-flex justify-content-center align-items-start w-100'>
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
       <Form className='overlay-form' ref={inputRef} onSubmit={handleSubmit}>
@@ -127,6 +137,8 @@ const HostRide = () => {
     )}
         <Form.Label>Date</Form.Label>
         <Form.Control className='inputBox' type='date' name='date'/>
+        <Form.Label>vehicle</Form.Label>
+        <Form.Control className='inputBox' type='text' name='vehicle'/>
         <Form.Label>Passengers</Form.Label>
         <Form.Control className='inputBox' type='number' name='passengers'/>
         <Button className='mt-2' type='submit'>Submit</Button>

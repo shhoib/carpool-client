@@ -20,6 +20,7 @@ const Signup = () => {
       const data = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
+      console.log(user);
         
       try {
         const response = await axios.post("http://localhost:3000/signup",user)

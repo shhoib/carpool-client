@@ -2,15 +2,37 @@ import { Button,Container,Image } from 'react-bootstrap';
 import './joinRide.css'
 // import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {Row,Col} from 'react-bootstrap'
 import {AiOutlineUser,AiOutlineUnorderedList} from 'react-icons/ai'
 import {MdOutlineFlashOn} from 'react-icons/md'
+import { useState } from 'react';
+import axios from 'axios';
 
 const JoinRide = () => {
+
+ const [fromValue, setFromValue] = useState('');
+ const [toValue, setToValue] = useState('');
+ const [dateValue, setDateValue] = useState('');
+ const [rides, setRides] = useState([]);
+
+
+
+  const handleSubmit = async () =>{
+    try{
+      const response = await axios.post('http://localhost:3000/joinRide', {
+      from: fromValue,
+      to: toValue,
+      date: dateValue.$d
+    });
+      setRides(response.data.rides);
+    }catch(error){
+      console.log(error);
+    }
+  } 
   
   return (
     <> 
@@ -23,13 +45,15 @@ const JoinRide = () => {
     <Col lg={8} className='inputBoxWithImage'>
       <h1 className='mainTXT text-center'>PICK YOUR RIDE AT LOW PRICE!!</h1> 
 
-      <div className='wholeInputBoxes d-flex justify-content-center'>
-        <TextField className='inputBoxes bg-white rounded m-2' id="-basic" label="from..." variant="outlined" />
-        <TextField className='bg-white rounded m-2' id="-basic" label="to..." variant="outlined" />
-        <LocalizationProvider className='' dateAdapter={AdapterDayjs}>
-        <DemoContainer  components={['DatePicker']}><DatePicker className='bg-white rounded mb-2' label="date" /></DemoContainer>
-        </LocalizationProvider>
-        <Button className='m-2'>Submit</Button>
+      <div  className='wholeInputBoxes d-flex justify-content-center'>
+        <TextField onChange={(e)=>setFromValue(e.target.value)} className='inputBoxes bg-white rounded m-2' name="from" id="-basic" label="from..." variant="outlined" />
+        <TextField onChange={(e)=>setToValue(e.target.value)} className='bg-white rounded m-2' id="-basic" name="to" label="to..." variant="outlined" />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+      className='bg-white rounded mb-2' label="date" value={dateValue}
+      onChange={(newValue) => setDateValue(newValue)}/>
+     </LocalizationProvider>
+        <Button onClick={handleSubmit} className='m-2'>Submit</Button>
       </div>  
 
      <div className='tipss d-flex mt-3'>
@@ -52,31 +76,11 @@ const JoinRide = () => {
 
     <hr className='horizontal-line'/>
     
-    <Container className='rideList mt-3'>
+    {rides.map((ride,index)=>(
+    <Container key={index} className='rideList mt-3'>
      <Container className='d-flex justify-content-between mt-2 px-3'>
-      <h5>Kannur</h5>
-      <h3><AiOutlineUser/>shoib</h3>
-      <h4>₹600</h4>
-      <h5>Bangalore</h5>
-     </Container>
-
-   
-{/* 
-     <Container className='hosterDetails d-flex justify-content-between mb-2'>
-      <div><AiOutlineUser/>shoib</div>
-      <h6>Date & time negotiable</h6>
-      <h6>₹600</h6>
-     </Container> */}
-     <Container className='d-flex justify-content-center'>
-      <div className='circle mt-1'></div>
-      <hr  className='connectingLine'/>
-      <div className='circle mt-1'></div>
-     </Container>
-    </Container>
-    <Container className='rideList mt-3'>
-     <Container className='d-flex justify-content-between mt-2 px-3'>
-      <h5>Kannur</h5>
-      <h5>Bangalore</h5>
+      <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
+      <h5>{ride.to.split(', ').slice(0, 2).join(', ')}</h5>
      </Container>
 
      <Container className='d-flex justify-content-center'>
@@ -91,9 +95,13 @@ const JoinRide = () => {
       <h6>₹600</h6>
      </Container>
     </Container>
-
+    ))}
     </>
   )
 }
 
 export default JoinRide
+
+{/* <LocalizationProvider  className='' dateAdapter={AdapterDayjs}>
+        <DemoContainer  components={['DatePicker']}><DatePicker className='bg-white rounded mb-2' label="date" /></DemoContainer>
+        </LocalizationProvider> */}

@@ -10,12 +10,12 @@ import './navbar.css'
 function NavigationBar() {
 
   return (
-    <Navbar className="" >
+    <Navbar className="nav" >
       <Container>
-        <Navbar.Brand className=''>CoRide</Navbar.Brand>
+        <Navbar.Brand ><h4 className='coRide-text'>CoRide</h4></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <NavDropdown className='' title={<BiSolidUserCircle size={29} />} id="basic-nav-dropdown">
+          <NavDropdown className='' title= {<h><BiSolidUserCircle size={33}/></h>}>
             <NavDropdown.Item href="#action/3.1"><h5 className='h-six-tags'><AiOutlineUser/> Profile</h5></NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2"><h5 className='h-six-tags'><AiOutlineMessage/> Inbox</h5></NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3"><h5 className='h-six-tags'><BsFillCarFrontFill/> My Rides</h5></NavDropdown.Item>
