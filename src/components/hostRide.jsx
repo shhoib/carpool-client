@@ -15,42 +15,47 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const HostRide = () => {
 
-  const [suggestions, setSuggestions] = useState([])
+  const [fromSuggestions, setFromSuggestions] = useState([])
+  const [toSuggestions, setToSuggestions] = useState([])
   const [from, setFrom] = useState('');
   const [to,setTo] = useState('');
 
  const inputRef = useRef(null);
 
- const handleSubmit= async(e)=>{
-  try{
-    e.preventDefault();
-   const dateValue = inputRef.current.date.value;
-   const passengersValue = inputRef.current.passengers.value;
-   const vehicle = inputRef.current.vehicle.value;
-
-
-   const requestData = {
-    from: from,
-    to: to,
-    date: dateValue,
-    passengers: passengersValue,
-    vehicle:vehicle
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
   
-   try {
-    if(from==''||to===''||dateValue==''||passengersValue==''){
-      toast.error("please fill all details")
-    }else{
-    const response = await axios.post("http://localhost:3000/HostRide", requestData);
-    console.log(response);
-   }} catch (error) {
-     console.error(error.message);
-   }
-  }catch(error){
-    alert(error);
+  try {
+    const dateValue = inputRef.current.date.value;
+    const passengersValue = inputRef.current.passengers.value;
+    const vehicle = inputRef.current.vehicle.value;
+    const amount = inputRef.current.amount.value;
+
+    const requestData = {
+      from: from,
+      to: to,
+      date: dateValue,
+      passengers: passengersValue,
+      vehicle: vehicle,
+      amount: amount
+    };
+
+    if (from === '' || to === '' || dateValue === '' || passengersValue === '' || amount === '') {
+      toast.error("Please fill in all details");
+    } else {
+      try {
+        const response = await axios.post("http://localhost:3000/HostRide", requestData);
+        console.log(response);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+  } catch (error) {
     console.error(error);
+    alert(error);
   }
-  }
+};
+
 
   mapboxgl.accessToken = 'pk.eyJ1Ijoieml5YWR1IiwiYSI6ImNsa2tyb3hycjBmMHQza28zY2JyeGE5bXEifQ.uK6EfNoLf37b1K6oFdjFJw'; 
   const geocodingClient = MapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -66,12 +71,12 @@ const HostRide = () => {
                 bbox:bbox
             }).send();
 
-            setSuggestions(response.body.features);
+            setFromSuggestions(response.body.features);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
         }
     } else {
-        setSuggestions([]);
+      setFromSuggestions([]);
     }
     };
 
@@ -87,23 +92,23 @@ const HostRide = () => {
                 bbox:bbox
             }).send();
 
-            setSuggestions(response.body.features);
+            setToSuggestions(response.body.features);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
         }
     } else {
-        setSuggestions([]);
+      setToSuggestions([]);
     }
     };
 
     
       const handleFromSuggestionClick = (suggestion) => {
       setFrom(suggestion.place_name);
-      setSuggestions([]);
+      setFromSuggestions([]);
     };
       const handleToSuggestionClick = (suggestion) => {
       setTo(suggestion.place_name);
-      setSuggestions([]);
+      setToSuggestions([]);
     };
 
 
@@ -114,10 +119,10 @@ const HostRide = () => {
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
       <Form className='overlay-form' ref={inputRef} onSubmit={handleSubmit}>
         <Form.Label>From</Form.Label>
-        <Form.Control className='inputBox' type='text' value={from==''?null:from}  name='from' onChange={handleFromInputChange} />
-        {suggestions.length > 0 && (
+        <Form.Control className='inputBox' autoComplete="off" type='text' value={from==''?null:from}  name='from' onChange={handleFromInputChange} />
+        {fromSuggestions.length > 0 && (
         <ul className='suggestions'>
-        {suggestions.map((suggestion) => (
+        {fromSuggestions.map((suggestion) => (
             <li key={suggestion.id} onClick={() => handleFromSuggestionClick(suggestion)} >
                 {suggestion.place_name}
             </li>
@@ -125,10 +130,10 @@ const HostRide = () => {
     </ul>
     )}
         <Form.Label>To</Form.Label>
-        <Form.Control className='inputBox' type='text' value={to==''?null:to} name='to' onChange={handleToInputChange} />
-        {suggestions.length > 0 && (
+        <Form.Control className='inputBox' autoComplete="off"  type='text' value={to==''?null:to} name='to' onChange={handleToInputChange} />
+        {toSuggestions.length > 0 && (
         <ul className='suggestions'>
-        {suggestions.map((suggestion) => (
+        {toSuggestions.map((suggestion) => (
             <li key={suggestion.id} onClick={() => handleToSuggestionClick(suggestion)} >
                 {suggestion.place_name}
             </li>
@@ -136,11 +141,19 @@ const HostRide = () => {
     </ul>
     )}
         <Form.Label>Date</Form.Label>
-        <Form.Control className='inputBox' type='date' name='date'/>
+        <Form.Control className='inputBox' placeholder='date' type='date' name='date'/>
         <Form.Label>vehicle</Form.Label>
-        <Form.Control className='inputBox' type='text' name='vehicle'/>
+        <Form.Control className='inputBox'  placeholder='Vehicle' type='text' name='vehicle'/>
+
+        <div className='d-flex'>
+        <div>
+        <Form.Label>Amount</Form.Label>
+        <Form.Control className='inputBox' placeholder='    Rate..' type='number' name='amount'/>
+        </div><div>
         <Form.Label>Passengers</Form.Label>
-        <Form.Control className='inputBox' type='number' name='passengers'/>
+        <Form.Control className='inputBox' placeholder='available seats ..' type='number' name='passengers'/>
+        </div></div>
+
         <Button className='mt-2' type='submit'>Submit</Button>
       </Form>
       <Image src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1691386474/pexels-photo-876228_rfvfyy.jpg' className='hostImg2 rounded-3 w-100' />

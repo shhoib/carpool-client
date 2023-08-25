@@ -2,7 +2,7 @@ import { Button,Container,Image } from 'react-bootstrap';
 import './joinRide.css'
 // import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,6 +11,9 @@ import {AiOutlineUser,AiOutlineUnorderedList} from 'react-icons/ai'
 import {MdOutlineFlashOn} from 'react-icons/md'
 import { useState } from 'react';
 import axios from 'axios';
+import mapboxgl from 'mapbox-gl';
+import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
+import { ToastContainer, toast } from 'react-toastify';
 
 const JoinRide = () => {
 
@@ -18,26 +21,84 @@ const JoinRide = () => {
  const [toValue, setToValue] = useState('');
  const [dateValue, setDateValue] = useState('');
  const [rides, setRides] = useState([]);
+ const [fromSuggestions, setFromSuggestions] = useState([])
+  const [toSuggestions, setToSuggestions] = useState([])
 
 
 
-  const handleSubmit = async () =>{
+    const handleSubmit = async (e) =>{
+    console.log(e);
+    e.preventDefault();
     try{
+      if(fromValue === '' || toValue === "" || dateValue === '' ){
+        toast.error('please fill all details');
+      }else{
       const response = await axios.post('http://localhost:3000/joinRide', {
       from: fromValue,
       to: toValue,
       date: dateValue.$d
     });
       setRides(response.data.rides);
-    }catch(error){
+    }}catch(error){
       console.log(error);
     }
   } 
+
+  mapboxgl.accessToken = 'pk.eyJ1Ijoieml5YWR1IiwiYSI6ImNsa2tyb3hycjBmMHQza28zY2JyeGE5bXEifQ.uK6EfNoLf37b1K6oFdjFJw'; 
+  const geocodingClient = MapboxSdk({ accessToken: mapboxgl.accessToken });
+
+  const handleFromInputChange = async (event) => {
+    const query = event.target.value;
+    if (query) {
+        try {
+          const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
+            const response = await geocodingClient.forwardGeocode({
+                query: query,
+                limit: 5,
+                bbox:bbox
+            }).send();
+
+            setFromSuggestions(response.body.features);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    } else {
+      setFromSuggestions([]);
+    }};
+
+    const handleToInputChange = async (event) => {
+    const query = event.target.value;
+    if (query) {
+        try {
+          const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
+            const response = await geocodingClient.forwardGeocode({
+                query: query,
+                limit: 5,
+                bbox:bbox
+            }).send();
+
+            setToSuggestions(response.body.features);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    } else {
+      setToSuggestions([]);
+    }
+    };
+
+    const handleFromSuggestionClick = (suggestion) => {
+      setFromValue(suggestion.place_name);
+      setFromSuggestions([]);
+    };
+    const handleToSuggestionClick = (suggestion) => {
+      setToValue(suggestion.place_name);
+      setToSuggestions([]);
+    };
   
   return (
     <> 
     <Row className='d-flex align-items-center justify-content-center w-100'>
-
+    <ToastContainer/>
      <Col lg={4} className="d-flex justify-content-center">
       <Image className='bgIMG' src='https://images.template.net/83682/free-simple-car-illustration-3v7wz.jpg'/>
     </Col>
@@ -46,13 +107,35 @@ const JoinRide = () => {
       <h1 className='mainTXT text-center'>PICK YOUR RIDE AT LOW PRICE!!</h1> 
 
       <div  className='wholeInputBoxes d-flex justify-content-center'>
-        <TextField onChange={(e)=>setFromValue(e.target.value)} className='inputBoxes bg-white rounded m-2' name="from" id="-basic" label="from..." variant="outlined" />
-        <TextField onChange={(e)=>setToValue(e.target.value)} className='bg-white rounded m-2' id="-basic" name="to" label="to..." variant="outlined" />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-      className='bg-white rounded mb-2' label="date" value={dateValue}
-      onChange={(newValue) => setDateValue(newValue)}/>
-     </LocalizationProvider>
+
+        <TextField onChange={handleFromInputChange} autoComplete="off"  className='inputBoxes bg-white rounded m-2'
+         name="from" id="-basic" value={fromValue==''?null:fromValue} label="from..." variant="outlined" />
+        {fromSuggestions.length > 0 && (
+        <ul className='suggestions'>
+        {fromSuggestions.map((suggestion) => (
+            <li key={suggestion.id} onClick={() => handleFromSuggestionClick(suggestion)} >
+                {suggestion.place_name}
+            </li>
+        ))}</ul>)}
+
+        <TextField onChange={handleToInputChange} autoComplete="off"  className='bg-white rounded m-2'
+         id="-basic" name="to" label="to..." variant="outlined" />
+          {toSuggestions.length > 0 && (
+        <ul className='suggestions'>
+        {toSuggestions.map((suggestion) => (
+            <li key={suggestion.id} onClick={() => handleToSuggestionClick(suggestion)} >
+                {suggestion.place_name}
+            </li>
+        ))}
+    </ul>
+    )}
+
+        <LocalizationProvider  className='' dateAdapter={AdapterDayjs}>
+        <DemoContainer  components={['DatePicker']}>
+         <DatePicker className='bg-white rounded mb-2 d-flex' label="date" value={dateValue}
+        onChange={(newValue) => setDateValue(newValue)} /></DemoContainer>
+        </LocalizationProvider>
+
         <Button onClick={handleSubmit} className='m-2'>Submit</Button>
       </div>  
 
@@ -90,9 +173,10 @@ const JoinRide = () => {
      </Container>
 
      <Container className='hosterDetails d-flex justify-content-between mb-2'>
-      <div><AiOutlineUser/>shoib</div>
+      <div><h5><AiOutlineUser/>shoib</h5></div>
       <h6>Date & time negotiable</h6>
-      <h6>₹600</h6>
+      <h6>{ride.vehicle}</h6>
+      <h5>₹{ride.amount}</h5>
      </Container>
     </Container>
     ))}

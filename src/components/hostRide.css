@@ -38,10 +38,12 @@
     width: 100%;
     background-color: #ffffff;
     border: 1px solid #ccc;
+    border-radius: 20px;
   }
   .suggestions li {
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    /* border-radius: 20px; */
     cursor: pointer;
   }
 
