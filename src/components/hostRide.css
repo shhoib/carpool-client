@@ -35,7 +35,7 @@
     margin: 0;
     position: absolute;
     z-index: 1;
-    width: 100%;
+    /* width: 100%; */
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 20px;
