@@ -99,22 +99,31 @@ const JoinRide = () => {
 
     
   const fromInputRef = useRef(null);
+  const toInputRef = useRef(null);
 
    useEffect(() => {
-    // Attach a click event listener to the document
     const handleClickOutside = (event) => {
       if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
         setFromSuggestions([]); // Close suggestions when clicking outside
       }
     };
-
     document.addEventListener('click', handleClickOutside);
-
-    // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+   }, []);
+
+   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (toInputRef.current && !toInputRef.current.contains(event.target)) {
+        setToSuggestions([]); // Close suggestions when clicking outside
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+   }, []);
   
   return (
     <> 
@@ -128,7 +137,7 @@ const JoinRide = () => {
       <h1 className='mainTXT text-center'>PICK YOUR RIDE AT LOW PRICE!!</h1> 
 
       <div  className='wholeInputBoxes d-flex justify-content-center'>
-
+        <div>
         <TextField  ref={fromInputRef} onChange={handleFromInputChange} autoComplete="off"  className='inputBoxes bg-white rounded m-2'
          name="from" id="-basic" value={fromValue==''?null:fromValue} label="from..." variant="outlined" />
         {fromSuggestions.length > 0 && (
@@ -138,11 +147,12 @@ const JoinRide = () => {
                 {suggestion.place_name}
             </li>
         ))}</ul>)}
-
-        <TextField onBlur={() => setToSuggestions([])} onChange={handleToInputChange} autoComplete="off"  className='bg-white rounded m-2'
+        </div>
+          <div>
+        <TextField ref={toInputRef} onChange={handleToInputChange} autoComplete="off"  className='bg-white rounded m-2'
          id="-basic" name="to" label="to..." value={toValue==''?null:toValue} variant="outlined" />
           {toSuggestions.length > 0 && (
-        <ul className='suggestion mt-5'>
+        <ul className='suggestion'>
         {toSuggestions.map((suggestion) => (
             <li key={suggestion.id} onClick={() => handleToSuggestionClick(suggestion)} >
                 {suggestion.place_name}
@@ -150,6 +160,7 @@ const JoinRide = () => {
         ))}
     </ul>
     )}
+    </div>
 
         <LocalizationProvider  className='' dateAdapter={AdapterDayjs}>
         <DemoContainer  components={['DatePicker']}>

@@ -78,22 +78,48 @@
     background-color: rgb(197, 197, 197);
     width: 100%;
 }
-.suggestion {
+/* .suggestion {
     list-style-type: none;
     padding: 0;
     margin: 0;
     position: absolute;
     z-index: 1;
     /* width: 100%; */
-    background-color: black;
+    /* background-color: white;
     border: 1px solid #ccc;
-    border-radius: 20px;
-  }
-  .suggestions li {
+    border-radius: 20px; */
+  /* }  */
+  /* .suggestions li {
     padding: 10px;
     border-bottom: 1px solid #ccc;
     /* border-radius: 20px; */
-    cursor: pointer;
+    /* cursor: pointer; */
+  /* } */ 
+  /* Add these styles to your joinRide.css file */
+.suggestion {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.7);
+    max-height: 150px;
+    overflow-y: auto;
   }
+  
+  .suggestion li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .suggestion li:hover {
+    background-color: #f5f5f5;
+  }
+  
+  
 
   
