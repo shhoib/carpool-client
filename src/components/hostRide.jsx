@@ -1,15 +1,20 @@
 import {Col,Row} from 'react-bootstrap'
+import React from 'react';
 import { Image, Form, Button } from 'react-bootstrap';
 import './hostRide.css';
 import { GiReceiveMoney } from 'react-icons/gi';
 import { VscWorkspaceTrusted } from 'react-icons/vsc';
 import { TiTickOutline } from 'react-icons/ti';
 import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
-import { useState, useRef } from 'react';
+import { useState, useRef,useEffect } from 'react';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
+import Stack from '@mui/material/Stack';
+// import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 
 
@@ -19,6 +24,25 @@ const HostRide = () => {
   const [toSuggestions, setToSuggestions] = useState([])
   const [from, setFrom] = useState('');
   const [to,setTo] = useState('');
+  // const [open, setOpen] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  //       const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+
+  //   setOpen(false);
+  // };
+
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
  const inputRef = useRef(null);
 
@@ -45,7 +69,16 @@ const HostRide = () => {
     } else {
       try {
         const response = await axios.post("http://localhost:3000/HostRide", requestData);
-        console.log(response);
+        if(response.status==201){
+          // setFrom('');
+          // setTo('')
+          // inputRef.current.date.value = '';  
+          // inputRef.current.passengers.value = ''; 
+          // inputRef.current.vehicle.value = ''; 
+          // inputRef.current.amount.value = ''; 
+          // handleClick();
+          setFormSubmitted(true)
+        }
       } catch (error) {
         console.error(error.message);
       }
@@ -62,6 +95,7 @@ const HostRide = () => {
 
   const handleFromInputChange = async (event) => {
     const query = event.target.value;
+    setFrom(event.target.value);
     if (query) {
         try {
           const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
@@ -83,6 +117,7 @@ const HostRide = () => {
 
   const handleToInputChange = async (event) => {
     const query = event.target.value;
+    setTo(event.target.value);
     if (query) {
         try {
           const bbox = [74.9799, 6.0002, 77.3885, 10.5245];
@@ -111,15 +146,46 @@ const HostRide = () => {
       setToSuggestions([]);
     };
 
+    useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (inputRef.current.from && !inputRef.current.from.contains(event.target)) {
+        setFromSuggestions([]);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+   }, []);
+
+    useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (inputRef.current.to && !inputRef.current.to.contains(event.target)) {
+        setToSuggestions([]);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+   }, []);
+
 
   return (
     <>
     <ToastContainer/>
+    <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={formSubmitted} autoHideDuration={6000} onClose={() => setFormSubmitted(false)}>
+          <MuiAlert onClose={() => setFormSubmitted(false)} severity="success" sx={{ width: '100%' }}>
+            Ride hosted succesfully
+          </MuiAlert>
+        </Snackbar>
+      </Stack>
     <Row className='d-flex justify-content-center align-items-start w-100'>
     <Col md={5} xs={10} className='hostImg d-flex justify-content-center align-items-center m-3 position-relative'>
       <Form className='overlay-form' ref={inputRef} onSubmit={handleSubmit}>
         <Form.Label>From</Form.Label>
-        <Form.Control className='inputBox' autoComplete="off" type='text' value={from==''?null:from}  name='from' onChange={handleFromInputChange} />
+        <Form.Control className='inputBox' autoComplete="off" type='text' value={from}  name='from' onChange={handleFromInputChange} />
         {fromSuggestions.length > 0 && (
         <ul className='suggestions'>
         {fromSuggestions.map((suggestion) => (
@@ -130,7 +196,7 @@ const HostRide = () => {
     </ul>
     )}
         <Form.Label>To</Form.Label>
-        <Form.Control className='inputBox' autoComplete="off"  type='text' value={to==''?null:to} name='to' onChange={handleToInputChange} />
+        <Form.Control className='inputBox' autoComplete="off"  type='text' value={to} name='to' onChange={handleToInputChange} />
         {toSuggestions.length > 0 && (
         <ul className='suggestions'>
         {toSuggestions.map((suggestion) => (

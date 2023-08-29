@@ -104,7 +104,7 @@ const JoinRide = () => {
    useEffect(() => {
     const handleClickOutside = (event) => {
       if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
-        setFromSuggestions([]); // Close suggestions when clicking outside
+        setFromSuggestions([]);
       }
     };
     document.addEventListener('click', handleClickOutside);
@@ -116,7 +116,7 @@ const JoinRide = () => {
    useEffect(() => {
     const handleClickOutside = (event) => {
       if (toInputRef.current && !toInputRef.current.contains(event.target)) {
-        setToSuggestions([]); // Close suggestions when clicking outside
+        setToSuggestions([]);
       }
     };
     document.addEventListener('click', handleClickOutside);
