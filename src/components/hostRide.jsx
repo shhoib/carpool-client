@@ -12,7 +12,6 @@ import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
 import Stack from '@mui/material/Stack';
-// import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -24,21 +23,7 @@ const HostRide = () => {
   const [toSuggestions, setToSuggestions] = useState([])
   const [from, setFrom] = useState('');
   const [to,setTo] = useState('');
-  // const [open, setOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  //       const handleClick = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-
-  //   setOpen(false);
-  // };
-
 
   const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -70,13 +55,12 @@ const HostRide = () => {
       try {
         const response = await axios.post("http://localhost:3000/HostRide", requestData);
         if(response.status==201){
-          // setFrom('');
-          // setTo('')
-          // inputRef.current.date.value = '';  
-          // inputRef.current.passengers.value = ''; 
-          // inputRef.current.vehicle.value = ''; 
-          // inputRef.current.amount.value = ''; 
-          // handleClick();
+          setFrom('');
+          setTo('')
+          inputRef.current.date.value = '';  
+          inputRef.current.passengers.value = ''; 
+          inputRef.current.vehicle.value = ''; 
+          inputRef.current.amount.value = ''; 
           setFormSubmitted(true)
         }
       } catch (error) {
@@ -176,9 +160,9 @@ const HostRide = () => {
     <ToastContainer/>
     <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={formSubmitted} autoHideDuration={6000} onClose={() => setFormSubmitted(false)}>
-          <MuiAlert onClose={() => setFormSubmitted(false)} severity="success" sx={{ width: '100%' }}>
+          <Alert onClose={() => setFormSubmitted(false)} severity="success" sx={{ width: '100%' }}>
             Ride hosted succesfully
-          </MuiAlert>
+          </Alert>
         </Snackbar>
       </Stack>
     <Row className='d-flex justify-content-center align-items-start w-100'>
