@@ -23,13 +23,12 @@
 .dontHaveAccount:hover{
     background-color:rgb(226, 225, 225);
     transform: scale(1.05);
+    cursor: pointer;
 }
 
-/* .howToLogin{
-    width: 50%;
-    height: 8rem;
-    margin-left: 25%;
-} */
+.howToLogin:hover{
+   cursor: pointer;
+}
 .signIn{
     color: skyblue;
 }
@@ -41,6 +40,20 @@
   }
   .arrow{
     font-size: larger;
+}
+.forgotText{
+    color:rgb(79, 79, 221);
+    margin-left: 30px;
+}
+.submitButton{
+    width: 17%;
+}
+.emailBox{
+    transition: all 0.6s ease; 
+}
+.emailBox:hover{
+    transform: scale(1.05);
+
 }
   
  @media(max-width:600px){
@@ -61,6 +74,9 @@
         }
         .dontHaveAccount2{
             margin: 0;
+        }
+        .submitButton{
+            width: 50%;
         }
     }
  @media(min-width:601px){

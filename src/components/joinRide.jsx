@@ -32,18 +32,14 @@ const JoinRide = () => {
     try{
       if(fromValue === '' || toValue === "" || dateValue === '' ){
         toast.error('please fill all details');
-      }else{
-      const response = await axios.get('http://localhost:3000/joinRide', {
+      }else{                            
+      const response = await axios.get(`http://localhost:3000/joinRide?from=${fromValue}&to=${toValue}`, { // TODO: change the endpoint name
       from: fromValue,
       to: toValue,
       date: dateValue.$d
     });
-    if(response.message=='available rides'){
       setRides(response.data.rides);
       console.log(response.data.rides);
-    }else{
-      setRides([])
-    }
     }}catch(error){
       console.log(error);
     }
@@ -174,7 +170,7 @@ const JoinRide = () => {
         onChange={(newValue) => setDateValue(newValue)} /></DemoContainer>
         </LocalizationProvider>
 
-        <Button onClick={()=>handleSubmit} className='m-2'>Submit</Button>
+        <Button onClick={handleSubmit} className='m-2'>Submit</Button>
       </div>  
 
      <div className='tipss d-flex mt-3'>
