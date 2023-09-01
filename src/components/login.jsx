@@ -47,6 +47,7 @@ const Login = () => {
       try{
         const response = await axios.post('http://localhost:3000/login',user)
         if(response.status==200){
+          localStorage.setItem('token',response.data.token)
          return  toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
@@ -72,22 +73,23 @@ const Login = () => {
         const response = await axios.post('http://localhost:3000/login', body);
         console.log(response);
         if (response.status == 200) {
+             localStorage.setItem('token',response.data.token)
             toast.success(response.data.message, {
                 autoClose: 1500,
                 onClose: () => {
                     navigate('/');
                 }, 
             }); 
-        } else if (response.data.message == 'username or password mismatch') {
+        } else if (response.status==209) {
             toast.warn(response.data.message, {
+                autoClose: 2000,
+            });
+        } else if (response.status==204) {
+            toast.error("please register first ,Redirecting to signup", {
                 autoClose: 2000,
                 onClose: () => {
                     navigate('/signup');
-                },
-            });
-        } else if (response.data.message=='please register first') {
-            toast.error(response.data.message, {
-                autoClose: 2000,
+                }, 
             });
         }
     } catch (error) {

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {auth,provider} from '../api/firebase'
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+// import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -16,6 +16,9 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Button} from 'react-bootstrap'
+import axiosInstance from '../api/axios'
+// import {useDispatch} from 'react-redux';
+
 
 const Signup = () => {
 
@@ -23,6 +26,8 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+
+  // const dispatch = useDispatch();
 
 
   const navigate = useNavigate()
@@ -45,8 +50,9 @@ const Signup = () => {
       console.log(credential);
         
       try {
-        const response = await axios.post("http://localhost:3000/signup",user)
+        const response = await axiosInstance.post("/signup",user)
         if(response.status==201){
+          localStorage.setItem('token',response.data.token)
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose:500,
@@ -76,8 +82,9 @@ const Signup = () => {
   const handleSignUpWithEmail = async()=>{
     try {
       const signupDetails = { email,password,username}
-      const response = await axios.post("http://localhost:3000/signup",signupDetails)
+      const response = await axiosInstance.post("/signup",signupDetails)
       if(response.status==201){
+        localStorage.setItem('token',response.data.token)
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
           autoClose:500,
