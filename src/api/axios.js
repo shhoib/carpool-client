@@ -8,35 +8,35 @@ import axios from 'axios'
   });
 
 
-  axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
+//   axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem('token');
 
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+//     if (token) {
+//       config.headers['Authorization'] = `Bearer ${token}`;
+//     }
 
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
-axiosInstance.interceptors.response.use(
-  (response) => {
+// axiosInstance.interceptors.response.use(
+//   (response) => {
 
-    return response;
-  },
-  (error) => {
-    // Handle errors, e.g., check if the token is expired and refresh it
-    if (error.response.status === 401) {
-      // Handle token refresh or reauthentication here
-    }
+//     return response;
+//   },
+//   (error) => {
+//     // Handle errors, e.g., check if the token is expired and refresh it
+//     if (error.response.status === 401) {
+//       // Handle token refresh or reauthentication here
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 
   export default axiosInstance;

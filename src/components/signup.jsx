@@ -17,7 +17,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Button} from 'react-bootstrap'
 import axiosInstance from '../api/axios'
-// import {useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import { userLogin } from '../redux/userSlice';
 
 
 const Signup = () => {
@@ -27,7 +28,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
 
   const navigate = useNavigate()
@@ -84,7 +85,11 @@ const Signup = () => {
       const signupDetails = { email,password,username}
       const response = await axiosInstance.post("/signup",signupDetails)
       if(response.status==201){
-        localStorage.setItem('token',response.data.token)
+        // localStorage.setItem('token',response.data.token)
+        const token = response.data.token;
+
+         dispatch(userLogin(email,username,token))
+         
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
           autoClose:500,
