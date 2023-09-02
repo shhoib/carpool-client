@@ -41,23 +41,25 @@
 // export default App
 
 // import React from 'react';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from "./components/Home";
 import NavigationBar from "./components/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./components/footer";
-import { context } from "./store/context";
+// import { context } from "./store/context";
 import LoginPage from "./components/login";
 import Signup from "./components/signup";
 import HostRide from "./components/hostRide";
 import JoinRide from "./components/joinRide";
 import Profile from "./components/profile";
+import { BrowserRouter } from 'react-router-dom'
+
 
 function App() {
   return (
-    <context.Provider>
-      <Router>
+  
+      <BrowserRouter>
         <NavigationBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -68,8 +70,9 @@ function App() {
           <Route path="/Profile" element={<Profile />} />
         </Routes>
         <Footer />
-      </Router>
-    </context.Provider>
+     
+      </BrowserRouter>
+
   );
 }
 

@@ -17,7 +17,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Button} from 'react-bootstrap'
 import axiosInstance from '../api/axios'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { userLogin } from '../redux/userSlice';
 
 
@@ -29,6 +29,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
 
   const dispatch = useDispatch();
+  const userr = useSelector((state)=>state)
 
 
   const navigate = useNavigate()
@@ -71,12 +72,8 @@ const Signup = () => {
       } catch (error) {
         console.log("Error sending POST request:", error); 
       }
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData?.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(errorCode, email, credential, errorMessage);
+    } catch (error) {   
+      console.log(error);
     }
   };
   
@@ -84,11 +81,12 @@ const Signup = () => {
     try {
       const signupDetails = { email,password,username}
       const response = await axiosInstance.post("/signup",signupDetails)
-      if(response.status==201){
-        // localStorage.setItem('token',response.data.token)
-        const token = response.data.token;
+      const token = response.data.token;
+      console.log(token);
 
-         dispatch(userLogin(email,username,token))
+      if(response.status==201){
+
+         dispatch(userLogin({email,username,token}))
          
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -97,12 +95,15 @@ const Signup = () => {
             navigate('/');
           }
         })}else{
+          dispatch(userLogin({email,username,token}))
+         console.log(userr,"hii");
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,
-          onClose: () => {
-            navigate('/');
-          }});
+          // onClose: () => {
+          //   navigate('/');
+          // }
+        });
       }
     } catch (error) {
       console.log("Error sending POST request:", error); 
@@ -124,9 +125,10 @@ const Signup = () => {
           }} noValidate autoComplete="off" >
       <TextField onChange={(e)=>setUsername(e.target.value)} id="outlined-basic" label="username..." variant="outlined" />
      </Box>
+
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' },
           }} noValidate autoComplete="off" >
-      <TextField onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" label="email..." variant="outlined" />
+      <TextField onChange={(e)=>setEmail(e.target.value)}  label="email..." variant="outlined" />
      </Box>
     
      <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
