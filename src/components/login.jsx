@@ -5,7 +5,7 @@ import { FcGoogle } from 'react-icons/fc';
 import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {auth,provider} from '../api/firebase'
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+// import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
@@ -17,6 +17,11 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Button} from 'react-bootstrap';
+import axiosInstance from '../api/axios'
+import {useDispatch} from 'react-redux';
+import { userLogin } from '../redux/userSlice';
+
+
 
 
 const Login = () => {
@@ -27,6 +32,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
+  const dispatch = useDispatch();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -44,25 +50,35 @@ const Login = () => {
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
       console.log(credential);
+      // console.log(user);
       try{
-        const response = await axios.post('http://localhost:3000/login',user)
+        const response = await axiosInstance.post('/login',user);
+        const token = response.data.token;
+
         if(response.status==200){
-          localStorage.setItem('token',response.data.token)
-         return  toast.success(response.data.message,{
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
+           toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
             navigate('/')
-          }
-         })}
+          }})
+        }else if(response.status==204){
+          toast.error(response.data.message,{
+            autoClose:1500,
+            onClose:()=>{
+              navigate('/')
+            }})
+        }
       }catch(error){
-        toast.warn("please signup first! redirecting to signup",{
-          autoClose:2000,
-          onClose:()=>{
-            navigate("/signup")
-        }})
+        // dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
+        // toast.warn("please signup first! redirecting to signup",{
+        //   autoClose:2000,
+        //   onClose:()=>{
+        //     navigate("/signup")
+        // }})
+        console.log(error);
       }
     } catch (error) {
-      toast.error(error.message)
       console.log(error.message);
     }
   }
@@ -70,11 +86,12 @@ const Login = () => {
   const handleLoginWithEmail = async () => {
     try {
         const body = { email, password };
-        const response = await axios.post('http://localhost:3000/login', body);
-        console.log(response);
+        const response = await axiosInstance.post('/login', body);
+        const username = response.data.username;
+        const token = response.data.token;
         if (response.status == 200) {
-             localStorage.setItem('token',response.data.token)
-            toast.success(response.data.message, {
+          dispatch(userLogin({email,username,token}))
+          toast.success(response.data.message, {
                 autoClose: 1500,
                 onClose: () => {
                     navigate('/');

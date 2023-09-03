@@ -6,21 +6,15 @@ import { Row, Col,Carousel } from 'react-bootstrap';
 import { IoCarSportOutline } from 'react-icons/io5';
 import { PiUsersThreeDuotone } from 'react-icons/pi';
 import { GiRoad } from 'react-icons/gi';
-import axios from '../api/axios';
-import { useState } from 'react';
+// import axios from '../api/axios';
+// import { useState } from 'react';
 // import { useEffect } from 'reac  t';
 
 
 
 const Home = () => {
-  const [first, setfirst] = useState('')
 
-  const fetchDAta=()=>{
-    axios.get('/coride/items')
-    .then(response=>{
-      setfirst(response.data)})
-    .catch(error=>console.log(error))
-  }
+ 
 
   return (
     <>
@@ -56,7 +50,7 @@ const Home = () => {
            <Card.ImgOverlay className="d-flex flex-column justify-content-end">
              <Card.Title className="text-center mt-5 "><h2>Join a ride</h2></Card.Title>
                <div className="mt-auto text-center">
-               <Button variant="primary mb-3" onClick={fetchDAta} >Join</Button>
+               <Button variant="primary mb-3" >Join</Button>
            </div>
          </Card.ImgOverlay>
         </Card>

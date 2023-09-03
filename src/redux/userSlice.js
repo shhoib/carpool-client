@@ -14,9 +14,6 @@ export const userAuthSlice = createSlice({
             state.name = action.payload.username;
             state.email = action.payload.email;
             state.token = action.payload.token
-            console.log(state.name);
-            console.log(state.email);
-            console.log(state.token);
         }
     }
 })

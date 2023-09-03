@@ -17,7 +17,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Button} from 'react-bootstrap'
 import axiosInstance from '../api/axios'
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { userLogin } from '../redux/userSlice';
 
 
@@ -29,7 +29,6 @@ const Signup = () => {
   const [username, setUsername] = useState('');
 
   const dispatch = useDispatch();
-  const userr = useSelector((state)=>state)
 
 
   const navigate = useNavigate()
@@ -53,8 +52,10 @@ const Signup = () => {
         
       try {
         const response = await axiosInstance.post("/signup",user)
+        const token = response.data.token
         if(response.status==201){
-          localStorage.setItem('token',response.data.token)
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
+
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose:500,
@@ -62,6 +63,7 @@ const Signup = () => {
               navigate('/');
             }
           })}else{
+            dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
            toast.warn('user already registered!  logging in', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
@@ -82,7 +84,6 @@ const Signup = () => {
       const signupDetails = { email,password,username}
       const response = await axiosInstance.post("/signup",signupDetails)
       const token = response.data.token;
-      console.log(token);
 
       if(response.status==201){
 
@@ -96,13 +97,12 @@ const Signup = () => {
           }
         })}else{
           dispatch(userLogin({email,username,token}))
-         console.log(userr,"hii");
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,
-          // onClose: () => {
-          //   navigate('/');
-          // }
+          onClose: () => {
+            navigate('/');
+          }
         });
       }
     } catch (error) {
