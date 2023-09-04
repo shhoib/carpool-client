@@ -64,6 +64,13 @@ const Profile = () => {
       </div>
 
       <div className="rating-and-changePassword d-flex justify-content-between">
+       <div>
+        <h5>Verify your email</h5>
+       </div>
+       <h4><MdKeyboardArrowRight/></h4>
+      </div>
+
+      <div className="rating-and-changePassword d-flex justify-content-between">
         <div>
          <h5>Change Password</h5>
         </div>

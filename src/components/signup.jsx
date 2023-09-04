@@ -48,14 +48,14 @@ const Signup = () => {
       const data = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
-      // console.log(user.photoURL);
+      console.log(user);
       
       try {
         const response = await axiosInstance.post("/signup/googleAuth",user)
         const token = response.data.token
         const profile = user.photoURL;
         if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile}))
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,emailVerified:true}))
 
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -64,7 +64,7 @@ const Signup = () => {
               navigate('/');
             }
           })}else{
-            dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile}))
+            dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,emailVerified:true}))
            toast.warn(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
@@ -88,8 +88,8 @@ const Signup = () => {
 
       if(response.status==201){
 
-         dispatch(userLogin({email,username,token}))
-         
+         dispatch(userLogin({email,username,token,emailVerified:false}))
+          
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
           autoClose:500,
@@ -97,7 +97,7 @@ const Signup = () => {
             navigate('/');
           }
         })}else{
-          dispatch(userLogin({email,username,token}))
+          dispatch(userLogin({email,username,token,emailVerified:false}))
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,

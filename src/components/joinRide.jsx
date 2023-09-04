@@ -10,11 +10,12 @@ import {Row,Col} from 'react-bootstrap'
 import {AiOutlineUser,AiOutlineUnorderedList} from 'react-icons/ai'
 import {MdOutlineFlashOn} from 'react-icons/md'
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
-import dayjs from 'dayjs'; // Import dayjs
+import dayjs from 'dayjs'; 
+import axiosInstance from '../api/axios';
 
 
 const JoinRide = () => {
@@ -34,10 +35,8 @@ const JoinRide = () => {
       if(fromValue === '' || toValue === "" || dateValue === '' ){
         toast.error('please fill all details');
       }else{            
-        console.log(dateValue);    
-      const response = await axios.get(`http://localhost:3000/joinRide?from=${fromValue}&to=${toValue}&date=${dayjs(dateValue).format('YYYY/MM/DD')}`) // TODO: change the endpoint name;
+      const response = await axiosInstance.get(`/joinRide?from=${fromValue}&to=${toValue}&date=${dayjs(dateValue).format('YYYY/MM/DD')}`) // TODO: change the endpoint name;
       setRides(response.data.rides);
-      console.log(response.data.rides);
     }}catch(error){
       console.log(error);
     }
@@ -161,7 +160,6 @@ const JoinRide = () => {
     </ul>
     )}
     </div>
-    {/* console.log(dayjs(dateValue).format('YYYY/MM/DD')); // Format the date             */}
 
         <LocalizationProvider  className='' dateAdapter={AdapterDayjs}>
         <DemoContainer  components={['DatePicker']}>
@@ -192,7 +190,8 @@ const JoinRide = () => {
 
     <hr className='horizontal-line'/>
     
-    {rides.map((ride,index)=>(
+    {rides.length<0 ?<div><h1>no rides available</h1></div>: 
+     rides.map((ride,index)=>(
     <Container key={index} className='rideList mt-3'>
      <Container className='d-flex justify-content-between mt-2 px-3'>
       <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
@@ -212,7 +211,8 @@ const JoinRide = () => {
       <h5>₹{ride.amount}</h5>
      </Container>
     </Container>
-    ))}
+    ))
+    }
     </>
   )
 }
