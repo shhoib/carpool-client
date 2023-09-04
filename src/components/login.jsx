@@ -52,21 +52,23 @@ const Login = () => {
       console.log(credential);
       // console.log(user);
       try{
-        const response = await axiosInstance.post('/login',user);
+        const response = await axiosInstance.post('/login/googleAuth',user);
+        console.log(response.data,"response");
         const token = response.data.token;
+        // const profile = data.user.photoURL;
 
-        if(response.status==200){
+        if(response.status==201){
           dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
            toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
             navigate('/')
           }})
-        }else if(response.status==204){
+        }else if(response.status==209){
           toast.error(response.data.message,{
             autoClose:1500,
             onClose:()=>{
-              navigate('/')
+              navigate('/signup')
             }})
         }
       }catch(error){

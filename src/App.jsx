@@ -41,7 +41,7 @@
 // export default App
 
 // import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from "./components/Home";
 import NavigationBar from "./components/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -54,11 +54,18 @@ import HostRide from "./components/hostRide";
 import JoinRide from "./components/joinRide";
 import Profile from "./components/profile";
 import { BrowserRouter } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 
 function App() {
+
+  const userAuth = Boolean(useSelector((state)=>state.userAuth.token))
+
+
   return (
   
+
+
       <BrowserRouter>
         <NavigationBar />
         <Routes>
@@ -67,7 +74,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/hostRide" element={<HostRide />} />
           <Route path="/JoinRide" element={<JoinRide />} />
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Profile" element={ userAuth ? <Profile />: <Navigate to='/login'/> } />
         </Routes>
         <Footer />
      

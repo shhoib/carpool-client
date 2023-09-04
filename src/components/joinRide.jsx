@@ -14,6 +14,8 @@ import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
+import dayjs from 'dayjs'; // Import dayjs
+
 
 const JoinRide = () => {
 
@@ -25,19 +27,15 @@ const JoinRide = () => {
   const [toSuggestions, setToSuggestions] = useState([])
 
 
-
-    const handleSubmit = async (e) =>{
-      console.log("aaa");
+  
+  const handleSubmit = async (e) =>{
     e.preventDefault();
     try{
       if(fromValue === '' || toValue === "" || dateValue === '' ){
         toast.error('please fill all details');
-      }else{                            
-      const response = await axios.get(`http://localhost:3000/joinRide?from=${fromValue}&to=${toValue}`, { // TODO: change the endpoint name
-      from: fromValue,
-      to: toValue,
-      date: dateValue.$d
-    });
+      }else{            
+        console.log(dateValue);    
+      const response = await axios.get(`http://localhost:3000/joinRide?from=${fromValue}&to=${toValue}&date=${dayjs(dateValue).format('YYYY/MM/DD')}`) // TODO: change the endpoint name;
       setRides(response.data.rides);
       console.log(response.data.rides);
     }}catch(error){
@@ -163,6 +161,7 @@ const JoinRide = () => {
     </ul>
     )}
     </div>
+    {/* console.log(dayjs(dateValue).format('YYYY/MM/DD')); // Format the date             */}
 
         <LocalizationProvider  className='' dateAdapter={AdapterDayjs}>
         <DemoContainer  components={['DatePicker']}>

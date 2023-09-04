@@ -48,13 +48,14 @@ const Signup = () => {
       const data = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
-      console.log(credential);
-        
+      // console.log(user.photoURL);
+      
       try {
-        const response = await axiosInstance.post("/signup",user)
+        const response = await axiosInstance.post("/signup/googleAuth",user)
         const token = response.data.token
+        const profile = user.photoURL;
         if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile}))
 
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -63,8 +64,8 @@ const Signup = () => {
               navigate('/');
             }
           })}else{
-            dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
-           toast.warn('user already registered!  logging in', {
+            dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile}))
+           toast.warn(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
             onClose: () => {

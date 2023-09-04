@@ -13,3 +13,13 @@
  .searchIcon{
    width: 30%;
  }
+ .userProfile{
+   width: 45px;
+   height: 45px;
+   border-radius: 50px;
+   /* background-color: #055383; */
+ }
+.custom-dropdown .dropdown-toggle::after {
+   content: none;
+ }
+ 

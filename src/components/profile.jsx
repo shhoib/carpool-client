@@ -4,9 +4,12 @@ import {BiPlusCircle} from 'react-icons/bi'
 import {AiFillEdit} from 'react-icons/ai'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {GiReceiveMoney} from 'react-icons/gi'
+import { useSelector } from "react-redux"
 
 
 const Profile = () => {
+
+  const userDetails = useSelector((state)=>state.userAuth)
 
 
   return (
@@ -17,7 +20,7 @@ const Profile = () => {
     </Container>
 
     <Container className="d-flex mt- justify-content-around align-items-center">
-        <h1 className="m-5">SHOIB</h1>
+        <h1 className="m-5">{userDetails.name}</h1>
         <div className="user-profile-image" ></div>   
     </Container>
 

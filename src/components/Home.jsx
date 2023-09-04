@@ -9,12 +9,15 @@ import { GiRoad } from 'react-icons/gi';
 // import axios from '../api/axios';
 // import { useState } from 'react';
 // import { useEffect } from 'reac  t';
+import { useSelector } from 'react-redux';
 
 
 
 const Home = () => {
 
  
+  const userr = useSelector((state)=>state.userAuth) 
+
 
   return (
     <>

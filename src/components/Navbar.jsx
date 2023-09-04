@@ -6,11 +6,24 @@ import { AiOutlineMessage,AiOutlineUser } from 'react-icons/ai';
 import { BsFillCarFrontFill,BsSearch } from 'react-icons/bs';
 import './navbar.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '../redux/userSlice';
 
 
 function NavigationBar() {
 
+  const USER = useSelector((state)=>state.userAuth)
+
+  const profile = USER.profile
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  const handleLogout=()=>{
+    dispatch(userLogout())
+    navigate('/');
+  }
 
   return (
     <Navbar className="nav" >
@@ -20,12 +33,12 @@ function NavigationBar() {
         <div>
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
          <h4  className='px-4'><BsSearch onClick={()=>navigate('/JoinRide')}/></h4>
-          <NavDropdown className='' title= {<h><BiSolidUserCircle size={33}/></h>}>
+          <NavDropdown title= {profile ? <div style={{backgroundImage: `url(${profile})`,backgroundSize: 'cover'}} className='userProfile'></div>:<h2><BiSolidUserCircle/></h2>} className="custom-dropdown">
             <NavDropdown.Item href="#action/3.1"><h5 onClick={()=>navigate('/Profile')} className='h-six-tags'><AiOutlineUser/> Profile</h5></NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2"><h5 className='h-six-tags'><AiOutlineMessage/> Inbox</h5></NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3"><h5 className='h-six-tags'><BsFillCarFrontFill/> My Rides</h5></NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4"><h5>Logout</h5> </NavDropdown.Item>
+            <NavDropdown.Item onClick={()=>handleLogout()} href="#action/3.4"><h5>Logout</h5> </NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
         </div>

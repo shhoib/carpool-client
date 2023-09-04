@@ -7,13 +7,14 @@ import { VscWorkspaceTrusted } from 'react-icons/vsc';
 import { TiTickOutline } from 'react-icons/ti';
 import { AiOutlineUserAdd,AiOutlineCar } from 'react-icons/ai';
 import { useState, useRef,useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import axiosInstance from '../api/axios'
 
 
 
@@ -35,7 +36,8 @@ const HostRide = () => {
   e.preventDefault();
   
   try {
-    const dateValue = inputRef.current.date.value;
+    const DATE = inputRef.current.date.value;
+    const dateValue = DATE.replace(/-/g, '/');
     const passengersValue = inputRef.current.passengers.value;
     const vehicle = inputRef.current.vehicle.value;
     const amount = inputRef.current.amount.value;
@@ -53,7 +55,7 @@ const HostRide = () => {
       toast.error("Please fill in all details");
     } else {
       try {
-        const response = await axios.post("http://localhost:3000/HostRide", requestData);
+        const response = await axiosInstance.post("/HostRide", requestData);
         if(response.status==201){
           setFrom('');
           setTo('')
