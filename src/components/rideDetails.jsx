@@ -4,29 +4,31 @@ import './rideDetails.css'
 
 const RideDetails = () => {
   return (
-    <div className='d-flex'>
+    <Container className='d-flex flex-column justify-content-center align-items-center'>
     <div>
         <h1>DD/MM/YYYY</h1>
     </div>
-    <Container className='d-flex'>
-        <div>
-            <h6>06:00 PM</h6>
-            <h6>06:00 PM</h6>
+    <div className='d-flex align-items-center justify-content-center'>
+        <div className=''>
+            <h6 className=''>FROM</h6>
+            <h6 className=''>TO</h6>
         </div>
 
-        <Container>
+        <div className='m-0 p-0 d-flex'>
+          <div>
             <div className='circleInRidDetails m-0'></div>
             <div className='verticleLine'></div>
             <div className='circleInRidDetails'></div>
-        </Container>
+          </div>
+          
+          <div className='d-flex flex-column justify-content-between'>
+            <h4>taliparamba</h4>
+            <h4>kannur</h4>
+          </div>
+        </div>
 
-        <Container>
-            <div>taliparamba</div>
-            <div>kannur</div>
-        </Container>
-
-    </Container>
     </div>
+    </Container>
   )
 }
 

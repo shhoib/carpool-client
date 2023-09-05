@@ -16,6 +16,7 @@ import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 import { ToastContainer, toast } from 'react-toastify';
 import dayjs from 'dayjs'; 
 import axiosInstance from '../api/axios';
+import {useNavigate} from 'react-router-dom'
 
 
 const JoinRide = () => {
@@ -27,6 +28,7 @@ const JoinRide = () => {
  const [fromSuggestions, setFromSuggestions] = useState([])
   const [toSuggestions, setToSuggestions] = useState([])
 
+  const navigate = useNavigate();
 
   
   const handleSubmit = async (e) =>{
@@ -123,6 +125,10 @@ const JoinRide = () => {
       document.removeEventListener('click', handleClickOutside);
     };
    }, []);
+
+   const handleRideClick = (id)=>{
+      navigate(`/RideDetails/${id}`)
+   }
   
   return (
     <> 
@@ -192,7 +198,7 @@ const JoinRide = () => {
     
     {rides.length<0 ?<div><h1>no rides available</h1></div>: 
      rides.map((ride,index)=>(
-    <Container key={index} className='rideList mt-3'>
+    <Container key={index} className='rideList mt-3' onClick={()=>handleRideClick(ride._id)}>
      <Container className='d-flex justify-content-between mt-2 px-3'>
       <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
       <h5>{ride.to.split(', ').slice(0, 2).join(', ')}</h5>
@@ -205,7 +211,7 @@ const JoinRide = () => {
      </Container>
 
      <Container className='hosterDetails d-flex justify-content-between mb-2'>
-      <div><h5><AiOutlineUser/>shoib</h5></div>
+      <div><h5><AiOutlineUser/>{ride.hoster}</h5></div>
       <h6>Date & time negotiable</h6>
       <h6>{ride.vehicle}</h6>
       <h5>₹{ride.amount}</h5>

@@ -33,7 +33,7 @@ function App() {
           <Route path="/hostRide" element={<HostRide />} />
           <Route path="/JoinRide" element={<JoinRide />} />
           <Route path="/Profile" element={ userAuth ? <Profile />: <Navigate to='/login'/> } />
-          <Route path="/RideDetails" element={ userAuth ? <RideDetails />: <Navigate to='/login'/> } />
+          <Route path="/RideDetails/:id" element={ userAuth ? <RideDetails />: <Navigate to='/login'/> } />
         </Routes>
         <Footer />
      

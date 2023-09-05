@@ -15,6 +15,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axiosInstance from '../api/axios'
+import { useSelector } from 'react-redux';
 
 
 
@@ -32,6 +33,8 @@ const HostRide = () => {
 
  const inputRef = useRef(null);
 
+ const USER = useSelector((state)=>state.userAuth);
+
  const handleSubmit = async (e) => {
   e.preventDefault();
   
@@ -48,7 +51,8 @@ const HostRide = () => {
       date: dateValue,
       passengers: passengersValue,
       vehicle: vehicle,
-      amount: amount
+      amount: amount,
+      hoster:USER.name
     };
 
     if (from === '' || to === '' || dateValue === '' || passengersValue === '' || amount === '') {

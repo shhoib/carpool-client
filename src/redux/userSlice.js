@@ -19,7 +19,6 @@ export const userAuthSlice = createSlice({
             state.token = action.payload.token;
             state.profile = action.payload.profile;
             state.emailVerified = ISverified;
-            console.log(state.emailVerified);
         },
         userLogout : (state)=>{
             state.name = null

@@ -49,6 +49,7 @@ const Signup = () => {
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
       console.log(user);
+      console.log(credential);
       
       try {
         const response = await axiosInstance.post("/signup/googleAuth",user)
