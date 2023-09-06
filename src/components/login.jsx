@@ -53,7 +53,6 @@ const Login = () => {
       // console.log(user);
       try{
         const response = await axiosInstance.post('/login/googleAuth',user);
-        console.log(response.data,"response");
         const token = response.data.token;
         // const profile = data.user.photoURL;
 

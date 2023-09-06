@@ -48,15 +48,16 @@ const Signup = () => {
       const data = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(data);
       const user = data.user;
-      console.log(user);
       console.log(credential);
       
       try {
         const response = await axiosInstance.post("/signup/googleAuth",user)
         const token = response.data.token
+        const userID = response.data.userID
         const profile = user.photoURL;
         if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,emailVerified:true}))
+          dispatch(userLogin({email:user.email,username:user.displayName,
+            token:token,profile:profile,emailVerified:true,userID:userID}))
 
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -65,7 +66,8 @@ const Signup = () => {
               navigate('/');
             }
           })}else{
-            dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,emailVerified:true}))
+            dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,
+              userID:userID,emailVerified:true}))
            toast.warn(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
@@ -86,10 +88,11 @@ const Signup = () => {
       const signupDetails = { email,password,username}
       const response = await axiosInstance.post("/signup",signupDetails)
       const token = response.data.token;
+      const userID = response.data.userID;
 
       if(response.status==201){
 
-         dispatch(userLogin({email,username,token,emailVerified:false}))
+         dispatch(userLogin({email,username,token,userID,emailVerified:false}))
           
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -98,7 +101,7 @@ const Signup = () => {
             navigate('/');
           }
         })}else{
-          dispatch(userLogin({email,username,token,emailVerified:false}))
+          dispatch(userLogin({email,username,token,userID,emailVerified:false}))
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,

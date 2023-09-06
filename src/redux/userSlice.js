@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     email: null,
     token: null,
     profile: null,
-    emailVerified:false
+    emailVerified:false,
+    userID:null
 }
 
 export const userAuthSlice = createSlice({
@@ -14,10 +15,12 @@ export const userAuthSlice = createSlice({
     reducers:{
         userLogin:(state,action)=>{
             const ISverified = action.payload.emailVerified ? true : false;
+
             state.name = action.payload.username;
             state.email = action.payload.email;
             state.token = action.payload.token;
             state.profile = action.payload.profile;
+            state.userID = action.payload.userID;
             state.emailVerified = ISverified;
         },
         userLogout : (state)=>{
@@ -25,6 +28,7 @@ export const userAuthSlice = createSlice({
             state.email = null
             state.token = null
             state.profile = null
+            state.userID = null
         }
     }
 })
