@@ -18,3 +18,69 @@
 .aaa{
     /* margin-left: 0%; */
 }
+.rideDetails,.chatWith{
+    transition: all 0.6s ease; 
+    width: 60%;
+
+}
+.hosterSection{
+    transition: all 0.9s ease; 
+    width: 60%;
+}
+.rideDetails:hover{
+    background-color:rgb(241, 239, 239);
+    width: 60%;
+    border-radius: 20px;
+    transform: scale(1.05);
+
+}
+ .fromLocation,.toLocation{
+    color: rgb(255, 68, 0);
+}
+.carName{
+    width: 60%;
+}
+.chatWith:hover{
+    background-color:rgb(241, 239, 239);
+     border-radius: 20px;
+    transform: scale(1.05);
+}
+.bookButton{
+    background-color: rgb(42, 90, 224);
+    color: white;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    transition: all 0.6s ease; 
+
+}
+.bookButton:hover{
+    background-color: rgb(0, 68, 255) ;
+    transform: scale(1.09);
+
+}
+.price{
+    color: rgb(81, 134, 233);
+}
+.imageSection{
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    border-radius: 50px;
+}
+
+.hosterSection:hover{
+    background-color:rgb(241, 239, 239);
+    width: 75%;
+    border-radius: 30px;
+    transform: scale(1.05);
+}
+
+@media(max-width:600px){
+    .rideDetails,.hosterSection:hover{
+        background-color:rgb(226, 225, 225);
+        width: 90%;
+        border-radius: 20px;
+        transform: scale(1.05);
+    
+    }
+}

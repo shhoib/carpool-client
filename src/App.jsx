@@ -35,7 +35,7 @@ function App() {
           <Route path="/Profile" element={ userAuth ? <Profile />: <Navigate to='/login'/> } />
           <Route path="/RideDetails/:id" element={ userAuth ? <RideDetails />: <Navigate to='/login'/> } />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
      
       </BrowserRouter>
 
