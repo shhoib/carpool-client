@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import NavigationBar from "./components/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from "./components/footer";
+// import Footer from "./components/footer";
 // import { context } from "./store/context";
 import LoginPage from "./components/login";
 import Signup from "./components/signup";
@@ -11,6 +11,7 @@ import HostRide from "./components/hostRide";
 import JoinRide from "./components/joinRide";
 import Profile from "./components/profile";
 import RideDetails from './components/rideDetails';
+import HosterDetails from './components/hosterDetails';
 import { BrowserRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/JoinRide" element={<JoinRide />} />
           <Route path="/Profile" element={ userAuth ? <Profile />: <Navigate to='/login'/> } />
           <Route path="/RideDetails/:id" element={ userAuth ? <RideDetails />: <Navigate to='/login'/> } />
+          <Route path="/HosterDetails/:id" element={ userAuth ? <HosterDetails />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      

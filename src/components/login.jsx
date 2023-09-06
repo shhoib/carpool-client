@@ -54,10 +54,11 @@ const Login = () => {
       try{
         const response = await axiosInstance.post('/login/googleAuth',user);
         const token = response.data.token;
+        const userID = response.data.userID;
         // const profile = data.user.photoURL;
 
         if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID}))
            toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
@@ -71,12 +72,6 @@ const Login = () => {
             }})
         }
       }catch(error){
-        // dispatch(userLogin({email:user.email,username:user.displayName,token:token}))
-        // toast.warn("please signup first! redirecting to signup",{
-        //   autoClose:2000,
-        //   onClose:()=>{
-        //     navigate("/signup")
-        // }})
         console.log(error);
       }
     } catch (error) {
@@ -90,8 +85,9 @@ const Login = () => {
         const response = await axiosInstance.post('/login', body);
         const username = response.data.username;
         const token = response.data.token;
+        const userID = response.data.userID;
         if (response.status == 200) {
-          dispatch(userLogin({email,username,token}))
+          dispatch(userLogin({email,username,token,userID}))
           toast.success(response.data.message, {
                 autoClose: 1500,
                 onClose: () => {

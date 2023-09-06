@@ -5,12 +5,14 @@ import {MdKeyboardArrowRight} from 'react-icons/md'
 import {AiOutlineThunderbolt} from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 import axiosInstance from '../api/axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const RideDetails = () => {
 
   const {id} = useParams();
   const [rideDetails, setRideDetails] = useState({})
+
+  const navigate = useNavigate();
 
   useEffect(() => { 
     const fetchData = async () => {
@@ -24,8 +26,10 @@ const RideDetails = () => {
     fetchData();
   }, []);
 
+  const hosterID = rideDetails.hosterID;
+
   const handleProfileClick = ()=> {
-    
+    navigate(`/hosterDetails/${hosterID}`)
   }
 
   return (

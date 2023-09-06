@@ -34,6 +34,7 @@ const HostRide = () => {
  const inputRef = useRef(null);
 
  const USER = useSelector((state)=>state.userAuth);
+ 
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -52,8 +53,10 @@ const HostRide = () => {
       passengers: passengersValue,
       vehicle: vehicle,
       amount: amount,
-      hoster:USER.name
+      hoster:USER.name,
+      hosterID:USER.userID
     };
+    console.log(USER.userID);
 
     if (from === '' || to === '' || dateValue === '' || passengersValue === '' || amount === '') {
       toast.error("Please fill in all details");
