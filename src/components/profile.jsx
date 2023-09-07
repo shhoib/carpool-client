@@ -5,11 +5,20 @@ import {AiFillEdit} from 'react-icons/ai'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {GiReceiveMoney} from 'react-icons/gi'
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 
 const Profile = () => {
 
   const userDetails = useSelector((state)=>state.userAuth)
+
+  const Navigate = useNavigate();
+
+  const userID = userDetails.userID;
+
+  const handlePersonalDetailsNavigate=()=>{
+    Navigate(`/personalDetails/${userID}`)
+  }
 
 
   return (
@@ -35,7 +44,7 @@ const Profile = () => {
       </div>
 
       <div className="add-profile-section  p-1 d-flex justify-content-between">
-        <div className="d-flex align-items-center">
+        <div onClick={handlePersonalDetailsNavigate} className="d-flex align-items-center">
         <h2 className="mx-3"><AiFillEdit/></h2>
         <h5>Edit personal details</h5>
         </div>

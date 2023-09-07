@@ -7,3 +7,17 @@
 .hosterDetails{
     width: 60%;
 }
+.reportSection{
+    color: rgb(0, 89, 255);
+}
+.Line{
+    width: 50%;
+    margin-left: 25%;
+}
+.preGivenDetails{
+    color: rgb(65, 65, 65);
+    /* font-family: Arial, sans-serif; */
+}
+.mobileNumber{
+    color: rgb(64, 126, 240);
+}
