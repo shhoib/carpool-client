@@ -22,4 +22,7 @@
 .custom-dropdown .dropdown-toggle::after {
    content: none;
  }
+ .navbarr{
+  background-color: rgb(109, 109, 221);
+ }
  
