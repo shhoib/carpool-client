@@ -1,16 +1,22 @@
 // import React from 'react'
-import {Container} from 'react-bootstrap'
+import {Container,Button} from 'react-bootstrap'
 import './rideDetails.css'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {AiOutlineThunderbolt} from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 import axiosInstance from '../api/axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import Modal from 'react-bootstrap/Modal';
+
 
 const RideDetails = () => {
 
   const {id} = useParams();
   const [rideDetails, setRideDetails] = useState({})
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const navigate = useNavigate();
 
@@ -91,9 +97,23 @@ const RideDetails = () => {
     </Container>
 
     <Container className='d-flex justify-content-center p-4'>
-        <button className='bookButton d-flex align-items-center px-4 py-2'><AiOutlineThunderbolt/>
+        <button onClick={handleShow} className='bookButton d-flex align-items-center px-4 py-2'><AiOutlineThunderbolt/>
         <h6 className='px-1 pt-1'>Book</h6></button>
     </Container>
+
+    <Modal show={show} onHide={handleClose}>
+
+        <Modal.Header closeButton> <Modal.Title>Modal heading</Modal.Title> </Modal.Header>
+
+        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}> Close </Button>
+          <Button variant="primary" onClick={handleClose}>  Save Changes</Button>
+        </Modal.Footer>
+        
+      </Modal>
+
     </Container>
   )
 }
