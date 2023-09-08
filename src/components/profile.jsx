@@ -14,10 +14,8 @@ const Profile = () => {
 
   const Navigate = useNavigate();
 
-  const userID = userDetails.userID;
-
   const handlePersonalDetailsNavigate=()=>{
-    Navigate(`/personalDetails/${userID}`)
+    Navigate(`/EditPersonalDetails`)
   }
 
 
@@ -43,8 +41,8 @@ const Profile = () => {
         <h4><MdKeyboardArrowRight/></h4>
       </div>
 
-      <div className="add-profile-section  p-1 d-flex justify-content-between">
-        <div onClick={handlePersonalDetailsNavigate} className="d-flex align-items-center">
+      <div onClick={handlePersonalDetailsNavigate} className="add-profile-section  p-1 d-flex justify-content-between">
+        <div  className="d-flex align-items-center">
         <h2 className="mx-3"><AiFillEdit/></h2>
         <h5>Edit personal details</h5>
         </div>
@@ -79,7 +77,7 @@ const Profile = () => {
        <h4><MdKeyboardArrowRight/></h4>
       </div>
 
-      <div className="rating-and-changePassword d-flex justify-content-between">
+      <div onClick={()=>Navigate('/ChangePassword')} className="rating-and-changePassword d-flex justify-content-between">
         <div>
          <h5>Change Password</h5>
         </div>

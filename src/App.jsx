@@ -12,7 +12,8 @@ import JoinRide from "./components/joinRide";
 import Profile from "./components/profile";
 import RideDetails from './components/rideDetails';
 import HosterDetails from './components/hosterDetails';
-import PersonalDetails from './components/personalDetails';
+import EditPersonalDetails from './components/personalDetails';
+import ChangePassword from './components/changePassword';
 import { BrowserRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
@@ -36,7 +37,8 @@ function App() {
           <Route path="/Profile" element={ userAuth ? <Profile />: <Navigate to='/login'/> } />
           <Route path="/RideDetails/:id" element={ userAuth ? <RideDetails />: <Navigate to='/login'/> } />
           <Route path="/HosterDetails/:id" element={ userAuth ? <HosterDetails />: <Navigate to='/login'/> } />
-          <Route path="/PersonalDetails/:id" element={ userAuth ? <PersonalDetails />: <Navigate to='/login'/> } />
+          <Route path="/EditPersonalDetails" element={ userAuth ? <EditPersonalDetails />: <Navigate to='/login'/> } />
+          <Route path="/ChangePassword" element={ userAuth ? <ChangePassword />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      

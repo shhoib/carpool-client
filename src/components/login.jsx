@@ -53,12 +53,16 @@ const Login = () => {
       // console.log(user);
       try{
         const response = await axiosInstance.post('/login/googleAuth',user);
+
         const token = response.data.token;
-        const userID = response.data.userID;
+        const userID = response.data.user._id;
+        const emailVerified = response.data.user.emailVerified;
+        const phoneNumberVerified = response.data.user.phoneNumberVerified;
         const profile = data.user.photoURL;
 
         if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID,profile:profile}))
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID,
+            profile:profile,emailVerified,phoneNumberVerified}))
            toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
@@ -83,11 +87,17 @@ const Login = () => {
     try {
         const body = { email, password };
         const response = await axiosInstance.post('/login', body);
-        const username = response.data.username;
+        console.log(response.data);
+
+
+        const username = response.data.user.username;
         const token = response.data.token;
-        const userID = response.data.userID;
+        const userID = response.data.user._id;
+        const emailVerified = response.data.user.emailVerified;
+        const phoneNumberVerified = response.data.user.phoneNumberVerified;
+
         if (response.status == 200) {
-          dispatch(userLogin({email,username,token,userID}))
+          dispatch(userLogin({email,username,token,userID,emailVerified,phoneNumberVerified}))
           toast.success(response.data.message, {
                 autoClose: 1500,
                 onClose: () => {

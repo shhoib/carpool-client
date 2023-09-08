@@ -27,6 +27,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const dispatch = useDispatch();
 
@@ -57,7 +58,7 @@ const Signup = () => {
         const profile = user.photoURL;
         if(response.status==201){
           dispatch(userLogin({email:user.email,username:user.displayName,
-            token:token,profile:profile,emailVerified:true,userID:userID}))
+            token:token,profile:profile,emailVerified:true,phoneNumberVerified:false,userID:userID}))
 
           toast.success(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -67,7 +68,7 @@ const Signup = () => {
             }
           })}else{
             dispatch(userLogin({email:user.email,username:user.displayName,token:token,profile:profile,
-              userID:userID,emailVerified:true}))
+              userID:userID,emailVerified:true,phoneNumberVerified:false}))
            toast.warn(response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
@@ -85,14 +86,15 @@ const Signup = () => {
   
   const handleSignUpWithEmail = async()=>{
     try {
-      const signupDetails = { email,password,username}
+      const signupDetails = { email,password,username,phoneNumber}
       const response = await axiosInstance.post("/signup",signupDetails)
       const token = response.data.token;
       const userID = response.data.userID;
 
       if(response.status==201){
 
-         dispatch(userLogin({email,username,token,userID,emailVerified:false}))
+         dispatch(userLogin({email,username,token,userID,phoneNumber,
+          emailVerified:false,phoneNumberVerified:false}))
           
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -101,7 +103,8 @@ const Signup = () => {
             navigate('/');
           }
         })}else{
-          dispatch(userLogin({email,username,token,userID,emailVerified:false}))
+          dispatch(userLogin({email,username,token,userID,emailVerified:false,phoneNumberVerified:false,
+            phoneNumber}))
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,
@@ -134,6 +137,11 @@ const Signup = () => {
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' },
           }} noValidate autoComplete="off" >
       <TextField onChange={(e)=>setEmail(e.target.value)}  label="email..." variant="outlined" />
+     </Box>
+
+      <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' },
+          }} noValidate autoComplete="off" >
+      <TextField onChange={(e)=>setPhoneNumber(e.target.value)}  label="Mobile number" variant="outlined" />
      </Box>
     
      <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">

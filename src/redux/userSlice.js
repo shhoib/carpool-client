@@ -16,8 +16,9 @@ export const userAuthSlice = createSlice({
     initialState: INITIAL_STATE,
     reducers:{
         userLogin:(state,action)=>{
-            
-            // const ISverified = action.payload.emailVerified ? true : false;
+
+            const IsEmailVerified = action.payload.emailVerified ? true : false;
+            const IsphoneNumberVerified = action.payload.phoneNumberVerified ? true : false;
 
             state.name = action.payload.username;
             state.email = action.payload.email;
@@ -26,7 +27,9 @@ export const userAuthSlice = createSlice({
             state.userID = action.payload.userID;
             state.DOB = action.payload.DOB;
             state.phoneNumber = action.payload.phoneNumber;
-            // state.emailVerified = ISverified;
+            state.emailVerified = IsEmailVerified;
+            state.phoneNumberVerified = IsphoneNumberVerified;
+           
         },
         userLogout : (state)=>{
             state.name = null
@@ -35,6 +38,8 @@ export const userAuthSlice = createSlice({
             state.profile = null
             state.userID = null
             state.phoneNumber = null
+            state.emailVerified = false
+            state.phoneNumberVerified = false
             state.DOB = null
         }
     }
