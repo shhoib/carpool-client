@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 import axiosInstance from '../api/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 const RideDetails = () => {
@@ -14,6 +16,8 @@ const RideDetails = () => {
   const {id} = useParams();
   const [rideDetails, setRideDetails] = useState({})
   const [show, setShow] = useState(false);
+  const [counter, setCounter] = useState(1); 
+  console.log(rideDetails);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,8 +42,26 @@ const RideDetails = () => {
     navigate(`/hosterDetails/${hosterID}`)
   }
 
+  const incrementCounter = () => {
+    if(counter < rideDetails.passengers.length){
+    setCounter(counter + 1);
+    }else {
+    toast.warn(`only ${rideDetails.passengers} seat available`, {
+      position: 'top-right',
+      autoClose: 2000, 
+    });
+  }
+  };
+
+  const decrementCounter = () => {
+    if (counter > 1) {
+      setCounter(counter - 1);
+    }
+  };
+
   return (
     <Container  className=' d-flex flex-column justify-content-center align-items-center'>
+    <ToastContainer/>
     <div className='p-4'>
         <h1>{rideDetails.date}</h1>
     </div>
@@ -83,7 +105,7 @@ const RideDetails = () => {
      </div>
     </Container>
 
-    <Container className='chatWith d-flex justify-content-between px-3 py-2'>
+    <Container onClick={()=>navigate(`/chat/${hosterID}`)} className='chatWith d-flex justify-content-between px-3 py-2'>
         <h5>{`Chat with ${rideDetails.hoster}`}</h5>
         <h2><MdKeyboardArrowRight/></h2>
     </Container>
@@ -103,15 +125,20 @@ const RideDetails = () => {
 
     <Modal show={show} onHide={handleClose}>
 
-        <Modal.Header closeButton> <Modal.Title>Modal heading</Modal.Title> </Modal.Header>
+        <Modal.Header closeButton> </Modal.Header>
 
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body><h5>How many seats did you want?</h5>
+        <div className="counter-container">
+      <button className="counter-button" onClick={decrementCounter}>-</button>
+      <span className="counter-value">{counter}</span>
+      <button className="counter-button" onClick={incrementCounter}>+</button>
+    </div></Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}> Close </Button>
-          <Button variant="primary" onClick={handleClose}>  Save Changes</Button>
+          <Button variant="secondary" onClick={handleClose}> CLOSE </Button>
+          <Button variant="primary" onClick={handleClose}>BOOK</Button>
         </Modal.Footer>
-        
+
       </Modal>
 
     </Container>

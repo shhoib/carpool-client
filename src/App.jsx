@@ -15,6 +15,7 @@ import RideDetails from './components/rideDetails';
 import HosterDetails from './components/hosterDetails';
 import EditPersonalDetails from './components/personalDetails';
 import ChangePassword from './components/changePassword';
+import Chat from './components/chat';
 import { BrowserRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/HosterDetails/:id" element={ userAuth ? <HosterDetails />: <Navigate to='/login'/> } />
           <Route path="/EditPersonalDetails" element={ userAuth ? <EditPersonalDetails />: <Navigate to='/login'/> } />
           <Route path="/ChangePassword" element={ userAuth ? <ChangePassword />: <Navigate to='/login'/> } />
+          <Route path="/Chat/:id" element={ userAuth ? <Chat />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      
