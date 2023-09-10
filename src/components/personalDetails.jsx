@@ -1,23 +1,21 @@
 import { Container } from "react-bootstrap"
-import Box from '@mui/material/Box';
-// import Input from '@mui/material/Input';
-// import InputLabel from '@mui/material/InputLabel';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import Form from 'react-bootstrap/Form';
 import './personalDetails.css'
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import {Button} from 'react-bootstrap'
 import axiosInstance from '../api/axios'
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
 const EditPersonalDetails = () => {
 
   const userDetails = useSelector((state)=>state.userAuth);
+
+  const navigate = useNavigate();
 
   const[name,setName] = useState('')
   const[email,setEmail] = useState('')
@@ -37,7 +35,11 @@ const EditPersonalDetails = () => {
     }
     try{
       const response = await axiosInstance.post('/EditPersonalDetails',updatedData)
-      console.log(response.data);
+      toast.success(response.data.message,{
+                autoClose:1000,
+                onClose:()=>{
+                  navigate('/profile')
+                }})
     }catch(error){
       console.log(error);
     }
@@ -45,33 +47,37 @@ const EditPersonalDetails = () => {
 
   return (
     <>
+      <ToastContainer/>
        <Container className="personalDetails  justify-content-center">
         <Container className=" d-flex align-items-center justify-content-center p-4">
             <h2 style={{ textDecoration: 'underline' }}>Personal Details</h2>
         </Container>
 
         <Container className="d-flex flex-column align-items-center">
-        <Box sx={{ '& > :not(style)': { m: 1 } }}>
-         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-         <TextField onChange={(e)=>setName(e.target.value)} id="input-with-sx" label='username' defaultValue={userDetails.name} variant="standard" />
-        </Box>
-        </Box>
 
-      <Box
-        component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' },}} noValidate autoComplete="off" >
-        <TextField  onChange={(e)=>setEmail(e.target.value)} id="standard-basic" defaultValue={userDetails.email} label="Email" variant="standard" />
-      </Box> 
+        <div className="userDetails-input-container p-2">
+         <h6>username</h6>
+         <input label='username' defaultValue={userDetails.name} className="userDetails-input"
+           onChange={(e)=>setName(e.target.value)} />
+       </div>
 
-      <Box
-        component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' },}} noValidate autoComplete="off" >
-        <TextField  onChange={(e)=>setPhoneNumber(e.target.value)} id="standard-basic" defaultValue={userDetails.phoneNumber} label="Phone number" variant="standard" />
-      </Box>
+        <div className="userDetails-input-container p-2">
+        <h6>email</h6>
+         <input label='email' defaultValue={userDetails.email} className="userDetails-input"
+           type="email" onChange={(e)=>setEmail(e.target.value)} />
+       </div>
 
-      <Box
-        component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' },}} noValidate autoComplete="off" >
-        <TextField  onChange={(e)=>setDOB(e.target.value)} id="standard-basic" type='date' defaultValue={userDetails.DOB}  variant="standard" />
-      </Box>
+        <div className="userDetails-input-container p-2">
+        <h6>phone number</h6>
+         <input label='phoneNumber' defaultValue={userDetails.phoneNumber} className="userDetails-input"
+           type="number"  onChange={(e)=>setPhoneNumber(e.target.value)} />
+       </div>
+
+        <div className="userDetails-input-container p-2">
+        <h6>date of birth</h6>
+         <input label='username' defaultValue={userDetails.DOB} className="userDetails-input"
+           type='date' onChange={(e)=>setDOB(e.target.value)} />
+       </div>
 
       <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

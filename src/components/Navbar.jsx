@@ -112,7 +112,7 @@ function NavigationBar() {
   }
 
   const handleRidesNavigate=()=>{
-    // navigate('/Profile')
+    navigate('/myRides')
     handleCloseUserMenu();
   }
 
