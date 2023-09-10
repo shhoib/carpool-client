@@ -1,0 +1,27 @@
+.tablist{
+    text-decoration: none;
+}
+.tablist-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #ccc; /* Add your desired border style */
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+.tablist {
+  background-color: transparent; /* Set the background color */
+}
+
+.tablist .MuiTabs-indicator {
+  background-color: #007bff; /* Set the indicator color */
+}
+
+.tablist .MuiTab-label {
+  color: #007bff; /* Set the tab label color */
+}
+
+.tablist .Mui-selected {
+  color: #007bff; /* Set the selected tab color */
+  font-weight: bold; /* Make the selected tab bold if desired */
+}
