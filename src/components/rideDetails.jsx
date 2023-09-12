@@ -17,7 +17,6 @@ const RideDetails = () => {
   const [rideDetails, setRideDetails] = useState({})
   const [show, setShow] = useState(false);
   const [counter, setCounter] = useState(1); 
-  console.log(rideDetails);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
