@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react';
 import axiosInstance from '../api/axios';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import {RiSendPlaneLine} from 'react-icons/ri'
 
 
 // const api = import.meta.env.VITE_SOCKET_IO_URL;
@@ -17,7 +18,7 @@ const socket = io.connect('http://localhost:3000')
 const Chat = () => {
 
   const [message, setmessage] = useState('')
-  const [messageRecieved, setMessageRecieved] = useState('')
+  const [messageList, setMessageList] = useState([])
   const [chatDetails, setChatDetails] = useState({})
 
   const USER = useSelector((state)=>state.userAuth);
@@ -38,20 +39,27 @@ const Chat = () => {
   },[])
 
   const room = chatDetails.chat?._id;
-  console.log(room);
 
   socket.emit('join_room',room)
 
-  console.log(chatDetails);
-  const sendMessage = ()=>{
-    socket.emit('send_message',{message,room})
+  const sendMessage = async()=>{
+    const messageData = {
+      room : room,
+      author : USER.name,
+      message : message,
+      time : new Date(Date.now()).getHours()+":"+new Date(Date.now()).getMinutes()
+    }
+
+   await socket.emit('send_message',{messageData})
+   setMessageList((previous)=>[...previous,messageData])
     setmessage('')
   }
 
   useEffect(()=>{
     socket.on('receive_message',(data)=>{
-      setMessageRecieved(data.message)
-      console.log(messageRecieved);
+      console.log(data);
+      setMessageList((previous)=>[...previous,data])
+      console.log(messageList);
     })
   },[socket])
   
@@ -59,12 +67,20 @@ const Chat = () => {
   return (
     <>
   <Container className='chat-container'>
-  <div className=''>
-  <input value={message} onChange={(e)=>setmessage(e.target.value)} className='message-input'/>
-  </div>
-  <button onClick={()=>sendMessage()}>Send</button>
-      <h1>{messageRecieved}</h1>
-    
+      <Container className='messages-container'>
+      {messageList.map((messages, index)=>(
+          <div key={index} className={USER.name==messages.author?'you':"other"}>
+            <div><p>{messages.message}</p></div>
+            <div><p>{messages.time}</p></div>
+          </div>
+      ))}
+      </Container>
+
+    <Container className=''>
+    <input value={message} placeholder='Message...' onChange={(e)=>setmessage(e.target.value)} className='message-input'/>
+    <button className='sendButton' onClick={()=>sendMessage()}>Send <RiSendPlaneLine/></button>
+    </Container>
+
   </Container>
     </>
   )
