@@ -50,7 +50,7 @@ const Chat = () => {
       time : new Date(Date.now()).getHours()+":"+new Date(Date.now()).getMinutes()
     }
 
-   await socket.emit('send_message',{messageData})
+   await socket.emit('send_message',messageData)
    setMessageList((previous)=>[...previous,messageData])
     setmessage('')
   }
@@ -59,7 +59,7 @@ const Chat = () => {
     socket.on('receive_message',(data)=>{
       console.log(data);
       setMessageList((previous)=>[...previous,data])
-      console.log(messageList);
+      // console.log(messageList);
     })
   },[socket])
   

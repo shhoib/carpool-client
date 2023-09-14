@@ -107,7 +107,7 @@ function NavigationBar() {
     handleCloseUserMenu();
   }
   const handleInboxNavigate=()=>{
-    // navigate('/Profile')
+    navigate('/Inbox')
     handleCloseUserMenu();
   }
 
