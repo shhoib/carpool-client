@@ -25,10 +25,12 @@ const Chat = () => {
   const userID = USER.userID 
 
   const {id} = useParams();
+  // console.log(id);
+  // console.log(userID);
 
   useEffect(()=>{
     const fetchChat = async()=>{
-      const response = await axiosInstance.get(`/fetchChat?userId=${userID}&hosterId=${id}`)
+      const response = await axiosInstance.get(`/fetchChat?fromId=${userID}&toId=${id}`)
       if(response.status==200){
         setChatDetails(response.data)
       }else{
@@ -36,11 +38,12 @@ const Chat = () => {
       }
     }
     fetchChat();
+ 
   },[])
 
-  const room = chatDetails.chat?._id;
-
-  socket.emit('join_room',room)
+    const room = chatDetails.chat?._id;
+    socket.emit('join_room',room)
+    
 
   const sendMessage = async()=>{
     const messageData = {
@@ -59,12 +62,12 @@ const Chat = () => {
     socket.on('receive_message',(data)=>{
       console.log(data);
       setMessageList((previous)=>[...previous,data])
-      // console.log(messageList);
     })
   },[socket])
   
+  // console.log(messageList);
 
-  return (
+  return ( 
     <>
   <Container className='chat-container'>
       <Container className='messages-container'>

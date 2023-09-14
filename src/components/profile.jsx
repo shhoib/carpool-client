@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom"
 const Profile = () => {
 
   const userDetails = useSelector((state)=>state.userAuth)
+  console.log(userDetails);
 
   const Navigate = useNavigate();
 

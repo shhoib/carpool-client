@@ -21,7 +21,7 @@ const Inbox = () => {
         const fetchPreviuosChatDetails = async()=>{
             const response = await axiosInstance.get(`fetchPreviuosChatDetails?userID=${userID}`)
             setPreviousChats(response.data);
-            // console.log(response.data);
+            console.log(response.data);
         }   
         fetchPreviuosChatDetails();
     },[USER])
@@ -30,8 +30,6 @@ const Inbox = () => {
         navigate(`/chat/${chat._id}/`)
         // console.log(chat);
     }
-
-    // console.log(Array.isArray(previousChats.chattedUsers));
 
   return (
     <>
