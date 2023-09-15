@@ -20,6 +20,7 @@ const Chat = () => {
   const [message, setmessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [chatDetails, setChatDetails] = useState({})
+  // const [loading, setLoading] = useState(true)
 
   const USER = useSelector((state)=>state.userAuth);
   const userID = USER.userID 
@@ -69,6 +70,7 @@ const Chat = () => {
 
   return ( 
     <>
+   
   <Container className='chat-container'>
       <Container className='messages-container'>
       {messageList.map((messages, index)=>(
@@ -85,6 +87,7 @@ const Chat = () => {
     </Container>
 
   </Container>
+
     </>
   )
 }
