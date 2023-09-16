@@ -1,10 +1,10 @@
 .chat-container{
-    /* background-color: aqua; */
-    /* background-image: url('https://res.cloudinary.com/dzhfutnjh/image/upload/v1694757553/cdaa1c204ca37080249e30580ebcd295_dnzx8y.jpg'); */
-    /* background-size: cover; */
+    background-color: aqua;
+    background-image: url('https://res.cloudinary.com/dzhfutnjh/image/upload/v1694842492/white-speech-bubble-chat-message-communication-icon-sign-symbol-background-3d-illustration_56104-2055_ulkdgv.avif');
+    background-size: cover;
     width: 50%;
     margin-top: 20px;
-    border: 1px solid grey;
+    border: none;
     border-radius: 20px;
     /* height: 80vh; */
 }
@@ -18,8 +18,8 @@
     background-color: #e2dfdf;
     color: #333;
     transition: border-color 0.3s ease-in-out;
-    /* transition: all 0.6s ease;  */
     width: 80%;
+    margin-bottom: 5px;
 
 }
 .message-input:hover{
@@ -41,39 +41,41 @@
     height: 45px;
     width: 90px;
     margin-left: 10px;
+    margin-bottom: 5px;
 }
+
 .you{ 
-     color: rgb(238, 64, 21);
-     margin: 0;
-     padding: 0;
+     color: white;
+     display: flex;
+     justify-content: flex-end;
+     padding: 10px;
      /* background-color: #007bff; */
      /* flex-direction: column; */
-    /* align-items: flex-end; */
-    /* width: 50px;  */
  } 
+
  .other{
-     /* display: flex; */
-     /* justify-content: flex-start; */
-    color: black; 
-   
- }
-
-.you{
-    width: 100%; 
-    /* background-color: #333; */
-    /* margin: 0; */
-    /* padding: 0; */
+    color: white;
     display: flex;
-    /* flex-direction: column; */
-    justify-content: flex-end;
-
-}
-.other{
-    display: flex;
-    flex-direction: column;
     justify-content: flex-start;
-    /* margin: 0; */
-    /* padding: 0; */
-} 
-.you p{
+    padding: 10px;
+    /* background-color: #333; */
+    /* flex-direction: column; */
+    /* width: 100px; */
+ }
+.you-message-content{
+    background-color:rgb(3, 153, 23);
+    border-radius: 10px;
+    /* padding: 9px; */
+}
+.other-message-content{
+    background-color: #007bff;
+    border-radius: 10px;
+    /* padding: 9px; */
+}
+.message{
+    font-weight: 700;
+    font-size: 17px;
+}
+.time{
+    font-size: 12px;
 }

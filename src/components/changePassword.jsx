@@ -57,7 +57,7 @@ const ChangePassword = () => {
             oldPassword:oldPassword,
             newPassword:newPassword,
             userID : USER.userID
-        }
+        } 
         try{
             const response = await axiosInstance.post('/editPassword',editedPassword);
             if(response.status==200){

@@ -4,6 +4,7 @@ import NavigationBar from "./components/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'aos/dist/aos.css';
 // import Footer from "./components/footer";
 // import { context } from "./store/context";
 import LoginPage from "./components/login";

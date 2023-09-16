@@ -38,7 +38,7 @@ const EditPersonalDetails = () => {
       toast.success(response.data.message,{
                 autoClose:1000,
                 onClose:()=>{
-                  navigate('/profile')
+                  // navigate('/profile')
                 }})
     }catch(error){
       console.log(error);
@@ -82,7 +82,7 @@ const EditPersonalDetails = () => {
       <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
         <Form.Label><h6> What would you like other members to know about you?</h6></Form.Label>
-        <Form.Control onChange={(e)=>setAbout(e.target.value)} as="textarea" rows={3} />
+        <Form.Control onChange={(e)=>setAbout(e.target.value)} as="textarea" placeholder="try to write briefly" rows={3} />
       </Form.Group>
     </Form>
     <Button onClick={handleEditDetails}>Submit</Button>

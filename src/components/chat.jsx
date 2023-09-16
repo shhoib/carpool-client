@@ -67,29 +67,27 @@
       socket.on('receive_message',(data)=>{
         setMessageList((previous)=>[...previous,data])
       })
-    }, [socket])
+    }, [])  //TODO:include socket if not working
     
     // console.log(messageList);
 
     return ( 
       <>
       {/* {loading ? 
-      <p>loading...</p>: */}
+      <p>loading...</p>: */}      
     <Container className='chat-container'>
+
         <Container className='messages-container'>
         {messageList.map((messages, index)=>(
             <div key={index}>  
 
             <div className={USER.name==messages.author?'you':"other"}>
-              <div className='message-content'>
-                <p className='m-0'>{messages.message}</p>
-              {/* </div> */}
-
-              {/* <div className='message-meta'> */}
+              <div className={USER.name==messages.author?'you-message-content px-2 py-1':"other-message-content px-2 py-1"}>
+                <h6 className='message m-0'>{messages.message}</h6>  
                 <p className ='time m-0'>{messages.time}</p>
               </div> 
-
             </div>
+
             </div>     
         ))}
         </Container>

@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap"
+import { Container,Button } from "react-bootstrap"
 import './profile.css'
 import {BiPlusCircle} from 'react-icons/bi'
 import {AiFillEdit} from 'react-icons/ai'
@@ -6,12 +6,19 @@ import {MdKeyboardArrowRight} from 'react-icons/md'
 import {GiReceiveMoney} from 'react-icons/gi'
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import Modal from 'react-bootstrap/Modal';
+
 
 
 const Profile = () => {
 
   const userDetails = useSelector((state)=>state.userAuth)
-  console.log(userDetails);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const Navigate = useNavigate();
 
@@ -34,7 +41,7 @@ const Profile = () => {
 
     <Container className="profile-and-rating d-flex flex-column my-3">
 
-      <div className="add-profile-section p-1 d-flex justify-content-between">
+      <div onClick={handleShow} className="add-profile-section p-1 d-flex justify-content-between">
        <div className="  d-flex align-items-center my-">
         <h2 className="mx-3"><BiPlusCircle/></h2>
         <h5>Add profile picture</h5>
@@ -84,6 +91,22 @@ const Profile = () => {
         </div>
         <h4><MdKeyboardArrowRight/></h4>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+
+      <Modal.Header closeButton> </Modal.Header>
+
+      <Modal.Body>
+      <h6>choose a file to upload</h6>
+      <input type="file" />
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}> CLOSE </Button>
+        <Button variant="primary" onClick={handleClose}>UPLOAD</Button>
+      </Modal.Footer>
+
+      </Modal>
     </Container>
     
     </>

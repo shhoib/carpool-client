@@ -9,12 +9,13 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import './myRides.css'
+import { Container } from "react-bootstrap";
 
 
 const MyRides = () => {
 
     const USER = useSelector((state)=>state.userAuth);
-
+    const userID = USER.userID
       const [value, setValue] = useState(1);
       const [myRides,setMyRides] = useState([])
 
@@ -26,11 +27,11 @@ const MyRides = () => {
     useEffect(() => {
     const rides = async () => {
       try {
-        const response = await axiosInstance.get(`/myRides/${USER.userID}`); 
+        const response = await axiosInstance.get(`/myRides/${userID}`); 
         if(response.status==200) {
-           return setMyRides(response.data.myrides)
+            setMyRides(response.data.myrides)
+            // console.log(response.data.myrides);
         }
-        console.log(response);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -41,6 +42,8 @@ const MyRides = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  console.log(myRides);
 
   return (
     <>
@@ -53,7 +56,19 @@ const MyRides = () => {
             <Tab label="Joined Rides" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1"><h1>hq</h1></TabPanel>
+
+        <TabPanel value="1">
+        {myRides.length>0?
+          myRides.map((hostedRides,index)=>(
+          <Container className="hosted-rides" key={index}>
+            <div>
+              <h6>from</h6> 
+            </div>
+          </Container>
+        )):null
+        }
+        </TabPanel>
+
         <TabPanel value="2">Item Two</TabPanel>
         <TabPanel value="3">Item three</TabPanel>
       </TabContext>
