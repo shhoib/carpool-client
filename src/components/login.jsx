@@ -31,6 +31,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  console.log(email,password);
 
   const dispatch = useDispatch();
 
