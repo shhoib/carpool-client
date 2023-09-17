@@ -1,0 +1,26 @@
+.chat{
+    /* border: 1px solid black; */
+    /* background-color: aqua; */
+}
+.chatted-user{
+    width: 80%;
+    /* height: 100px; */
+    /* background-color: aqua; */
+}
+.previousChat-banner{
+    /* background-color: brown; */
+    width: 80%;
+
+}
+.profile{
+    width: 70px;
+    height: 70px;
+    background-color: black;
+    border-radius: 50px;
+}
+.chat-divider{
+    width: 100%;
+    border: 1px;
+    border-top: 2px solid #585858;
+    margin: 0 auto;
+}

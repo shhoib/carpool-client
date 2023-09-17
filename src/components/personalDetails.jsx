@@ -38,7 +38,7 @@ const EditPersonalDetails = () => {
       toast.success(response.data.message,{
                 autoClose:1000,
                 onClose:()=>{
-                  // navigate('/profile')
+                  navigate('/profile')
                 }})
     }catch(error){
       console.log(error);
@@ -57,25 +57,25 @@ const EditPersonalDetails = () => {
 
         <div className="userDetails-input-container p-2">
          <h6>username</h6>
-         <input label='username' defaultValue={userDetails.name} className="userDetails-input"
+         <input label='username' placeholder="username.." className="userDetails-input"
            onChange={(e)=>setName(e.target.value)} />
        </div>
 
         <div className="userDetails-input-container p-2">
         <h6>email</h6>
-         <input label='email' defaultValue={userDetails.email} className="userDetails-input"
+         <input label='email' placeholder="email..." className="userDetails-input"
            type="email" onChange={(e)=>setEmail(e.target.value)} />
        </div>
 
         <div className="userDetails-input-container p-2">
         <h6>phone number</h6>
-         <input label='phoneNumber' defaultValue={userDetails.phoneNumber} className="userDetails-input"
+         <input label='phoneNumber' placeholder="phone number" className="userDetails-input"
            type="number"  onChange={(e)=>setPhoneNumber(e.target.value)} />
        </div>
 
         <div className="userDetails-input-container p-2">
         <h6>date of birth</h6>
-         <input label='username' defaultValue={userDetails.DOB} className="userDetails-input"
+         <input label='username' className="userDetails-input"
            type='date' onChange={(e)=>setDOB(e.target.value)} />
        </div>
 
