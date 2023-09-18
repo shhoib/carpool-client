@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import io from 'socket.io-client';
+import { useSelector } from 'react-redux'
 
 
 
@@ -16,6 +17,7 @@ const RideDetails = () => {
 
   const {id} = useParams();
   const [rideDetails, setRideDetails] = useState({})
+  const [isChat, setIsChat] = useState({})
   const [show, setShow] = useState(false);
   const [counter, setCounter] = useState(1); 
 
@@ -26,12 +28,17 @@ const RideDetails = () => {
 
   const socket = io.connect('http://localhost:3000')
 
+  const USER = useSelector((state)=>state.userAuth);
+  const userID = USER.userID;
+  const toID = rideDetails.hosterID;
+
 
   useEffect(() => { 
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`rideDetails/${id}`);
         setRideDetails(response.data.ride);
+        console.log(rideDetails.hosterID);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -62,6 +69,24 @@ const RideDetails = () => {
       setCounter(counter - 1);
     }
   };
+
+  const handleBookRide= async()=>{
+      const response = await axiosInstance.get(`/fetchChatForNotification?fromId=${userID}&toId=${toID}`)
+      setIsChat(response.data)
+    
+    const room = isChat.chat?._id;
+    console.log(room);
+
+     socket.emit('join_room',room)
+
+     const message = `${USER.name} would like to join ride you`;
+
+     await socket.emit('send_notification',message,room);
+     
+    socket.on('receive_notification',(data)=>{
+      alert(data)
+    })
+   }
 
   return (
     <Container  className=' d-flex flex-column justify-content-center align-items-center'>
