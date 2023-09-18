@@ -8,6 +8,7 @@ import axiosInstance from '../api/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
+import io from 'socket.io-client';
 
 
 
@@ -20,8 +21,11 @@ const RideDetails = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   const navigate = useNavigate();
+
+  const socket = io.connect('http://localhost:3000')
+
 
   useEffect(() => { 
     const fetchData = async () => {
@@ -40,6 +44,7 @@ const RideDetails = () => {
   const handleProfileClick = ()=> {
     navigate(`/hosterDetails/${hosterID}`)
   }
+
 
   const incrementCounter = () => {
     if(counter < rideDetails.passengers.length){
@@ -135,7 +140,7 @@ const RideDetails = () => {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}> CLOSE </Button>
-          <Button variant="primary" onClick={handleClose}>BOOK</Button>
+          <Button variant="primary" onClick={()=>handleBookRide()}>BOOK</Button>
         </Modal.Footer>
 
       </Modal>

@@ -13,7 +13,7 @@
   // console.log(api);
 
   const socket = io.connect('http://localhost:3000')
-
+  // console.log(socket);
 
   const Chat = () => {
 
@@ -69,7 +69,6 @@
       })
     }, [])  //TODO:include socket if not working
     
-    // console.log(messageList);
 
     return ( 
       <>
