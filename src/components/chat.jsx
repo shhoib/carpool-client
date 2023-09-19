@@ -1,19 +1,21 @@
   // import React from 'react'
   import {Container} from 'react-bootstrap'
   import './chat.css'
-  import io from 'socket.io-client';
+  // import io from 'socket.io-client';
   import { useState,useEffect } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
   import { useParams } from 'react-router-dom';
   import {RiSendPlaneLine} from 'react-icons/ri'
+  import socket from '../api/socketIO.js'
 
 
   // const api = import.meta.env.VITE_SOCKET_IO_URL;
   // console.log(api);
 
-  const socket = io.connect('http://localhost:3000')
-  // console.log(socket);
+  // const socket = io.connect('http://localhost:3000')
+  console.log(socket.id);
+  
 
   const Chat = () => {
 

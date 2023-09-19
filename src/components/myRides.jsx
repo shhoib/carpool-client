@@ -62,7 +62,7 @@ const MyRides = () => {
           myRides.map((hostedRides,index)=>(
           <Container className="hosted-rides" key={index}>
             <div>
-              <h6>from</h6> 
+            <h6>from: ${hostedRides.from}</h6>
             </div>
           </Container>
         )):null

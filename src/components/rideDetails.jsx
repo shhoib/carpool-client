@@ -8,8 +8,9 @@ import axiosInstance from '../api/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { useSelector } from 'react-redux'
+import socket from '../api/socketIO.js'
 
 
 
@@ -26,11 +27,12 @@ const RideDetails = () => {
   
   const navigate = useNavigate();
 
-  const socket = io.connect('http://localhost:3000')
+  // const socket = io.connect('http://localhost:3000')
 
   const USER = useSelector((state)=>state.userAuth);
   const userID = USER.userID;
   const toID = rideDetails.hosterID;
+  const socketID = '3dyPElorb3jjFbpgAABL';
 
 
   useEffect(() => { 
@@ -38,7 +40,6 @@ const RideDetails = () => {
       try {
         const response = await axiosInstance.get(`rideDetails/${id}`);
         setRideDetails(response.data.ride);
-        console.log(rideDetails.hosterID);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -71,21 +72,29 @@ const RideDetails = () => {
   };
 
   const handleBookRide= async()=>{
-      const response = await axiosInstance.get(`/fetchChatForNotification?fromId=${userID}&toId=${toID}`)
-      setIsChat(response.data)
-    
-    const room = isChat.chat?._id;
-    console.log(room);
-
-     socket.emit('join_room',room)
 
      const message = `${USER.name} would like to join ride you`;
 
-     await socket.emit('send_notification',message,room);
+
+    await socket.emit('send_notification',{message,socketID})
+    await socket.on('receive_notification',(data)=>{
+        alert(data)
+        console.log(data);
+    });
+    //   const response = await axiosInstance.get(`/fetchChatForNotification?fromId=${userID}&toId=${toID}`)
+    //   setIsChat(response.data)
+    
+    // const room = isChat.chat?._id;
+    // console.log(room);
+
+    //  socket.emit('join_room',room)
+
+
+    //  await socket.emit('send_notification',message,room);
      
-    socket.on('receive_notification',(data)=>{
-      alert(data)
-    })
+    // socket.on('receive_notification',(data)=>{
+    //   alert(data)
+    // })
    }
 
   return (
