@@ -26,5 +26,26 @@
   font-weight: bold; /* Make the selected tab bold if desired */
 }
 .hosted-rides{
-  background-color: #007bff;
+  /* background-color: #007bff; */
+  /* background-color: #e2dfdf; */
+    /* color: #333; */
+    transition: border-color 0.3s ease-in-out;
+    transition: all 0.6s ease; 
+    border-radius: 15px;
+}
+.hosted-rides:hover{
+  transform: scale(1);
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);  
+}
+.line{
+  width: 60%;
+  border: 1px;
+  border-top: 2px solid #585858;
+  margin: 0 auto;
+  
+}
+.no-rides{
+  color: #585858;
+  font-weight: 500;
 }
