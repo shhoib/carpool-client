@@ -45,7 +45,7 @@ const MyRides = () => {
     };
     rides();
   }, []); //TODO: is there a use of this [USER.userID]
-
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -59,7 +59,7 @@ const MyRides = () => {
         <Box className="tablist-container d-flex align-items-center justify-content-center" sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList className='tablist' onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Hosted Rides" value="1" />
-            <Tab  label="current Rides" value="2" />
+            <Tab  label="active Rides" value="2" />
             <Tab label="Joined Rides" value="3" />
           </TabList>
         </Box>
@@ -113,7 +113,10 @@ const MyRides = () => {
             <hr className="line"/>
           </Container>
             :null
-        )):null
+        )):
+        <Container className="d-flex flex-column align-items-center">
+          <h2 className="no-rides">No active rides available.</h2>
+        </Container>
         }
         </TabPanel>
 
@@ -136,7 +139,12 @@ const MyRides = () => {
             </div>
             <hr className="line"/>
           </Container>
-        )):null
+        )):
+        <Container className="d-flex flex-column align-items-center">
+          <h2 className="no-rides">You havent joined any rides</h2>
+          <h5>Click here to join your first ride...</h5>
+          <h1 onClick={()=>navigate('/joinRide')}><BsPlusCircle/></h1>
+        </Container>
         }
         </TabPanel>
       </TabContext>
