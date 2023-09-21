@@ -1,7 +1,7 @@
 .user-profile-image{
     width: 8rem;
     height: 8rem;
-    background-image: url('https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745');
+    /* background-image: url('https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'); */
     background-size: cover;
     background-position: center;
     border-radius: 100px;

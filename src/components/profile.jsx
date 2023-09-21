@@ -8,7 +8,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-
+import axios from 'axios'
 
 
 const Profile = () => {
@@ -16,6 +16,8 @@ const Profile = () => {
   const userDetails = useSelector((state)=>state.userAuth)
 
   const [show, setShow] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [responseImageURL, setResponseImageURL] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,6 +28,36 @@ const Profile = () => {
     Navigate(`/EditPersonalDetails`)
   }
 
+  const handleChangeProfile = (e)=>{
+    setProfileImage(e.target.files[0])
+  }
+  // console.log(profilePic);
+
+  const handleUploadImage = async()=>{
+    const data = {
+     file:profileImage
+    }
+    const formDataToSend = new FormData();
+
+    for (const key in data){
+      if(key === 'file'){
+        formDataToSend.append('profilePic',data.file)
+      }
+    }
+
+    try {
+      const response = await axios.post('http://localhost:3000/uploadImage',formDataToSend,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+      })
+      setResponseImageURL(response.data)
+      console.log(response);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -36,7 +68,7 @@ const Profile = () => {
 
     <Container className="d-flex mt- justify-content-around align-items-center">
         <h1 className="m-5">{userDetails.name}</h1>
-        <div className="user-profile-image" ></div>   
+        <div className="user-profile-image" style={{backgroundImage: `url(${responseImageURL})`}}></div>
     </Container>
 
     <Container className="profile-and-rating d-flex flex-column my-3">
@@ -98,12 +130,12 @@ const Profile = () => {
 
       <Modal.Body>
       <h6>choose a file to upload</h6>
-      <input type="file" />
+      <input type="file" onChange={(e)=>handleChangeProfile(e)} />
       </Modal.Body>
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}> CLOSE </Button>
-        <Button variant="primary" onClick={handleClose}>UPLOAD</Button>
+        <Button variant="primary" onClick={handleUploadImage}>UPLOAD</Button>
       </Modal.Footer>
 
       </Modal>

@@ -18,7 +18,7 @@ const RideDetails = () => {
 
   const {id} = useParams();
   const [rideDetails, setRideDetails] = useState({})
-  const [isChat, setIsChat] = useState({})
+  // const [isChat, setIsChat] = useState({})
   const [show, setShow] = useState(false);
   const [counter, setCounter] = useState(1); 
 
@@ -32,7 +32,8 @@ const RideDetails = () => {
   const USER = useSelector((state)=>state.userAuth);
   const userID = USER.userID;
   const toID = rideDetails.hosterID;
-  const socketID = '3dyPElorb3jjFbpgAABL';
+  const socketID = 'GoEAax5-D0mqO2CVAAAF';
+  console.log(socket.id);
 
 
   useEffect(() => { 
@@ -71,16 +72,13 @@ const RideDetails = () => {
     }
   };
 
-  const handleBookRide= async()=>{
+  const handleBookRide= ()=>{
 
      const message = `${USER.name} would like to join ride you`;
 
 
-    await socket.emit('send_notification',{message,socketID})
-    await socket.on('receive_notification',(data)=>{
-        alert(data)
-        console.log(data);
-    });
+     socket.emit('send_notification',{message,socketID})
+     
     //   const response = await axiosInstance.get(`/fetchChatForNotification?fromId=${userID}&toId=${toID}`)
     //   setIsChat(response.data)
     
@@ -96,6 +94,15 @@ const RideDetails = () => {
     //   alert(data)
     // })
    }
+   
+   useEffect(()=>{
+
+     socket.on('receive_notification',(data)=>{
+       alert(data)
+       console.log(data);
+    },[])
+     
+});
 
   return (
     <Container  className=' d-flex flex-column justify-content-center align-items-center'>
