@@ -1,26 +1,33 @@
-import { Container,Button } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 import './profile.css'
 import {BiPlusCircle} from 'react-icons/bi'
 import {AiFillEdit} from 'react-icons/ai'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {GiReceiveMoney} from 'react-icons/gi'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import Modal from 'react-bootstrap/Modal';
 import axios from 'axios'
+import { updateProfile } from '../redux/userSlice';
+import { MDBBtn,MDBModal,MDBModalDialog, MDBModalContent, MDBModalHeader,
+   MDBModalTitle, MDBModalBody, MDBModalFooter,} from 'mdb-react-ui-kit';
+import { AxiosInstance } from "axios"
 
 
 const Profile = () => {
 
   const userDetails = useSelector((state)=>state.userAuth)
+  console.log(userDetails);
+  console.log(userDetails.profile);
 
-  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+
+
   const [profileImage, setProfileImage] = useState(null);
-  const [responseImageURL, setResponseImageURL] = useState('');
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [basicModal, setBasicModal] = useState(false);
+
+  const toggleShow = () => setBasicModal(!basicModal);
 
   const Navigate = useNavigate();
 
@@ -31,7 +38,6 @@ const Profile = () => {
   const handleChangeProfile = (e)=>{
     setProfileImage(e.target.files[0])
   }
-  // console.log(profilePic);
 
   const handleUploadImage = async()=>{
     const data = {
@@ -51,9 +57,9 @@ const Profile = () => {
           'Content-Type':'multipart/form-data'
         }
       })
-      setResponseImageURL(response.data)
-      console.log(response);
-      handleClose();
+      console.log(userDetails);
+      dispatch(updateProfile({ profile: response.data }));
+      toggleShow();
     } catch (error) {
       console.log(error);
     }
@@ -68,12 +74,12 @@ const Profile = () => {
 
     <Container className="d-flex mt- justify-content-around align-items-center">
         <h1 className="m-5">{userDetails.name}</h1>
-        <div className="user-profile-image" style={{backgroundImage: `url(${responseImageURL})`}}></div>
+        <div className="user-profile-image" style={{backgroundImage: `url(${userDetails.profile})`}}></div>
     </Container>
 
     <Container className="profile-and-rating d-flex flex-column my-3">
 
-      <div onClick={handleShow} className="add-profile-section p-1 d-flex justify-content-between">
+      <div onClick={toggleShow} className="add-profile-section p-1 d-flex justify-content-between">
        <div className="  d-flex align-items-center my-">
         <h2 className="mx-3"><BiPlusCircle/></h2>
         <h5>Add profile picture</h5>
@@ -124,13 +130,10 @@ const Profile = () => {
         <h4><MdKeyboardArrowRight/></h4>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
-
+      {/* <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton> </Modal.Header>
-
       <Modal.Body>
-      <h6>choose a file to upload</h6>
-      <input type="file" onChange={(e)=>handleChangeProfile(e)} />
+     
       </Modal.Body>
 
       <Modal.Footer>
@@ -138,7 +141,29 @@ const Profile = () => {
         <Button variant="primary" onClick={handleUploadImage}>UPLOAD</Button>
       </Modal.Footer>
 
-      </Modal>
+      </Modal> */}
+
+
+      <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalHeader className="header">
+              <MDBModalTitle > </MDBModalTitle>
+              <MDBBtn className='btn-close' color='white' onClick={toggleShow}></MDBBtn>
+            </MDBModalHeader>
+
+            <MDBModalBody>
+            <h5>choose a file to upload</h5>
+          <input type="file" onChange={(e)=>handleChangeProfile(e)} />
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={toggleShow}>CLOSE</MDBBtn>
+              <MDBBtn onClick={handleUploadImage}>UPLOAD</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
     </Container>
     
     </>
