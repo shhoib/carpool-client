@@ -11,14 +11,15 @@ import axios from 'axios'
 import { updateProfile } from '../redux/userSlice';
 import { MDBBtn,MDBModal,MDBModalDialog, MDBModalContent, MDBModalHeader,
    MDBModalTitle, MDBModalBody, MDBModalFooter,} from 'mdb-react-ui-kit';
-import { AxiosInstance } from "axios"
+// import { AxiosInstance } from "axios"
 
 
 const Profile = () => {
 
   const userDetails = useSelector((state)=>state.userAuth)
-  console.log(userDetails);
-  console.log(userDetails.profile);
+  // console.log(userDetails);
+  const userID = userDetails.userID;
+  // console.log(userDetails.profile);
 
   const dispatch = useDispatch();
 
@@ -52,7 +53,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/uploadImage',formDataToSend,{
+      const response = await axios.post(`http://localhost:3000/uploadImage?id=${userID}`,formDataToSend,{
         headers:{
           'Content-Type':'multipart/form-data'
         }

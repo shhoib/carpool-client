@@ -55,15 +55,17 @@ const Login = () => {
       try{
         const response = await axiosInstance.post('/login/googleAuth',user);
 
+        const phoneNumber = response.data.user.phoneNumber;
+        const DOB = response.data.user.DOB;
         const token = response.data.token;
         const userID = response.data.user._id;
         const emailVerified = response.data.user.emailVerified;
         const phoneNumberVerified = response.data.user.phoneNumberVerified;
-        const profile = data.user.photoURL;
+        const profile = response.data.user.photoURL;
 
         if(response.status==201){
           dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID,
-            profile:profile,emailVerified,phoneNumberVerified}))
+            profile:profile,emailVerified,phoneNumberVerified,}))
            toast.success(response.data.message,{
           autoClose:1500,
           onClose:()=>{
@@ -90,15 +92,20 @@ const Login = () => {
         const response = await axiosInstance.post('/login', body);
         console.log(response.data);
 
-
-        const username = response.data.user.username;
-        const token = response.data.token;
+        const email = response.data.user.email
+        const username = response.data.user.user.name;
+        const token = response.data.user.token;
         const userID = response.data.user._id;
         const emailVerified = response.data.user.emailVerified;
         const phoneNumberVerified = response.data.user.phoneNumberVerified;
+        const phoneNumber = response.data.user.phoneNumber;
+        const DOB = response.data.user.DOB;
+        const profile = response.data.user.photoURL;
+
 
         if (response.status == 200) {
-          dispatch(userLogin({email,username,token,userID,emailVerified,phoneNumberVerified}))
+          dispatch(userLogin({email,username,token,userID,emailVerified,
+            phoneNumberVerified,phoneNumber,DOB,profile}))
           toast.success(response.data.message, {
                 autoClose: 1500,
                 onClose: () => {
