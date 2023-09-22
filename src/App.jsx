@@ -18,6 +18,7 @@ import RideDetails from './components/rideDetails';
 import HosterDetails from './components/hosterDetails';
 import EditPersonalDetails from './components/personalDetails';
 import ChangePassword from './components/changePassword';
+import Notifications from './components/notifications';
 import MyRides from './components/myRides';
 import Chat from './components/chat';
 import Inbox from './components/inbox';
@@ -49,6 +50,7 @@ function App() {
           <Route path="/Chat/:id" element={ userAuth ? <Chat />: <Navigate to='/login'/> } />
           <Route path="/MyRides" element={ userAuth ? <MyRides />: <Navigate to='/login'/> } />
           <Route path="/Inbox" element={ userAuth ? <Inbox />: <Navigate to='/login'/> } />
+          <Route path="/Notifications" element={ userAuth ? <Notifications />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      

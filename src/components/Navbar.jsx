@@ -70,6 +70,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../redux/userSlice';
 import './navbar.css'
+import { MDBBadge, MDBIcon } from 'mdb-react-ui-kit';
+
 
 
 
@@ -164,7 +166,12 @@ function NavigationBar() {
 
 
 
-
+      
+        <h4 onClick={()=>navigate('/notifications')}>
+        <MDBIcon fas icon='envelope' size='lg' color='light'/>
+        <MDBBadge color='danger' dot />
+        </h4>
+       
            <Box sx={{ flexGrow: 0 }}>  
               <IconButton className='px-5' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={profile?profile:''} />
