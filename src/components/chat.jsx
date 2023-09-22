@@ -35,7 +35,7 @@
 
     useEffect(()=>{
       const fetchChat = async()=>{
-        const response = await axiosInstance.get(`/fetchChat?fromId=${userID}&toId=${id}`)
+        // const response = await axiosInstance.get(`/fetchChat?fromId=${userID}&toId=${id}`)
         if(response.status==200){
           setChatDetails(response.data)
         }else{
@@ -99,8 +99,19 @@
     return ( 
       <>
       {/* {loading ? 
-      <p>loading...</p>: */}      
-    <Container className='chat-container'>
+      <p>loading...</p>: */}   
+    <div className='whole-chat-container d-flex'>
+      <div className='previous-chats'>
+        <div className='chat-heading p-2'><h2 className='chats'>CHATS</h2></div>
+         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
+         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
+         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
+         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
+         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
+         
+        
+      </div>
+    <div className='chat-container d-flex flex-column justify-content-center align-items-center'>
 
         <Container className='messages-container'>
         {messageList.map((messages, index)=>(
@@ -131,7 +142,8 @@
       <button className='sendButton' onClick={()=>sendMessage()}>Send <RiSendPlaneLine/></button>
       </Container>
 
-    </Container>
+    </div>
+    </div>   
       {/* } */}
       </>
     )
