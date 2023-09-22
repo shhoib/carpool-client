@@ -10,12 +10,6 @@
   import socket from '../api/socketIO.js'
   import Lottie from 'react-lottie'
   import loading from '../animations/typing.json'
-
-
-  // const api = import.meta.env.VITE_SOCKET_IO_URL;
-  // console.log(api);
-
-  // const socket = io.connect('http://localhost:3000')
   
 
   const Chat = () => {
@@ -25,6 +19,8 @@
     const [chatDetails, setChatDetails] = useState({})
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
+    const [previousChats, setPreviousChats] = useState([])
+
 
     const USER = useSelector((state)=>state.userAuth);
     const userID = USER.userID 
@@ -35,7 +31,7 @@
 
     useEffect(()=>{
       const fetchChat = async()=>{
-        // const response = await axiosInstance.get(`/fetchChat?fromId=${userID}&toId=${id}`)
+        const response = await axiosInstance.get(`/fetchChat?fromId=${userID}&toId=${id}`)
         if(response.status==200){
           setChatDetails(response.data)
         }else{
@@ -43,11 +39,16 @@
         }
       }
       fetchChat();
+      
+      const fetchPreviuosChatDetails = async()=>{
+        const response = await axiosInstance.get(`fetchPreviuosChatDetails?userID=${userID}`)
+        setPreviousChats(response.data.chattedUsers);
+        }   
+        fetchPreviuosChatDetails();
   
     },[])
 
     const room = chatDetails.chat?._id;
-    // console.log(room);    
 
     useEffect(()=>{
       socket.emit('join_room',room)
@@ -95,7 +96,7 @@
         }
       }, timerLength);
     }
-
+// console.log(previousChats[0].name);
     return ( 
       <>
       {/* {loading ? 
@@ -103,12 +104,16 @@
     <div className='whole-chat-container d-flex'>
       <div className='previous-chats'>
         <div className='chat-heading p-2'><h2 className='chats'>CHATS</h2></div>
-         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
-         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
-         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
-         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
-         <div className='each-chat px-2 py-1 my-2'><div className='profile_in_chat'></div><h5>shuaib</h5></div>
-         
+        
+        <input type="text" className="search-box" placeholder="Search users..."/>
+
+        {previousChats?.map((chattedUser,index)=>(
+         <div key={index} className='each-chat px-2 py-1 my-2'>
+         <div className='profile_in_chat' style={{backgroundImage:`url(${chattedUser?.profileURL})`}}></div>
+         <h5>{chattedUser?.name}</h5>
+         </div>
+        ))
+        }      
         
       </div>
     <div className='chat-container d-flex flex-column justify-content-center align-items-center'>

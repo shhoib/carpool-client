@@ -1,4 +1,3 @@
-// import React from 'react'
 import {Container,Button} from 'react-bootstrap'
 import './rideDetails.css'
 import {MdKeyboardArrowRight} from 'react-icons/md'
@@ -8,9 +7,7 @@ import axiosInstance from '../api/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
-// import io from 'socket.io-client';
 import { useSelector } from 'react-redux'
-import socket from '../api/socketIO.js'
 
 
 
@@ -27,13 +24,11 @@ const RideDetails = () => {
   
   const navigate = useNavigate();
 
-  // const socket = io.connect('http://localhost:3000')
 
   const USER = useSelector((state)=>state.userAuth);
   const userID = USER.userID;
   const toID = rideDetails.hosterID;
-  const socketID = 'GoEAax5-D0mqO2CVAAAF';
-  console.log(socket.id);
+
 
 
   useEffect(() => { 
@@ -56,7 +51,7 @@ const RideDetails = () => {
 
 
   const incrementCounter = () => {
-    if(counter < rideDetails.passengers.length){
+    if(counter < rideDetails.passengers){
     setCounter(counter + 1);
     }else {
     toast.warn(`only ${rideDetails.passengers} seat available`, {
@@ -72,37 +67,21 @@ const RideDetails = () => {
     }
   };
 
-  const handleBookRide= ()=>{
-
-     const message = `${USER.name} would like to join ride you`;
-
-
-     socket.emit('send_notification',{message,socketID})
-     
-    //   const response = await axiosInstance.get(`/fetchChatForNotification?fromId=${userID}&toId=${toID}`)
-    //   setIsChat(response.data)
-    
-    // const room = isChat.chat?._id;
-    // console.log(room);
-
-    //  socket.emit('join_room',room)
-
-
-    //  await socket.emit('send_notification',message,room);
-     
-    // socket.on('receive_notification',(data)=>{
-    //   alert(data)
-    // })
+  const handleBookRide= async()=>{
+    const message = `${USER.name} would like to join ride you`;
+    const sendingObject = {
+      senderID : userID,
+      receiverID : toID,
+      message:message
+    }
+    try{
+      const response = await axiosInstance.post('/sendNotification',sendingObject) 
+      console.log(response.data);
+    }catch(error){
+      console.log(error);
+    }
    }
    
-   useEffect(()=>{
-
-     socket.on('receive_notification',(data)=>{
-       alert(data)
-       console.log(data);
-    },[])
-     
-});
 
   return (
     <Container  className=' d-flex flex-column justify-content-center align-items-center'>
