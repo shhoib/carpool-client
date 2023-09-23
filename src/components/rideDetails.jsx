@@ -74,7 +74,8 @@ const RideDetails = () => {
       senderID : userID,
       receiverID : toID,
       message:message,
-      senderName:USER.name
+      senderName:USER.name,
+      type:'request', 
     }
     try{
       const response = await axiosInstance.post('/sendNotification',sendingObject) 
