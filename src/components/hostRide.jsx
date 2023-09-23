@@ -54,7 +54,8 @@ const HostRide = () => {
       vehicle: vehicle,
       amount: amount,
       hoster:USER.name,
-      hosterID:USER.userID
+      hosterID:USER.userID,
+      status:"hosted"
     };
     console.log(USER.userID);
 

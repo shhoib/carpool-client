@@ -21,9 +21,7 @@ const Notifications = () => {
     useEffect(() => {
       const fetchNotification = async () => {
         const response = await axiosInstance.get(`/fetchNotification?id=${userID}`);
-    
-        // const { notifications } = response?.data?.notification;
-    
+        
         const requestNotifications = response?.data?.notification?.notifications.filter(
           (noti) => noti.notificationType === 'request'
         );
@@ -40,26 +38,92 @@ const Notifications = () => {
     }, [userID]);
     
 
-        // console.log(requestNotifications?.notifications);
         console.log(acceptNotifications);
         console.log(requestNotifications);
 
-        const handleAcceptRide= async(noti)=>{
-          // console.log(noti);
+        const handleAcceptRide = async (noti) => {
           const acceptObject = {
             message: `${userNAME} accepted your join request`,
+            senderName: userNAME,
+            senderID: userID,
+            type: 'accept',
+            receiverID: noti.senderID
+          };
+        
+          try {
+            const response = await axiosInstance.post('/sendNotification', acceptObject);
+            console.log(response.data);
+        
+            const deleteNotification = async () => {
+              try {
+                const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
+                console.log(response.data);
+        
+                // Update both requestNotifications and acceptNotifications states
+                setRequestNotifications((prevNotifications) =>
+                  prevNotifications.filter((notification) => notification._id !== noti._id)
+                );
+        
+                setAcceptNotifications((prevNotifications) =>
+                  prevNotifications.filter((notification) => notification._id !== noti._id)
+                );
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            deleteNotification();
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        
+
+        const handleRejectRide = async(noti)=>{
+          const acceptObject = {
+            message: `${userNAME} rejected your join request`,
             senderName:userNAME,
             senderID:userID,
             type:'accept',
-            receiverID:noti.senderID
+            receiverID:noti.senderID,
           }
             const response = await axiosInstance.post('/sendNotification',acceptObject)
             console.log(response.data);
+
+            const deleteNotification = async()=>{
+              try{
+                const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
+                console.log(response.data);
+                setRequestNotifications((prevNotifications) =>
+               prevNotifications.filter((notification) => notification._id !== noti._id)
+               );
+              }catch(error){
+                console.log(error);
+              }
+            }
+            deleteNotification();
         }
 
+        const handleDelete = async (noti) => {
+          try {
+            const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
+            console.log(response.data);
+        
+            setRequestNotifications((prevNotifications) =>
+              prevNotifications.filter((notification) => notification._id !== noti._id)
+            );
+        
+            setAcceptNotifications((prevNotifications) =>
+              prevNotifications.filter((notification) => notification._id !== noti._id)
+            );
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        
+
+
         return (
-  <div>
-  
+     <div>
       <Container>
         <Container className='d-flex justify-content-center p-3'>
           <h2>Your Notifications</h2>
@@ -75,7 +139,7 @@ const Notifications = () => {
            <MDBIcon fas icon="user" /> view profile</MDBBtn>
            </div>
             <div>
-            <MDBBtn className='me-1' color='danger'><MDBIcon fas icon="ban" /> REJECT </MDBBtn>
+            <MDBBtn onClick={()=>handleRejectRide(noti)} className='me-1' color='danger'><MDBIcon fas icon="ban" /> REJECT </MDBBtn>
             <MDBBtn onClick={()=>handleAcceptRide(noti)} className='me-1' color='success'><MDBIcon far icon="check-circle" /> ACCEPT </MDBBtn>
             </div>
             </div>
@@ -88,13 +152,12 @@ const Notifications = () => {
            <MDBIcon fas icon="user" /> view profile</MDBBtn>
            </div>
             <div>
-            <MDBBtn className='me-1' color='success'><MDBIcon far icon="check-circle" /> OK </MDBBtn>
+            <MDBBtn onClick={()=>handleDelete(noti)} className='me-1' color='success'><MDBIcon far icon="check-circle" /> OK </MDBBtn>
             </div>
             </div>
           ))}
         </Container>
       </Container>
-    
   </div>
 );
 
