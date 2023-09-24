@@ -19,7 +19,6 @@ const Profile = () => {
   const userDetails = useSelector((state)=>state.userAuth)
   // console.log(userDetails);
   const userID = userDetails.userID;
-  // console.log(userDetails.profile);
 
   const dispatch = useDispatch();
 

@@ -28,7 +28,6 @@ const RideDetails = () => {
   const USER = useSelector((state)=>state.userAuth);
   const userID = USER.userID;
   const toID = rideDetails.hosterID;
-  console.log(USER.name);
 
 
 
@@ -76,6 +75,7 @@ const RideDetails = () => {
       message:message,
       senderName:USER.name,
       type:'request', 
+      rideID:id
     }
     try{
       const response = await axiosInstance.post('/sendNotification',sendingObject) 

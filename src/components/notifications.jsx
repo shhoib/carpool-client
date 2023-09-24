@@ -21,13 +21,14 @@ const Notifications = () => {
     useEffect(() => {
       const fetchNotification = async () => {
         const response = await axiosInstance.get(`/fetchNotification?id=${userID}`);
+        // console.log(response.data);
         
-        const requestNotifications = response?.data?.notification?.notifications.filter(
-          (noti) => noti.notificationType === 'request'
+        const requestNotifications = response?.data?.notification?.notifications?.filter(
+          (noti) => noti?.notificationType === 'request'
         );
     
-        const acceptNotifications = response?.data?.notification?.notifications.filter(
-          (noti) => noti.notificationType !== 'request'
+        const acceptNotifications = response?.data?.notification?.notifications?.filter(
+          (noti) => noti?.notificationType !== 'request'
         );
     
         setRequestNotifications(requestNotifications);
@@ -38,17 +39,20 @@ const Notifications = () => {
     }, [userID]);
     
 
-        console.log(acceptNotifications);
-        console.log(requestNotifications);
+        // console.log(acceptNotifications);
+        // console.log(requestNotifications);
 
         const handleAcceptRide = async (noti) => {
+          // console.log(noti.senderID);
           const acceptObject = {
             message: `${userNAME} accepted your join request`,
             senderName: userNAME,
             senderID: userID,
             type: 'accept',
-            receiverID: noti.senderID
+            receiverID: noti.senderID,
+            rideID:noti.rideID
           };
+          console.log(acceptObject.receiverID);
         
           try {
             const response = await axiosInstance.post('/sendNotification', acceptObject);
@@ -59,19 +63,26 @@ const Notifications = () => {
                 const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
                 console.log(response.data);
         
-                // Update both requestNotifications and acceptNotifications states
                 setRequestNotifications((prevNotifications) =>
-                  prevNotifications.filter((notification) => notification._id !== noti._id)
+                  prevNotifications?.filter((notification) => notification?._id !== noti._id)
                 );
         
                 setAcceptNotifications((prevNotifications) =>
-                  prevNotifications.filter((notification) => notification._id !== noti._id)
+                  prevNotifications?.filter((notification) => notification?._id !== noti._id)
                 );
               } catch (error) {
                 console.log(error);
               }
             };
+
+            // console.log(noti.rideID);
+            const rideID = noti.rideID
+            const changeStatus = await axiosInstance.post(`/changeRideStatus`,{rideID})
+            console.log(changeStatus.data);
+
+            changeStatus();
             deleteNotification();
+
           } catch (error) {
             console.log(error);
           }
@@ -94,7 +105,7 @@ const Notifications = () => {
                 const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
                 console.log(response.data);
                 setRequestNotifications((prevNotifications) =>
-               prevNotifications.filter((notification) => notification._id !== noti._id)
+               prevNotifications?.filter((notification) => notification?._id !== noti._id)
                );
               }catch(error){
                 console.log(error);
@@ -102,18 +113,18 @@ const Notifications = () => {
             }
             deleteNotification();
         }
-
+  
         const handleDelete = async (noti) => {
           try {
             const response = await axiosInstance.delete(`/deleteNotification/${noti._id}`);
             console.log(response.data);
         
             setRequestNotifications((prevNotifications) =>
-              prevNotifications.filter((notification) => notification._id !== noti._id)
+              prevNotifications?.filter((notification) => notification._id !== noti._id)
             );
         
             setAcceptNotifications((prevNotifications) =>
-              prevNotifications.filter((notification) => notification._id !== noti._id)
+              prevNotifications?.filter((notification) => notification._id !== noti._id)
             );
           } catch (error) {
             console.log(error);
@@ -124,6 +135,11 @@ const Notifications = () => {
 
         return (
      <div>
+     {requestNotifications?.length<=0 && acceptNotifications?.length<=0?(
+      <Container className='d-flex justify-content-center align-items-center' style={{width:'100%',height:'100vh'}}>
+      <h1><MDBIcon fas icon="bell-slash" /> No new Notifications</h1></Container>
+     ):(
+
       <Container>
         <Container className='d-flex justify-content-center p-3'>
           <h2>Your Notifications</h2>
@@ -158,6 +174,7 @@ const Notifications = () => {
           ))}
         </Container>
       </Container>
+     )}
   </div>
 );
 

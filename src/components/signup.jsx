@@ -19,6 +19,7 @@ import {Button} from 'react-bootstrap'
 import axiosInstance from '../api/axios'
 import {useDispatch} from 'react-redux';
 import { userLogin } from '../redux/userSlice';
+import { updateProfile } from '../redux/userSlice';
 
 
 const Signup = () => {
@@ -88,13 +89,17 @@ const Signup = () => {
     try {
       const signupDetails = { email,password,username,phoneNumber}
       const response = await axiosInstance.post("/signup",signupDetails)
+      console.log(response.data);
       const token = response.data.token;
       const userID = response.data.userID;
+      const profileURL = response.data.existingUser.profileURL;
 
       if(response.status==201){
 
          dispatch(userLogin({email,username,token,userID,phoneNumber,
           emailVerified:false,phoneNumberVerified:false}))
+
+          dispatch(updateProfile({profile:profileURL}))
           
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -105,6 +110,7 @@ const Signup = () => {
         })}else{
           dispatch(userLogin({email,username,token,userID,emailVerified:false,phoneNumberVerified:false,
             phoneNumber}))
+            dispatch(updateProfile({profile:profileURL}))
          toast.warn('user already registered!  logging in', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,

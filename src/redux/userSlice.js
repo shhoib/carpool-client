@@ -15,7 +15,6 @@ export const userAuthSlice = createSlice({
     initialState: INITIAL_STATE,
     reducers:{
         userLogin:(state,action)=>{
-        console.log('in slice', state);
 
             const IsEmailVerified = action.payload.emailVerified ? true : false;
             const IsphoneNumberVerified = action.payload.phoneNumberVerified ? true : false;
@@ -31,7 +30,6 @@ export const userAuthSlice = createSlice({
            
         },
         updateProfile: (state, action) => {
-            // console.log('payload in slice',);
             state.profile = action.payload.profile;
         },
         userLogout : (state)=>{
