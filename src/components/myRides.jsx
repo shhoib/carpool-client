@@ -32,6 +32,7 @@ const MyRides = () => {
 
     const USER = useSelector((state)=>state.userAuth);
     const userID = USER.userID
+
       const [value, setValue] = useState(1);
       const [myRides,setMyRides] = useState([])
       const [joinedRides,setJoinedRides] = useState([])
@@ -39,14 +40,12 @@ const MyRides = () => {
       const [selectedRating, setSelectedRating] = useState(4);
       const [aboutRide, setAboutRide] = useState('');
 
+
       const changeToggle=()=> setToggleState(!toggleState)
-      console.log(aboutRide);
 
-
-
-      // useEffect(() => {
-      // setValue("1");
-      // }, []);
+      useEffect(() => {
+      setValue("1");
+      }, []);
 
       const navigate = useNavigate();
 
@@ -111,8 +110,21 @@ const MyRides = () => {
         value: PropTypes.number.isRequired,
       };
 
-      const handleRating= async()=>{
-        
+      const handleRating= async(hostedRides)=>{
+        // console.log(hostedRides);
+        const reviewDetails = {
+          toUserID:hostedRides.hosterID,
+          ratedByID:userID,
+          ratedImogi:selectedRating,
+          aboutRide:aboutRide
+        }
+
+        try {
+          const response = await axiosInstance.post('/review',reviewDetails)
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
 
   return (
@@ -197,7 +209,7 @@ const MyRides = () => {
                       <div>
                    <StyledRating className="mx-3" name="highlight-selected-only"defaultValue={4} IconContainerComponent={IconContainer}
                       getLabelText={(value) => customIcons[value].label} highlightSelectedOnly onChange={handleRatingChange}/>
-                   <MDBBtn className="m-2"  color='success' onClick={handleRating}>Rate Your co-Rider</MDBBtn>  
+                   <MDBBtn className="m-2"  color='success' onClick={()=>handleRating(hostedRides)}>Rate Your co-Rider</MDBBtn>  
                        </div>                              
                      </div>
                   </div>

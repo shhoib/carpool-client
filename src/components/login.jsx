@@ -41,7 +41,8 @@ const Login = () => {
         const body = { email:values.email, password:values.password };
         const response = await axiosInstance.post('/login', body);
         console.log(response.data);
-
+        
+        if (response.status == 200) {
         const email = response.data.user.email
         const username = response.data.user.user.name;
         const token = response.data.user.token;
@@ -53,7 +54,6 @@ const Login = () => {
         const profile = response.data.user.photoURL;
 
 
-        if (response.status == 200) {
           dispatch(userLogin({email,username,token,userID,emailVerified,
             phoneNumberVerified,phoneNumber,DOB,profile}))
           toast.success(response.data.message, {
