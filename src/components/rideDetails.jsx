@@ -83,6 +83,7 @@ const RideDetails = () => {
     }catch(error){
       console.log(error);
     }
+    handleClose();
    }
    
 

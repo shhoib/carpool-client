@@ -57,7 +57,6 @@ const HostRide = () => {
       hosterID:USER.userID,
       status:"hosted"
     };
-    console.log(USER.userID);
 
     if (from === '' || to === '' || dateValue === '' || passengersValue === '' || amount === '') {
       toast.error("Please fill in all details");

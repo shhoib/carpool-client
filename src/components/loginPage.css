@@ -55,6 +55,14 @@
     transform: scale(1.05);
 
 }
+.input-error{
+    /* background-color: red;
+    border-color: red; */
+
+}
+.error{
+    color: rgb(245, 41, 41);
+}
   
  @media(max-width:600px){
         h2{

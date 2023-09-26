@@ -43,7 +43,6 @@ const Notifications = () => {
         // console.log(requestNotifications);
 
         const handleAcceptRide = async (noti) => {
-          // console.log(noti.senderID);
           const acceptObject = {
             message: `${userNAME} accepted your join request`,
             senderName: userNAME,
@@ -52,7 +51,7 @@ const Notifications = () => {
             receiverID: noti.senderID,
             rideID:noti.rideID
           };
-          console.log(acceptObject.receiverID);
+          // console.log(acceptObject.receiverID);
         
           try {
             const response = await axiosInstance.post('/sendNotification', acceptObject);
@@ -77,10 +76,10 @@ const Notifications = () => {
 
             // console.log(noti.rideID);
             const rideID = noti.rideID
-            const changeStatus = await axiosInstance.post(`/changeRideStatus`,{rideID})
+            const changeStatus = await axiosInstance.post(`/changeRideStatus`,{rideID,receiverID:noti.senderID})
             console.log(changeStatus.data);
 
-            changeStatus();
+            // changeStatus();
             deleteNotification();
 
           } catch (error) {

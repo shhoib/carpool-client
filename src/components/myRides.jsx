@@ -23,6 +23,9 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import { MDBSwitch } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter,} from 'mdb-react-ui-kit';
+
 
 
 
@@ -33,6 +36,11 @@ const MyRides = () => {
       const [value, setValue] = useState(1);
       const [myRides,setMyRides] = useState([])
       const [joinedRides,setJoinedRides] = useState([])
+      // const [toggleState, setToggleState] = useState(false);
+      const [basicModal, setBasicModal] = useState(false);
+
+      const toggleShow = () => setBasicModal(!basicModal);
+
 
       useEffect(() => {
       setValue("1");
@@ -53,7 +61,9 @@ const MyRides = () => {
       }
     };
     rides();
-    }, []); //TODO: is there a use of this [USER.userID]
+    }, [userID]);
+
+    // console.log(myRides);
     
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -97,7 +107,6 @@ const MyRides = () => {
         value: PropTypes.number.isRequired,
       };
 
-
   return (
     <>
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -110,14 +119,16 @@ const MyRides = () => {
           </TabList>
         </Box>
 
+
+      {/* ////////1st tab///////// */}
         <TabPanel value="1">
         {myRides.length>0?
           myRides.map((hostedRides,index)=>(
           <Container key={index}>
           <div className="hosted-rides d-flex justify-content-center" >
             <div className="p-3">
-            <h5 className="p-2"><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
-            <h5 className="p-2"><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
             <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
             </div>
 
@@ -138,15 +149,51 @@ const MyRides = () => {
         }
         </TabPanel>
 
+
+      {/* ////////// 2nd tab//////////// */}
         <TabPanel value="2">
-        {myRides.length>0?
+        {myRides.length>0 ?
           myRides.map((hostedRides,index)=>(
-          !hostedRides.isCompleted ? 
+          hostedRides.status == 'hosted' ? 
           <Container key={index}>
-          <div className="hosted-rides d-flex justify-content-center" >
+          <div className="hosted-rides d-flex justify-content-center align-items-center" >
+          <h2 style={{color:'skyblue'}}>You hosted this ride</h2>
+          <div>
+           <div className="d-flex">
             <div className="p-3">
-            <h5 className="p-2"><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
-            <h5 className="p-2"><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
+            <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
+            </div>
+
+            <div className="p-3">
+            <h5 className="p-2"><FcConferenceCall className="mx-2"/>passengers: {hostedRides.passengers}</h5>
+            <h5 className="p-2"><BsFillCarFrontFill className="mx-2"/>vehicle: {hostedRides.vehicle}</h5>
+            <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
+            </div>
+            </div>
+
+            <h5><MDBSwitch  onChange={toggleShow} id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>
+
+            </div>
+          </div>
+            <hr className="line"/>
+          </Container>
+            :null
+        )):
+        <Container className="d-flex flex-column align-items-center">
+          <h2 className="no-rides">No active rides available.</h2>
+        </Container>
+        }
+        {joinedRides.length>0 ?
+          joinedRides.map((hostedRides,index)=>(
+          hostedRides.status == 'started' ? 
+          <Container key={index}>
+          <div className="hosted-rides d-flex justify-content-center align-items-center" >
+            <h2 style={{color:'skyblue'}}>You joined this ride</h2>
+            <div className="p-3">
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
             <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
             </div>
 
@@ -166,14 +213,16 @@ const MyRides = () => {
         }
         </TabPanel>
 
+
+      {/* ////////// 3rd tab//////////// */}
         <TabPanel value="3">
         {joinedRides.length>0?
           joinedRides.map((rides,index)=>(
           <Container key={index}>
           <div className="hosted-rides d-flex justify-content-center" >
             <div className="p-3">
-            <h5 className="p-2"><FcAdvance className="mx-2"/> from: {rides.from}</h5>
-            <h5 className="p-2"><MdLocationPin className="mx-2"/> to: {rides.to}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {rides.from}</h5>
+            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {rides.to}</h5>
             <h5 className="p-2"><FcPlanner className="mx-2"/>date: {rides.date}</h5>
             </div>
 
@@ -183,9 +232,6 @@ const MyRides = () => {
             <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {rides.amount}</h5>
             </div>
 
-            <StyledRating name="highlight-selected-only"
-              defaultValue={2} IconContainerComponent={IconContainer}
-              getLabelText={(value) => customIcons[value].label} highlightSelectedOnly />
             </div>
 
             <hr className="line"/>
@@ -200,6 +246,26 @@ const MyRides = () => {
         </TabPanel>
       </TabContext>
     </Box>
+
+    {basicModal && (
+                  <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                    <MDBModalDialog>
+                      <MDBModalContent>
+                        {/* <MDBModalHeader>
+                          <MDBModalTitle>Modal title</MDBModalTitle>
+                          <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                        </MDBModalHeader> */}
+                        <MDBModalBody>...</MDBModalBody>
+                        <MDBModalFooter>
+                          <MDBBtn color='secondary' onClick={toggleShow}>
+                            Close
+                          </MDBBtn>
+                          <MDBBtn>Save changes</MDBBtn>
+                        </MDBModalFooter>
+                      </MDBModalContent>
+                    </MDBModalDialog>
+                  </MDBModal>
+                )}
     </>
   )
 }

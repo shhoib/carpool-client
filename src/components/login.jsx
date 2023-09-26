@@ -20,6 +20,8 @@ import {Button} from 'react-bootstrap';
 import axiosInstance from '../api/axios'
 import {useDispatch} from 'react-redux';
 import { userLogin } from '../redux/userSlice';
+import {useFormik} from 'formik'
+import { basicSchema } from '../validation/signupValidation';
 
 
 
@@ -29,66 +31,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  console.log(email,password);
+
 
   const dispatch = useDispatch();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleNavigate=()=>{
-    navigate('/signup')
-  }
-
-  const handleLogin = async() => {
+  const onSubmit = async () => {
+    console.log('submit')
     try {
-      const data = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(data);
-      const user = data.user;
-      console.log(credential);
-      // console.log(user);
-      try{
-        const response = await axiosInstance.post('/login/googleAuth',user);
-
-        const phoneNumber = response.data.user.phoneNumber;
-        const DOB = response.data.user.DOB;
-        const token = response.data.token;
-        const userID = response.data.user._id;
-        const emailVerified = response.data.user.emailVerified;
-        const phoneNumberVerified = response.data.user.phoneNumberVerified;
-        const profile = response.data.user.photoURL;
-
-        if(response.status==201){
-          dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID,
-            profile:profile,emailVerified,phoneNumberVerified,}))
-           toast.success(response.data.message,{
-          autoClose:1500,
-          onClose:()=>{
-            navigate('/')
-          }})
-        }else if(response.status==209){
-          toast.error(response.data.message,{
-            autoClose:1500,
-            onClose:()=>{
-              navigate('/signup')
-            }})
-        }
-      }catch(error){
-        console.log(error);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  const handleLoginWithEmail = async () => {
-    try {
-        const body = { email, password };
+        const body = { email:values.email, password:values.password };
         const response = await axiosInstance.post('/login', body);
         console.log(response.data);
 
@@ -129,6 +79,68 @@ const Login = () => {
     }
 };
 
+  const {values,errors,handleChange,handleBlur,handleSubmit,touched} = useFormik({
+    initialValues:{
+      email:"", 
+      password:'',
+    },
+    validationSchema : basicSchema,
+    onSubmit,
+  });
+
+  // console.log(values);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleNavigate=()=>{
+    navigate('/signup')
+  }
+
+  const handleLogin = async() => {
+    try {
+      const data = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(data);
+      const user = data.user;
+      console.log(credential);
+      // console.log(user);
+      try{
+        const response = await axiosInstance.post('/login/googleAuth',user);
+
+        // const phoneNumber = response.data.user.phoneNumber;
+        // const DOB = response.data.user.DOB;
+        const token = response.data.token;
+        const userID = response.data.user._id;
+        const emailVerified = response.data.user.emailVerified;
+        const phoneNumberVerified = response.data.user.phoneNumberVerified;
+        const profile = response.data.user.photoURL;
+
+        if(response.status==201){
+          dispatch(userLogin({email:user.email,username:user.displayName,token:token,userID:userID,
+            profile:profile,emailVerified,phoneNumberVerified,}))
+           toast.success(response.data.message,{
+          autoClose:1500,
+          onClose:()=>{
+            navigate('/')
+          }})
+        }else if(response.status==209){
+          toast.error(response.data.message,{
+            autoClose:1500,
+            onClose:()=>{
+              navigate('/signup')
+            }})
+        }
+      }catch(error){
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+
 
   return (
     <>
@@ -142,12 +154,16 @@ const Login = () => {
       
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' },
           }} noValidate autoComplete="off" >
-      <TextField onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" label="email..." variant="outlined" />
+      <TextField className={errors.email && touched.email? 'input-error' : ''}
+      value={values.email} onChange={handleChange} onBlur={handleBlur}
+      name='email' id="outlined-basic" label="email..." variant="outlined" />
+        {errors.email && touched.email && <p className='error'>*{errors.email}</p>}
      </Box>
 
      <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput onChange={(e)=>setPassword(e.target.value)}
+          <OutlinedInput className={errors.password && touched.password? 'input-error' : ''}
+           name='password' value={values.password} onChange={handleChange} onBlur={handleBlur}
             id="outlined-adornment-password" type={showPassword ? 'text' : 'password'} endAdornment={
               <InputAdornment position="end">
                 <IconButton aria-label="toggle password visibility"
@@ -157,9 +173,11 @@ const Login = () => {
               </InputAdornment>
             }
             label="Password" />
+            {errors.password && touched.password && <p className='error'>*{errors.password}</p>}
+
         </FormControl>
             <h6 className='forgotText p-2'>forgot password?</h6>
-            <Button className='submitButton' onClick={()=>handleLoginWithEmail()}>Submit</Button>
+            <Button className='submitButton' onClick={handleSubmit}>Submit</Button>
       </div>
 
       <div  className="howToLogin d-flex flex-column justify-content-center  mt-3">
