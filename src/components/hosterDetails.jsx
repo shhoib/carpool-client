@@ -16,7 +16,7 @@ const HosterDetails = () => {
     const fetchHoster = async ()=>{
       try{
         const response = await axiosInstance.get(`/hosterDetails/${id}`)
-        console.log(response.data.hoster);
+        // console.log(response.data.hoster);
         setHoster(response.data.hoster)
       }catch(error){
         console.log(error);
@@ -32,7 +32,7 @@ const HosterDetails = () => {
         <h2>{hoster.name}</h2>
         <h6 className="preGivenDetails py-1">20y/o</h6>
        </div>
-       <div className="hosterProfile"></div>
+       <div className="hosterProfile"  style={{ backgroundImage:`url(${hoster.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
     </Container>
 
     <hr className="Line my-3"/>

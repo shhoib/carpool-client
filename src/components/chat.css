@@ -99,7 +99,7 @@
 }
 .previous-chats{
     width: 25%;
-    background-color: #3a3939;
+    background-color: #f7f7f8;
     /* border-right: 1px solid black; */
 }
 .chat-heading{
@@ -159,9 +159,16 @@
     width: 100%;
     margin-bottom: 5px;
 }
-.message-input::placeholder {
-    color: white
-  }
+
   input.message-input::placeholder {
-    color: white; /* Change this to your desired color */
+    color: rgb(32, 32, 32); /* Change this to your desired color */
+  }
+  .username{
+    color: #007bff;
+    font-weight: 600;
+  }
+  .profile{
+    width: 20px;
+    height: 20px;
+    background-color: #333;
   }

@@ -10,6 +10,8 @@
   import socket from '../api/socketIO.js'
   import Lottie from 'react-lottie'
   import loading from '../animations/typing.json'
+  import {FiEdit3} from 'react-icons/Fi'
+
   
 
   const Chat = () => {
@@ -103,7 +105,11 @@
       <p>loading...</p>: */}   
     <div className='whole-chat-container d-flex'>
       <div className='previous-chats'>
-        <div className='chat-heading p-2'><h2 className='chats'>CHATS</h2></div>
+        <div className='chat-heading p-2 d-flex align-items-center justify-content-evenly'>
+          <div className='profile'></div>
+          <h4 className='username px-2'>{USER.name}</h4>
+          <h6> <FiEdit3/></h6>
+        </div>
         
         <input type="text" className="search-box" placeholder="Search users..."/>
 
@@ -143,7 +149,7 @@
         </Container>
 
       <Container className=''>
-      <input value={message} placeholder='Message...' onChange={(e)=>typingHandler(e)} className='message-input'/>
+      <input value={message} placeholder='Write Something...' onChange={(e)=>typingHandler(e)} className='message-input'/>
       <button className='sendButton' onClick={()=>sendMessage()}>Send <RiSendPlaneLine/></button>
       </Container>
 
