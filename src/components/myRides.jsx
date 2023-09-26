@@ -23,8 +23,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import { MDBSwitch } from 'mdb-react-ui-kit';
-import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter,} from 'mdb-react-ui-kit';
+import { MDBSwitch,MDBTextArea,MDBBtn   } from 'mdb-react-ui-kit';
 
 
 
@@ -36,10 +35,12 @@ const MyRides = () => {
       const [value, setValue] = useState(1);
       const [myRides,setMyRides] = useState([])
       const [joinedRides,setJoinedRides] = useState([])
-      // const [toggleState, setToggleState] = useState(false);
-      const [basicModal, setBasicModal] = useState(false);
+      const [toggleState, setToggleState] = useState(false);
+      const [selectedRating, setSelectedRating] = useState(4);
 
-      const toggleShow = () => setBasicModal(!basicModal);
+      const changeToggle=()=> setToggleState(!toggleState)
+      console.log(selectedRating);
+
 
 
       useEffect(() => {
@@ -63,7 +64,6 @@ const MyRides = () => {
     rides();
     }, [userID]);
 
-    // console.log(myRides);
     
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -97,7 +97,10 @@ const MyRides = () => {
           label: 'Very Satisfied',
         },
       };
-
+      
+      const handleRatingChange = (event, newRating) => {
+        setSelectedRating(newRating);
+      };
       function IconContainer(props) {
         const { value, ...other } = props;
         return <span {...other}>{customIcons[value].icon}</span>;
@@ -158,7 +161,7 @@ const MyRides = () => {
           <Container key={index}>
           <div className="hosted-rides d-flex justify-content-center align-items-center" >
           <h2 style={{color:'skyblue'}}>You hosted this ride</h2>
-          <div>
+          <div className="d-flex flex-column align-items-center">
            <div className="d-flex">
             <div className="p-3">
             <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
@@ -173,7 +176,22 @@ const MyRides = () => {
             </div>
             </div>
 
-            <h5><MDBSwitch  onChange={toggleShow} id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>
+            <h5><MDBSwitch onChange={changeToggle}  id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>
+            {toggleState && (
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                      <div>
+                        <StyledRating name="highlight-selected-only"defaultValue={4} IconContainerComponent={IconContainer}
+                        getLabelText={(value) => customIcons[value].label} highlightSelectedOnly onChange={handleRatingChange}/>
+                         </div>
+                         <div className="d-flex justify-content-center align-items-center">
+                           <div>
+                             <MDBTextArea label='Message' id='textAreaExample' rows={4} />
+                             </div>                              
+                            <MDBBtn className="m-2">Rate Your co-Rider</MDBBtn>  
+                         </div>
+
+                  </div>
+                )}
 
             </div>
           </div>
@@ -247,25 +265,6 @@ const MyRides = () => {
       </TabContext>
     </Box>
 
-    {basicModal && (
-                  <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
-                    <MDBModalDialog>
-                      <MDBModalContent>
-                        {/* <MDBModalHeader>
-                          <MDBModalTitle>Modal title</MDBModalTitle>
-                          <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
-                        </MDBModalHeader> */}
-                        <MDBModalBody>...</MDBModalBody>
-                        <MDBModalFooter>
-                          <MDBBtn color='secondary' onClick={toggleShow}>
-                            Close
-                          </MDBBtn>
-                          <MDBBtn>Save changes</MDBBtn>
-                        </MDBModalFooter>
-                      </MDBModalContent>
-                    </MDBModalDialog>
-                  </MDBModal>
-                )}
     </>
   )
 }
