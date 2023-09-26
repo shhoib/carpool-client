@@ -37,15 +37,16 @@ const MyRides = () => {
       const [joinedRides,setJoinedRides] = useState([])
       const [toggleState, setToggleState] = useState(false);
       const [selectedRating, setSelectedRating] = useState(4);
+      const [aboutRide, setAboutRide] = useState('');
 
       const changeToggle=()=> setToggleState(!toggleState)
-      console.log(selectedRating);
+      console.log(aboutRide);
 
 
 
-      useEffect(() => {
-      setValue("1");
-      }, []);
+      // useEffect(() => {
+      // setValue("1");
+      // }, []);
 
       const navigate = useNavigate();
 
@@ -110,6 +111,10 @@ const MyRides = () => {
         value: PropTypes.number.isRequired,
       };
 
+      const handleRating= async()=>{
+        
+      }
+
   return (
     <>
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -158,8 +163,8 @@ const MyRides = () => {
         {myRides.length>0 ?
           myRides.map((hostedRides,index)=>(
           hostedRides.status == 'hosted' ? 
-          <Container key={index}>
-          <div className="hosted-rides d-flex justify-content-center align-items-center" >
+          <Container key={index} className="hosted-rides">
+          <div className=" d-flex justify-content-center align-items-center" >
           <h2 style={{color:'skyblue'}}>You hosted this ride</h2>
           <div className="d-flex flex-column align-items-center">
            <div className="d-flex">
@@ -176,24 +181,27 @@ const MyRides = () => {
             </div>
             </div>
 
-            <h5><MDBSwitch onChange={changeToggle}  id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>
-            {toggleState && (
-                  <div className="d-flex flex-column justify-content-center align-items-center">
-                      <div>
-                        <StyledRating name="highlight-selected-only"defaultValue={4} IconContainerComponent={IconContainer}
-                        getLabelText={(value) => customIcons[value].label} highlightSelectedOnly onChange={handleRatingChange}/>
-                         </div>
-                         <div className="d-flex justify-content-center align-items-center">
-                           <div>
-                             <MDBTextArea label='Message' id='textAreaExample' rows={4} />
-                             </div>                              
-                            <MDBBtn className="m-2">Rate Your co-Rider</MDBBtn>  
-                         </div>
-
-                  </div>
-                )}
+            <h5><MDBSwitch onChange={changeToggle}  id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>          
 
             </div>
+          </div>
+          <div>
+          {toggleState && (
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <div>
+                 <hr className="hr hr-blurry"/>
+                      <h4 className="experience">How was your ride experience !!</h4>                      
+                    </div>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <MDBTextArea onChange={(e)=>setAboutRide(e.target.value)} label='about your co-rider...' id='textAreaExample' rows={4} />
+                      <div>
+                   <StyledRating className="mx-3" name="highlight-selected-only"defaultValue={4} IconContainerComponent={IconContainer}
+                      getLabelText={(value) => customIcons[value].label} highlightSelectedOnly onChange={handleRatingChange}/>
+                   <MDBBtn className="m-2"  color='success' onClick={handleRating}>Rate Your co-Rider</MDBBtn>  
+                       </div>                              
+                     </div>
+                  </div>
+                )}
           </div>
             <hr className="line"/>
           </Container>
