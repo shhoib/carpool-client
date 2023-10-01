@@ -35,7 +35,57 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = async () => {
+//   const onSubmit = async () => {
+//     console.log('submit')
+//     try {
+//         const body = { email:values.email, password:values.password };
+//         const response = await axiosInstance.post('/login', body);
+//         console.log(response.data);
+        
+//         if (response.status == 200) {
+//         const email = response.data.user.email
+//         const username = response.data.user.user.name;
+//         const token = response.data.user.token;
+//         const userID = response.data.user._id;
+//         const emailVerified = response.data.user.emailVerified;
+//         const phoneNumberVerified = response.data.user.phoneNumberVerified;
+//         const phoneNumber = response.data.user.phoneNumber;
+//         const DOB = response.data.user.DOB;
+//         const profile = response.data.user.photoURL;
+
+
+//           dispatch(userLogin({email,username,token,userID,emailVerified,
+//             phoneNumberVerified,phoneNumber,DOB,profile}))
+//           toast.success(response.data.message, {
+//                 autoClose: 1500,
+//                 onClose: () => {
+//                     navigate('/');
+//                 }, 
+//             }); 
+//         } else if (response.status==209) {
+//             toast.warn(response.data.message, {
+//                 autoClose: 2000,
+//             });
+//         } else if (response.status==204) {
+//             toast.error("please register first ,Redirecting to signup", {
+//                 autoClose: 2000,
+//                 onClose: () => {
+//                     navigate('/signup');
+//                 }, 
+//             });
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// };
+
+  const {values,errors,handleChange,handleBlur,handleSubmit,touched} = useFormik({
+    initialValues:{
+      email:"", 
+      password:'',
+    },
+    validationSchema : basicSchema,
+    onSubmit : async () => {
     console.log('submit')
     try {
         const body = { email:values.email, password:values.password };
@@ -77,15 +127,7 @@ const Login = () => {
     } catch (error) {
         console.log(error.message);
     }
-};
-
-  const {values,errors,handleChange,handleBlur,handleSubmit,touched} = useFormik({
-    initialValues:{
-      email:"", 
-      password:'',
-    },
-    validationSchema : basicSchema,
-    onSubmit,
+},
   });
 
   // console.log(values);

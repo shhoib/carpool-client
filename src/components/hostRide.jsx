@@ -16,6 +16,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axiosInstance from '../api/axios'
 import { useSelector } from 'react-redux';
+import {MDBBtn,MDBModal,MDBModalDialog,MDBModalContent,MDBModalHeader,MDBModalTitle,MDBModalBody,MDBModalFooter,} from 'mdb-react-ui-kit';
 
 
 
@@ -26,6 +27,7 @@ const HostRide = () => {
   const [from, setFrom] = useState('');
   const [to,setTo] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
+  
 
   const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

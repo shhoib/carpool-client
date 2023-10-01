@@ -10,7 +10,11 @@
   import socket from '../api/socketIO.js'
   import Lottie from 'react-lottie'
   import loading from '../animations/typing.json'
-  import {FiEdit3} from 'react-icons/Fi'
+  import {AiOutlineEdit} from 'react-icons/ai'
+  import {RiRadioButtonLine} from 'react-icons/ri'
+  import {FcVideoCall,FcPhone} from 'react-icons/fc'
+  // import { MDBIcon,MDBInputGroup } from 'mdb-react-ui-kit';
+
 
   
 
@@ -28,8 +32,7 @@
     const userID = USER.userID 
 
     const {id} = useParams();
-    // console.log(id);
-    // console.log(userID);
+    
 
     useEffect(()=>{
       const fetchChat = async()=>{
@@ -98,7 +101,8 @@
         }
       }, timerLength);
     }
-// console.log(previousChats[0].name);
+
+
     return ( 
       <>
       {/* {loading ? 
@@ -106,33 +110,49 @@
     <div className='whole-chat-container d-flex'>
       <div className='previous-chats'>
         <div className='chat-heading p-2 d-flex align-items-center justify-content-evenly'>
-          <div className='profile'></div>
+          <div className='profile'  style={{ backgroundImage:`url(${USER.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
           <h4 className='username px-2'>{USER.name}</h4>
-          <h6> <FiEdit3/></h6>
+          {/* <h5><MDBIcon fas icon="user-edit" /></h5> */}
+          <h4> <AiOutlineEdit/></h4>
         </div>
+        <hr className="hr hr-blurry"/>
         
         <input type="text" className="search-box" placeholder="Search users..."/>
 
         {previousChats?.map((chattedUser,index)=>(
          <div key={index} className='each-chat px-2 py-1 my-2'>
-         <div className='profile_in_chat' style={{backgroundImage:`url(${chattedUser?.profileURL})`}}></div>
-         <h5>{chattedUser?.name}</h5>
+         <div className='profile_in_chat' style={{backgroundImage:`url(${chattedUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}} ></div>
+         <h6 style={{color:'#007bff',fontFamily:'cursive'}}>{chattedUser?.name}</h6>
          </div>
         ))
         }      
         
       </div>
+      
     <div className='chat-container d-flex flex-column justify-content-center align-items-center'>
+        <div className='to-whom d-flex align-items-center justify-content-between p-3'>
+         <div className='to-whom-profile-name d-flex align-items-center justify-content-around'>
+            <div className='current-chat-profile' style={{backgroundImage:`url(${chatDetails?.toUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
+            <h3 className=''>{chatDetails?.toUser?.name}</h3>
+            <RiRadioButtonLine style={{color:'green'}}/>
+          </div> 
+        <div className='call-icon d-flex align-items-center justify-content-around'>
+          <h2><FcVideoCall/></h2>
+          <h2><FcPhone/></h2>
+        </div>
+        </div>
+        <hr className="hr hr-blurry w-100 m-0"/>
 
         <Container className='messages-container'>
         {messageList.map((messages, index)=>(
             <div key={index}>  
 
-            <div className={USER.name==messages.author?'you':"other"}>
+            <div className={USER.name==messages.author?'you d-flex align-items-end':"other"}>
               <div className={USER.name==messages.author?'you-message-content px-2 py-1':"other-message-content px-2 py-1"}>
                 <h6 className='message m-0'>{messages.message}</h6>  
                 <p className ='time m-0'>{messages.time}</p>
               </div> 
+              <div className='inside-chat-profile m-1'  style={{ backgroundImage:`url(${USER.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
             </div>
 
             </div>     

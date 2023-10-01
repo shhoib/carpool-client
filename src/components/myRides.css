@@ -52,4 +52,9 @@
 .experience{
   color: #585858;
 }
-
+.completedRide{
+  background-color: rgba(79, 236, 126, 0.575);
+}
+.notCompleted{
+  background-color: rgb(243, 213, 156);
+}

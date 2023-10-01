@@ -24,6 +24,8 @@ import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import { MDBSwitch,MDBTextArea,MDBBtn   } from 'mdb-react-ui-kit';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -111,17 +113,31 @@ const MyRides = () => {
       };
 
       const handleRating= async(hostedRides)=>{
-        // console.log(hostedRides);
+        console.log(hostedRides);
         const reviewDetails = {
           toUserID:hostedRides.hosterID,
           ratedByID:userID,
           ratedImogi:selectedRating,
-          aboutRide:aboutRide
+          aboutRide:aboutRide,
+          rideID:hostedRides._id
         }
 
         try {
           const response = await axiosInstance.post('/review',reviewDetails)
-          console.log(response.data);
+          toast.success(response.data.message,{
+                autoClose:1000,
+                onClose:()=>{
+                  
+                }})
+          } catch (error) {
+          console.log(error);
+        }
+      }
+
+      const handlePayment = async(hostedRides)=>{
+        try {
+          const response = axiosInstance.post('/orders',{amount:hostedRides.amount})
+          console.log(response?.data);
         } catch (error) {
           console.log(error);
         }
@@ -129,6 +145,7 @@ const MyRides = () => {
 
   return (
     <>
+    <ToastContainer/>
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box className="tablist-container d-flex align-items-center justify-content-center" sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -174,7 +191,7 @@ const MyRides = () => {
         <TabPanel value="2">
         {myRides.length>0 ?
           myRides.map((hostedRides,index)=>(
-          hostedRides.status == 'hosted' ? 
+          hostedRides.status == 'started' ? 
           <Container key={index} className="hosted-rides">
           <div className=" d-flex justify-content-center align-items-center" >
           <h2 style={{color:'skyblue'}}>You hosted this ride</h2>
@@ -223,12 +240,16 @@ const MyRides = () => {
           <h2 className="no-rides">No active rides available.</h2>
         </Container>
         }
+
+
         {joinedRides.length>0 ?
           joinedRides.map((hostedRides,index)=>(
           hostedRides.status == 'started' ? 
-          <Container key={index}>
-          <div className="hosted-rides d-flex justify-content-center align-items-center" >
-            <h2 style={{color:'skyblue'}}>You joined this ride</h2>
+          <Container key={index} className="hosted-rides">
+          <div className=" d-flex justify-content-center align-items-center" >
+          <h2 style={{color:'skyblue'}}>You Joined this ride</h2>
+          <div className="d-flex flex-column align-items-center">
+           <div className="d-flex">
             <div className="p-3">
             <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
             <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
@@ -241,6 +262,32 @@ const MyRides = () => {
             <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
             </div>
             </div>
+
+            <h5><MDBSwitch onChange={changeToggle}  id='flexSwitchCheckDefault' label="I've completed my ride" /></h5>          
+
+            </div>
+          </div>
+          <div>
+          {toggleState && (
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <div>
+                 <hr className="hr hr-blurry"/>
+                 <div>
+                  <h4 onClick={()=>handlePayment(hostedRides)}>go to payment section</h4>
+                 </div>
+                      <h4 className="experience">How was your ride experience !!</h4>                      
+                    </div>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <MDBTextArea onChange={(e)=>setAboutRide(e.target.value)} label='about your co-rider...' id='textAreaExample' rows={4} />
+                      <div>
+                   <StyledRating className="mx-3" name="highlight-selected-only"defaultValue={4} IconContainerComponent={IconContainer}
+                      getLabelText={(value) => customIcons[value].label} highlightSelectedOnly onChange={handleRatingChange}/>
+                   <MDBBtn className="m-2"  color='success' onClick={()=>handleRating(hostedRides)}>Rate Your co-Rider</MDBBtn>  
+                       </div>                              
+                     </div>
+                  </div>
+                )}
+          </div>
             <hr className="line"/>
           </Container>
             :null
@@ -256,8 +303,9 @@ const MyRides = () => {
         <TabPanel value="3">
         {joinedRides.length>0?
           joinedRides.map((rides,index)=>(
-          <Container key={index}>
-          <div className="hosted-rides d-flex justify-content-center" >
+          <Container key={index} >
+          <div className={rides.status=='completed'?'completedRide hosted-rides d-flex justify-content-center':
+           'notCompleted hosted-rides d-flex justify-content-center'}>
             <div className="p-3">
             <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {rides.from}</h5>
             <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {rides.to}</h5>

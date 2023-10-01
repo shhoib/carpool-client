@@ -74,7 +74,7 @@ const Profile = () => {
 
     <Container className="d-flex mt- justify-content-around align-items-center">
         <h1 className="m-5">{userDetails.name}</h1>
-        <div className="user-profile-image" style={{ backgroundImage:`url(${userDetails.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}>></div>
+        <div className="user-profile-image" style={{ backgroundImage:`url(${userDetails.profile || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
     </Container>
 
     <Container className="profile-and-rating d-flex flex-column my-3">
@@ -109,7 +109,7 @@ const Profile = () => {
      </div>
 
     <Container className="profile-and-rating">
-      <div className="rating-and-changePassword d-flex justify-content-between">
+      <div onClick={()=>Navigate('/ratings')} className="rating-and-changePassword d-flex justify-content-between">
        <div>
         <h5>Ratings</h5>
        </div>

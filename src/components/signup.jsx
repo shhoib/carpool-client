@@ -31,7 +31,6 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async()=>{
-    console.log('kkk');
     try {
       const signupDetails = { email:values.email,password:values.password,username:values.username,phoneNumber:values.mobileNumber}
       const response = await axiosInstance.post("/signup",signupDetails)

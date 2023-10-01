@@ -1,0 +1,10 @@
+.review-image{
+    background-color: black;
+    height: 60px;
+    width: 60px;
+    /* border-radius: 50px; */
+}
+.reviewer-name{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(70, 70, 241);
+}

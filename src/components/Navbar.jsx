@@ -77,6 +77,7 @@ import { MDBBadge, MDBIcon } from 'mdb-react-ui-kit';
 
 
 
+
 function NavigationBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);

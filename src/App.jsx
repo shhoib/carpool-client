@@ -24,6 +24,7 @@ import Chat from './components/chat';
 import Inbox from './components/inbox';
 import { BrowserRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import Ratings from './components/ratings';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/MyRides" element={ userAuth ? <MyRides />: <Navigate to='/login'/> } />
           <Route path="/Inbox" element={ userAuth ? <Inbox />: <Navigate to='/login'/> } />
           <Route path="/Notifications" element={ userAuth ? <Notifications />: <Navigate to='/login'/> } />
+          <Route path="/Ratings" element={ userAuth ? <Ratings />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      
