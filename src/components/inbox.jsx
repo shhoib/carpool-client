@@ -40,7 +40,6 @@ const Inbox = () => {
      {Array.isArray(previousChats.chattedUsers)&&
       <div className='previousChat-banner d-flex flex-column align-items-center'>
         <h3>previous chats</h3>
-        {/* <h5><HiOutlineChatBubbleLeft/></h5> */}
       </div> }
 
       {Array.isArray(previousChats.chattedUsers) ? (previousChats.chattedUsers.map((chat, index) => (
@@ -48,13 +47,13 @@ const Inbox = () => {
         <div key={index} onClick={()=>handleChatClick(chat)} className='chatted-user'>
            <div className=' d-flex align-items-center justify-content-between p-3'>
            <div className='d-flex align-items-center'>
-              <div className='profile'></div>
+              <div className='profile' style={{ backgroundImage:`url(${chat.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
               <h4 className='px-3' >{chat.name}</h4>
            </div>
            <h6>time</h6>
            </div>
 
-           <hr className='chat-divider'/>
+           <hr className="hr hr-blurry w-100" />
            
         </div>
 

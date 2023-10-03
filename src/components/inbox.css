@@ -15,7 +15,7 @@
 .profile{
     width: 70px;
     height: 70px;
-    background-color: black;
+    /* background-color: black; */
     border-radius: 50px;
 }
 .chat-divider{

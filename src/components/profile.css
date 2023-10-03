@@ -59,3 +59,11 @@
 .header{
     background-color: red;
 }
+.nameIN-profile{
+    color: rgb(83, 83, 83);
+    font-family: cursive;
+}
+.about-you{
+    color: #8AAAE5;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

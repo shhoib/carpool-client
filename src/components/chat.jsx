@@ -26,6 +26,7 @@
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
     const [previousChats, setPreviousChats] = useState([])
+    const [myStream, setmyStream] = useState()
 
 
     const USER = useSelector((state)=>state.userAuth);
@@ -102,6 +103,10 @@
       }, timerLength);
     }
 
+    const handleVideoCall = async()=>{
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true});
+      setmyStream(stream)
+    }
 
     return ( 
       <>
@@ -137,7 +142,7 @@
             <RiRadioButtonLine style={{color:'green'}}/>
           </div> 
         <div className='call-icon d-flex align-items-center justify-content-around'>
-          <h2><FcVideoCall/></h2>
+          <h2 onClick={handleVideoCall}><FcVideoCall/></h2>
           <h2><FcPhone/></h2>
         </div>
         </div>

@@ -12,6 +12,7 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import { useSelector } from "react-redux";
 import { useEffect,useState } from "react";
 import axiosInstance from "../api/axios";
+import AOS from 'aos';
 
 const Ratings = () => {
 
@@ -21,6 +22,10 @@ const [ratings, setRatings] = useState([])
 
   const userID = USER.userID
   // console.log(userID);
+
+  useEffect(() => {
+    AOS.init(); // Initialize AOS library
+  }, []);
 
   useEffect(()=>{
     const fetchRatings = async()=>{
@@ -75,37 +80,46 @@ IconContainer.propTypes = {
     
   return (
     <>
-  <Container >
-    {ratings.length >= 0 ? (
-      ratings.map((ratingss,index)=>(
-      <div className="p-2" key={index}>
-     <div className="d-flex">
-        <div >
-          <div className="review-image"></div>
-        </div>
-
-        <div>
-          <div className="px-3">
-            <h3 className="reviewer-name">shuaib salam</h3>
-            <StyledRating  className="mx-3" name="highlight-selected-only"
-                value={ratingss.ratedImogi} IconContainerComponent={IconContainer} readOnly  />
+    <Container>
+      {ratings.length >= 0 ? (
+        <>
+        <div className="m-4">
+          <h2 className="rating-heading m-0 text-center">YOUR RATINGS</h2>
+          <hr className="hr hr-blurry w-100 m-1" />
           </div>
+          {ratings.map((ratingss, index) => (
+            <div data-aos="fade-up" data-aos-duration="3000" className="p-2" key={index}>
+              <div className="d-flex">
+                <div>
+                  <div className="review-image"></div>
+                </div>
 
-          <div className="p-2">
-            <h6>{ratingss.aboutRide}</h6>
-          </div>
-        </div>
-        </div>
-        <hr className="hr hr-blurry w-100 m-0"/>
-       
-        
-      </div>
-      ))
-    ) : (
-      <h6>no ratings</h6>
-    )}
-  </Container>
-</>
+                <div>
+                  <div className="px-3">
+                    <h3 className="reviewer-name">shuaib salam</h3>
+                    <StyledRating
+                      className="mx-3"
+                      name="highlight-selected-only"
+                      value={ratingss.ratedImogi}
+                      IconContainerComponent={IconContainer}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="p-2">
+                    <h6>{ratingss.aboutRide}</h6>
+                  </div>
+                </div>
+              </div>
+              <hr className="hr hr-blurry w-100 m-0" />
+            </div>
+          ))}
+        </>
+      ) : (
+        <h6>no ratings</h6>
+      )}
+    </Container>
+  </>
 
   )
 }

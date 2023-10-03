@@ -68,12 +68,12 @@ const Profile = () => {
   return (
     <>
     <Container className="d-flex flex-column align-items-center my-4">
-      <h1>ABOUT YOU</h1>
-      <hr className="horizontal-line mt-4"/>
+      <h1 className="about-you">ABOUT YOU</h1>
+      <hr className="hr hr-blurry w-100 mt-3" />
     </Container>
 
     <Container className="d-flex mt- justify-content-around align-items-center">
-        <h1 className="m-5">{userDetails.name}</h1>
+        <h1 className="nameIN-profile m-5">{userDetails.name}</h1>
         <div className="user-profile-image" style={{ backgroundImage:`url(${userDetails.profile || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
     </Container>
 
@@ -82,7 +82,7 @@ const Profile = () => {
       <div onClick={toggleShow} className="add-profile-section p-1 d-flex justify-content-between">
        <div className="  d-flex align-items-center my-">
         <h2 className="mx-3"><BiPlusCircle/></h2>
-        <h5>Add profile picture</h5>
+        <h5 >Add profile picture</h5>
        </div>
         <h4><MdKeyboardArrowRight/></h4>
       </div>
