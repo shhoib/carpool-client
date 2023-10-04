@@ -2,7 +2,7 @@
   import {Container} from 'react-bootstrap'
   import './chat.css'
   // import io from 'socket.io-client';
-  import { useState,useEffect } from 'react';
+  import { useState,useEffect, useCallback } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
   import { useParams } from 'react-router-dom';
@@ -13,7 +13,10 @@
   import {AiOutlineEdit} from 'react-icons/ai'
   import {RiRadioButtonLine} from 'react-icons/ri'
   import {FcVideoCall,FcPhone} from 'react-icons/fc'
-  // import { MDBIcon,MDBInputGroup } from 'mdb-react-ui-kit';
+  import ReactPlayer from 'react-player'
+  import peer from '../services/peer';
+  import { MDBBtn } from 'mdb-react-ui-kit';
+
 
 
   
@@ -27,6 +30,7 @@
     const [isTyping, setIsTyping] = useState(false)
     const [previousChats, setPreviousChats] = useState([])
     const [myStream, setmyStream] = useState()
+    const [remoteStream, setRemoteStream] = useState()
 
 
     const USER = useSelector((state)=>state.userAuth);
@@ -74,12 +78,28 @@
       setmessage('')
     }
 
+    const handleNegoNeedeIncomming = useCallback(async({from,offer})=>{
+       const ans = await peer.getAnswer(offer);
+      socket.emit('peer:nego:done',{to:from,ans})
+    },[])
+
+    const handleNegoNeedeFinal = useCallback(async({ans})=>{
+      await peer.setLocalDescription(ans)
+    },[])
+
     useEffect(()=>{
       socket.on('receive_message',(data)=>{
         setMessageList((previous)=>[...previous,data])
       })
       socket.on('typing',()=>setIsTyping(true))
       socket.on('stop typing',()=>setIsTyping(false))
+
+      socket.on('incoming:call',handleIncomingCall)
+      socket.on('call:accepted',handleCallAccepted)
+      socket.on('peer:nego:needed',handleNegoNeedeIncomming)
+      socket.on('peer:nego:final',handleNegoNeedeFinal)
+
+
     }, [])  //TODO:include socket if not working
     
     const typingHandler = (e)=>{
@@ -105,8 +125,51 @@
 
     const handleVideoCall = async()=>{
       const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true});
+      const offer = await peer.getOffer();
+      socket.emit('user:call',{to:room,offer})
       setmyStream(stream)
     }
+
+    const handleIncomingCall = useCallback(async ({from,offer})=>{
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true});
+      setmyStream(stream)
+      console.log('incoming call',from,offer);
+      const ans =  await peer.getAnswer(offer)
+      socket.emit('call:accepted',{to:room,ans})
+    },[room])
+
+    const sendStreams = useCallback(()=>{
+      for (const track of myStream.getTracks()){
+        peer.peer.addTrack(track,myStream)
+      }
+    },[myStream])
+
+    const handleCallAccepted = useCallback(async({from,ans})=>{
+      peer.setLocalDescription(ans);
+      console.log('call accepted');
+      sendStreams();
+    },[sendStreams])
+
+    useEffect(() => {
+      peer.peer.addEventListener('track',async ev =>{
+        const remoteStream = ev.streams;
+        console.log('got tracks');
+        setRemoteStream(remoteStream[0])
+      })
+    }, [])
+
+    const handleNegoNeeded = useCallback(async()=>{
+      const offer = await peer.getOffer();
+        socket.emit('peer:nego:needed',{offer,to:room})
+    },[room])
+
+    useEffect(()=>{
+      peer.peer.addEventListener('negotiationneeded',handleNegoNeeded);
+      return()=>{
+        peer.peer.removeEventListener('negotiationneeded',handleNegoNeeded);
+      }
+    },[handleNegoNeeded])
+    
 
     return ( 
       <>
@@ -179,6 +242,14 @@
       </Container>
 
     </div>
+    <ReactPlayer playing muted height='100px' width='200px' url = {myStream}/>
+      <MDBBtn onClick={sendStreams}>send stream</MDBBtn>
+    {remoteStream && (
+      <>
+        <h3>remoteStream</h3>
+        <ReactPlayer playing muted height='100px' width='200px' url = {remoteStream}/>
+      </>
+    )}
     </div>   
       {/* } */}
       </>
