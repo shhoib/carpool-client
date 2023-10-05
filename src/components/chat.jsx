@@ -138,11 +138,22 @@
       socket.emit('call:accepted',{to:room,ans})
     },[room])
 
-    const sendStreams = useCallback(()=>{
-      for (const track of myStream.getTracks()){
-        peer.peer.addTrack(track,myStream)
+    // const sendStreams = useCallback(()=>{
+    //   for (const track of myStream.getTracks()){
+    //     peer.peer.addTrack(track,myStream)
+    //   }
+    // },[myStream])
+    const sendStreams = useCallback(() => {
+      for (const track of myStream.getTracks()) {
+        const sender = peer.peer.getSenders().find(s => s.track === track);
+        if (!sender) {
+          peer.peer.addTrack(track, myStream);
+        }else{
+          console.log('already track');
+        }
       }
-    },[myStream])
+    }, [myStream]);
+    
 
     const handleCallAccepted = useCallback(async({from,ans})=>{
       peer.setLocalDescription(ans);
@@ -170,6 +181,7 @@
       }
     },[handleNegoNeeded])
     
+    console.log(remoteStream);
 
     return ( 
       <>
