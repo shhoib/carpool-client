@@ -2,7 +2,7 @@
   import {Container} from 'react-bootstrap'
   import './chat.css'
   // import io from 'socket.io-client';
-  import { useState,useEffect, useCallback } from 'react';
+  import { useState,useEffect, useRef } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
   import { useParams } from 'react-router-dom';
@@ -13,9 +13,9 @@
   import {AiOutlineEdit} from 'react-icons/ai'
   import {RiRadioButtonLine} from 'react-icons/ri'
   import {FcVideoCall,FcPhone} from 'react-icons/fc'
-  import ReactPlayer from 'react-player'
-  import peer from '../services/peer';
-  import { MDBBtn } from 'mdb-react-ui-kit';
+  import Peer from 'simple-peer'
+
+ 
 
 
 
@@ -25,16 +25,28 @@
 
     const [message, setmessage] = useState('')
     const [messageList, setMessageList] = useState([])
+    const [previousChats, setPreviousChats] = useState([])
     const [chatDetails, setChatDetails] = useState({})
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
-    const [previousChats, setPreviousChats] = useState([])
-    const [myStream, setmyStream] = useState()
-    const [remoteStream, setRemoteStream] = useState()
+    const [me, setMe] = useState('')
+    const [stream, setStream] = useState()
+    const [receivingCall, setReceivingCall] = useState(false)
+    const [caller, setCaller] = useState('')
+    const [callerSignal, setCallerSignal] = useState()
+    const [idToCall, setIdToCall] = useState('')
+    const [callEnded, setCallEnded] = useState(false)
+    const [name, setName] = useState('')
+    const [callAccepted, setCallAccepted] = useState(false)
+   
 
 
     const USER = useSelector((state)=>state.userAuth);
     const userID = USER.userID 
+
+    const myVideo = useRef()
+    const userVideo = useRef()
+    const connectionRef = useRef()
 
     const {id} = useParams();
     
@@ -56,7 +68,7 @@
         }   
         fetchPreviuosChatDetails();
   
-    },[])
+    },[id, userID])
 
     const room = chatDetails.chat?._id;
 
@@ -78,14 +90,7 @@
       setmessage('')
     }
 
-    const handleNegoNeedeIncomming = useCallback(async({from,offer})=>{
-       const ans = await peer.getAnswer(offer);
-      socket.emit('peer:nego:done',{to:from,ans})
-    },[])
 
-    const handleNegoNeedeFinal = useCallback(async({ans})=>{
-      await peer.setLocalDescription(ans)
-    },[])
 
     useEffect(()=>{
       socket.on('receive_message',(data)=>{
@@ -93,13 +98,6 @@
       })
       socket.on('typing',()=>setIsTyping(true))
       socket.on('stop typing',()=>setIsTyping(false))
-
-      socket.on('incoming:call',handleIncomingCall)
-      socket.on('call:accepted',handleCallAccepted)
-      socket.on('peer:nego:needed',handleNegoNeedeIncomming)
-      socket.on('peer:nego:final',handleNegoNeedeFinal)
-
-
     }, [])  //TODO:include socket if not working
     
     const typingHandler = (e)=>{
@@ -122,66 +120,72 @@
         }
       }, timerLength);
     }
+;
 
-    const handleVideoCall = async()=>{
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true});
-      const offer = await peer.getOffer();
-      socket.emit('user:call',{to:room,offer})
-      setmyStream(stream)
-    }
-
-    const handleIncomingCall = useCallback(async ({from,offer})=>{
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true});
-      setmyStream(stream)
-      console.log('incoming call',from,offer);
-      const ans =  await peer.getAnswer(offer)
-      socket.emit('call:accepted',{to:room,ans})
-    },[room])
-
-    // const sendStreams = useCallback(()=>{
-    //   for (const track of myStream.getTracks()){
-    //     peer.peer.addTrack(track,myStream)
-    //   }
-    // },[myStream])
-    const sendStreams = useCallback(() => {
-      for (const track of myStream.getTracks()) {
-        const sender = peer.peer.getSenders().find(s => s.track === track);
-        if (!sender) {
-          peer.peer.addTrack(track, myStream);
-        }else{
-          console.log('already track');
-        }
-      }
-    }, [myStream]);
-    
-
-    const handleCallAccepted = useCallback(async({from,ans})=>{
-      peer.setLocalDescription(ans);
-      console.log('call accepted');
-      sendStreams();
-    },[sendStreams])
-
-    useEffect(() => {
-      peer.peer.addEventListener('track',async ev =>{
-        const remoteStream = ev.streams;
-        console.log('got tracks');
-        setRemoteStream(remoteStream[0])
+    const handleVideoCall = (ID)=>{
+      navigator.mediaDevices.getUserMedia({video:true,audio:true}).then((stream)=>{
+        setStream(stream)
+        myVideo.current.srcObject = stream
       })
-    }, [])
+      socket.on('me',(id)=>{
+        setMe(id)
+      })
+      socket.on('callUser',(data)=>{
+        setReceivingCall(true)
+        setCaller(data.from)
+        setName(data.name)
+        setCallerSignal(data.signal)
+      })
 
-    const handleNegoNeeded = useCallback(async()=>{
-      const offer = await peer.getOffer();
-        socket.emit('peer:nego:needed',{offer,to:room})
-    },[room])
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream
+      })
+      peer.on("signal", (data) => {
+        socket.emit("callUser", {
+          userToCall: ID,
+          signalData: data,
+          from: me,
+          name: name
+        })
+      })
+      peer.on("stream", (stream) => {
+        
+          userVideo.current.srcObject = stream
+        
+      })
+      socket.on("callAccepted", (signal) => {
+        setCallAccepted(true)
+        peer.signal(signal)
+      })
+  
+      connectionRef.current = peer
 
-    useEffect(()=>{
-      peer.peer.addEventListener('negotiationneeded',handleNegoNeeded);
-      return()=>{
-        peer.peer.removeEventListener('negotiationneeded',handleNegoNeeded);
       }
-    },[handleNegoNeeded])
-    
-    console.log(remoteStream);
+
+    	const answerCall =() =>  {
+		setCallAccepted(true)
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream
+		})
+		peer.on("signal", (data) => {
+			socket.emit("answerCall", { signal: data, to: caller })
+		})
+		peer.on("stream", (stream) => {
+			userVideo.current.srcObject = stream
+		})
+
+		peer.signal(callerSignal)
+		connectionRef.current = peer
+	}
+
+	const leaveCall = () => {
+		setCallEnded(true)
+		connectionRef.current.destroy()
+	}
 
     return ( 
       <>
@@ -254,16 +258,8 @@
       </Container>
 
     </div>
-    <ReactPlayer playing muted height='100px' width='200px' url = {myStream}/>
-      <MDBBtn onClick={sendStreams}>send stream</MDBBtn>
-    {remoteStream && (
-      <>
-        <h3>remoteStream</h3>
-        <ReactPlayer playing muted height='100px' width='200px' url = {remoteStream}/>
-      </>
-    )}
     </div>   
-      {/* } */}
+      
       </>
     )
   }
