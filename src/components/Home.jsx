@@ -176,11 +176,35 @@
 
 
 
-import {Container,Row} from 'react-bootstrap';
+import {Container,Row, Col} from 'react-bootstrap';
 import '../stylings/homepage.css'
+import { MDBCard, MDBCardTitle,MDBBtn, MDBCardOverlay} from 'mdb-react-ui-kit';
+import Lottie from 'react-lottie'
+import hostRide from '../animations/hostRide.json'
+import joinRide from '../animations/joinRide.json'
+import {BiSolidCarGarage} from 'react-icons/bi'
+import {PiUsersThreeDuotone} from 'react-icons/pi'
+import {IoCarSportOutline} from 'react-icons/io5'
+import {GiRoad} from 'react-icons/gi'
+
+
+
 
 const Home = () => {
+
+  const hostRideOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: hostRide,
+  };
+  const JoinRideOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: joinRide,
+  };
+
   return (
+    <>
     <Row >
       <Container className='d-flex position-relative'>
         <div className='text-container'>
@@ -188,13 +212,57 @@ const Home = () => {
             pooling resources, sharing journeys, fostering community
           </h1>
         </div>
+        <div className='second-text-container'>
+        <h2><BiSolidCarGarage/></h2>
+          <h5>Wherever you’re going, there’s a carpool that will get you there for less.</h5>
+        </div>
         <img
           className='gif'
-          src='https://cdn.dribbble.com/users/585295/screenshots/3605286/4-scene_3.gif'
+          src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1696831969/4-scene_3_i1l0ko.gif'
           alt=''
         />
       </Container>
     </Row>
+
+    <Row className='host-join-animation-container d-flex align-items-around justify-content-around' >
+    <Col md={6} xs={12} className='d-flex justify-content-center p-4'>
+      <MDBCard alignment='center' background='dark' className='custom-card text-white'>
+        <Lottie options={hostRideOptions} />
+        <MDBCardOverlay>
+          <MDBCardTitle><h5>Ready to Host a Ride</h5></MDBCardTitle> 
+          <MDBBtn>Host Ride</MDBBtn>
+        </MDBCardOverlay>
+      </MDBCard>
+      </Col>
+
+    <Col md={6} xs={12} className='d-flex justify-content-center p-4'>
+      <MDBCard alignment='center' background='dark' className='custom-card' style={{color:'grey'}}>
+        <Lottie className = 'w-100' options={JoinRideOptions} />
+        <MDBCardOverlay>
+          <MDBCardTitle>Excited to Join Ride </MDBCardTitle> 
+          <MDBBtn>Join Ride</MDBBtn>
+        </MDBCardOverlay>
+      </MDBCard>
+      </Col>
+    </Row>
+
+     <div className='d-flex flex-wrap justify-content-around text-center'>
+    <div className='icons'>
+     <IoCarSportOutline/>
+     <h5>100 shared rides</h5>
+     </div>
+
+    <div className='icons'>
+     <PiUsersThreeDuotone />
+     <h5>over 500 users</h5>
+     </div>
+
+    <div className='icons'>
+     <GiRoad />
+     <h5>over 1000 kms shared</h5>
+     </div>
+     </div>
+    </>
   );
 };
 

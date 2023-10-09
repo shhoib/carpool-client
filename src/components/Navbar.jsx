@@ -158,13 +158,19 @@
 import {MDBContainer,MDBNavbar, MDBNavbarBrand,MDBDropdownToggle,MDBDropdown,MDBDropdownMenu,MDBDropdownItem} from 'mdb-react-ui-kit';
 import {MdOutlineLegendToggle} from 'react-icons/md'
 import {useNavigate,useLocation} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import { userLogout } from '../redux/userSlice';
+
 
 
 export default function App() {
 
 
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation()
+  const dispatch = useDispatch();
+
 
   const handleProfileClick = () => {
     navigate('/profile');
@@ -175,10 +181,20 @@ export default function App() {
    const handleRidesNavigate=()=>{
          navigate('/myRides')
       }
+      const handleLogout=()=>{
+          dispatch(userLogout())
+          toast.success('User logged out succesfully', {
+            autoClose: 1000,
+            onClose: () => {
+                navigate('/');
+            }, 
+        });
+        }
 
 
   return (
     <>
+    <ToastContainer/>
       <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={location.pathname === '/' ? 'top' : false} style={{boxShadow:'none'}}>
         <MDBContainer fluid>
           <MDBNavbarBrand  style={{color:'grey', padding:'0px'}}>
@@ -194,7 +210,7 @@ export default function App() {
                   <MDBDropdownItem link onClick={handleProfileClick}>Profile</MDBDropdownItem>
                   <MDBDropdownItem link onClick={handleInboxNavigate}>Inbox</MDBDropdownItem>
                   <MDBDropdownItem link onClick={handleRidesNavigate}>My Rides</MDBDropdownItem>
-                  <MDBDropdownItem link className='text-center p-2' onClick={handleInboxNavigate}>LOGOUT</MDBDropdownItem>
+                  <MDBDropdownItem link className='text-center p-2' onClick={handleLogout}>LOGOUT</MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>
         </MDBContainer>
