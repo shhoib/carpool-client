@@ -28,21 +28,27 @@
   }
   .gif {
     width: 100%;
-    height: 100vh;
+    height: 110vh;
     object-fit: cover;
     position: relative;
     z-index: 0;
+    box-shadow: 0 4px 5px rgb(95, 94, 94);
   }
   .custom-card{
     width: 70%;
+    box-shadow: 0 4px 5px rgb(48, 47, 47);
+
     /* height: 200px; */
   }
   .host-join-animation-container{
-    /* background-image: url('https://i.pinimg.com/564x/d6/a9/6a/d6a96a976ca1f9cfb7ea99c6de961f9f.jpg'); */
+    /* background-image: url('https://i.pinimg.com/564x/f9/8e/bb/f98ebb3e1c8bf9ae33d90ae6d46b3c1e.jpg'); */
+    object-fit: cover;
     background-color: rgb(240, 239, 239);
+    background-color: rgb(208, 234, 245);
   }
   .icons{
     width: 300px;
     height: 300px;
     font-size: 800%;
   }
+  

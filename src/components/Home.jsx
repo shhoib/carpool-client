@@ -229,7 +229,7 @@ const Home = () => {
       <MDBCard alignment='center' background='dark' className='custom-card text-white'>
         <Lottie options={hostRideOptions} />
         <MDBCardOverlay>
-          <MDBCardTitle><h5>Ready to Host a Ride</h5></MDBCardTitle> 
+          <MDBCardTitle><h5>Ready to Host a Ride!!</h5></MDBCardTitle> 
           <MDBBtn>Host Ride</MDBBtn>
         </MDBCardOverlay>
       </MDBCard>
@@ -237,9 +237,9 @@ const Home = () => {
 
     <Col md={6} xs={12} className='d-flex justify-content-center p-4'>
       <MDBCard alignment='center' background='dark' className='custom-card' style={{color:'grey'}}>
-        <Lottie className = 'w-100' options={JoinRideOptions} />
+        <Lottie  options={JoinRideOptions} />
         <MDBCardOverlay>
-          <MDBCardTitle>Excited to Join Ride </MDBCardTitle> 
+          <MDBCardTitle>Excited to Join Ride!! </MDBCardTitle> 
           <MDBBtn>Join Ride</MDBBtn>
         </MDBCardOverlay>
       </MDBCard>
