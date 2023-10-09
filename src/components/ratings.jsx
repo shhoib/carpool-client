@@ -1,6 +1,6 @@
 
 import { Container } from "react-bootstrap"
-import './ratings.css'
+import '../stylings/ratings.css'
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';

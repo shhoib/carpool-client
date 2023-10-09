@@ -1,5 +1,5 @@
 import {Container,Button} from 'react-bootstrap'
-import './rideDetails.css'
+import '../stylings/rideDetails.css'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {AiOutlineThunderbolt} from 'react-icons/ai'
 import { useEffect, useState } from 'react'

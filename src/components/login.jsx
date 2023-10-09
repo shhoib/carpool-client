@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import './loginPage.css'
+import '../stylings/loginPage.css'
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";

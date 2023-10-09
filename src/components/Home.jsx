@@ -174,24 +174,29 @@
 
 // export default Home;
 
-// import Container from 'react-bootstrap'
-import { Row, Col } from 'react-bootstrap';
 
 
-
+import {Container,Row} from 'react-bootstrap';
+import '../stylings/homepage.css'
 
 const Home = () => {
-  
   return (
-    <Row>
-     <Col className='d-flex'>
-      {/* <h1 className=" text-center  m-3">
-        pooling resources, sharing journeys, fostering community
-       </h1> */}
-     <img src="https://thumbs.dreamstime.com/z/carpool-transport-service-flat-people-character-collaborative-usage-modern-mobile-application-wooman-back-sit-meet-man-143648612.jpg?w=1400" alt="" className='w-100' />
-     </Col>
+    <Row >
+      <Container className='d-flex position-relative'>
+        <div className='text-container'>
+          <h1 className='text-center m-3'>
+            pooling resources, sharing journeys, fostering community
+          </h1>
+        </div>
+        <img
+          className='gif'
+          src='https://cdn.dribbble.com/users/585295/screenshots/3605286/4-scene_3.gif'
+          alt=''
+        />
+      </Container>
     </Row>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
+

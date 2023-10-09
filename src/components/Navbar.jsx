@@ -1,54 +1,3 @@
-// // import Container from 'react-bootstrap/Container';
-// // import Navbar from 'react-bootstrap/Navbar';
-// // import NavDropdown from 'react-bootstrap/NavDropdown';
-// // import { BiSolidUserCircle } from 'react-icons/bi';
-// // import { AiOutlineMessage,AiOutlineUser } from 'react-icons/ai';
-// // import { BsFillCarFrontFill,BsSearch } from 'react-icons/bs';
-// // import './navbar.css'
-// // import { useNavigate } from 'react-router-dom';
-// // import { useDispatch, useSelector } from 'react-redux';
-// // import { userLogout } from '../redux/userSlice';
-
-
-// // function NavigationBar() {
-
-// //   const USER = useSelector((state)=>state.userAuth)
-
-// //   const profile = USER.profile
-
-// //   const dispatch = useDispatch();
-
-// //   const navigate = useNavigate();
-
-// //   const handleLogout=()=>{
-// //     dispatch(userLogout())
-// //     navigate('/');
-// //   }
-
-// //   return (
-// //     <Navbar className="nav" >
-// //       <Container>
-// //         <Navbar.Brand ><h4 className='coRide-text'>CoRide</h4></Navbar.Brand>
-// //         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-// //         <div>
-// //         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-// //          <h4  className='px-4'><BsSearch onClick={()=>navigate('/JoinRide')}/></h4>
-// //           <NavDropdown title= {profile ? <div style={{backgroundImage: `url(${profile})`,backgroundSize: 'cover'}} className='userProfile'></div>:<h2><BiSolidUserCircle/></h2>} className="custom-dropdown">
-// //             <NavDropdown.Item href="#action/3.1"><h5 onClick={()=>navigate('/Profile')} className='h-six-tags'><AiOutlineUser/> Profile</h5></NavDropdown.Item>
-// //             <NavDropdown.Item href="#action/3.2"><h5 className='h-six-tags'><AiOutlineMessage/> Inbox</h5></NavDropdown.Item>
-// //             <NavDropdown.Item href="#action/3.3"><h5 className='h-six-tags'><BsFillCarFrontFill/> My Rides</h5></NavDropdown.Item>
-// //             <NavDropdown.Divider />
-// //             <NavDropdown.Item onClick={()=>handleLogout()} href="#action/3.4"><h5>Logout</h5> </NavDropdown.Item>
-// //           </NavDropdown>
-// //         </Navbar.Collapse>
-// //         </div>
-// //       </Container>
-// //     </Navbar>
-// //   );
-// // }
-
-// // export default NavigationBar;
-
 // // import * as React from 'react';
 // import AppBar from '@mui/material/AppBar';
 // import Box from '@mui/material/Box';
@@ -206,27 +155,48 @@
 
 
 
-import {MDBContainer,MDBNavbar, MDBNavbarBrand,MDBNavbarItem,MDBNavbarLink,MDBIcon} from 'mdb-react-ui-kit';
+import {MDBContainer,MDBNavbar, MDBNavbarBrand,MDBDropdownToggle,MDBDropdown,MDBDropdownMenu,MDBDropdownItem} from 'mdb-react-ui-kit';
+import {MdOutlineLegendToggle} from 'react-icons/md'
+import {useNavigate,useLocation} from 'react-router-dom'
 
 
 export default function App() {
 
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+  const handleInboxNavigate=()=>{
+        navigate('/Inbox')
+   }
+   const handleRidesNavigate=()=>{
+         navigate('/myRides')
+      }
+
 
   return (
     <>
-      <MDBNavbar className="bg-body-tertiary" bgColor ='transparent' fixed='top' style={{boxShadow:'none'}}>
+      <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={location.pathname === '/' ? 'top' : false} style={{boxShadow:'none'}}>
         <MDBContainer fluid>
-          <MDBNavbarBrand href='#'>
-            <img src='https://o.remove.bg/downloads/15d9e330-b584-43c6-9297-14f69393de4a/logo-removebg-preview.png'
-              height='40' alt='' loading='lazy'/>
+          <MDBNavbarBrand  style={{color:'grey', padding:'0px'}}>
+            <img src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1696741863/coride_logo_ci0gw0.png'
+              height='60' alt='' loading='lazy'/>
             CoRide
           </MDBNavbarBrand>
-          <MDBNavbarItem className='me-3 me-lg-0'>
-            <MDBNavbarLink href='#'>
-              <MDBIcon fas icon='shopping-cart' />
-            </MDBNavbarLink>
-          </MDBNavbarItem>
+              <MDBDropdown>
+                <MDBDropdownToggle tag='a' className='nav-link' role='button'>
+                <MdOutlineLegendToggle style={{fontSize:'30px', color:'grey', marginRight:'10px'}}/>
+                </MDBDropdownToggle>
+                <MDBDropdownMenu>
+                  <MDBDropdownItem link onClick={handleProfileClick}>Profile</MDBDropdownItem>
+                  <MDBDropdownItem link onClick={handleInboxNavigate}>Inbox</MDBDropdownItem>
+                  <MDBDropdownItem link onClick={handleRidesNavigate}>My Rides</MDBDropdownItem>
+                  <MDBDropdownItem link className='text-center p-2' onClick={handleInboxNavigate}>LOGOUT</MDBDropdownItem>
+                </MDBDropdownMenu>
+              </MDBDropdown>
         </MDBContainer>
       </MDBNavbar>
     </>

@@ -3,7 +3,7 @@ import {Container} from 'react-bootstrap'
 import axiosInstance from '../api/axios';
 import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
-import './changePassword.css'
+import '../stylings/changePassword.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';

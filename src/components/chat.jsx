@@ -1,6 +1,6 @@
   // import React from 'react'
   import {Container} from 'react-bootstrap'
-  import './chat.css'
+  import '../stylings/chat.css'
   // import io from 'socket.io-client';
   import { useState,useEffect, useRef } from 'react';
   import axiosInstance from '../api/axios';

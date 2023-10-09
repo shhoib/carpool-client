@@ -1,7 +1,7 @@
 import {Col,Row} from 'react-bootstrap'
 import React from 'react';
 import { Image, Form, Button } from 'react-bootstrap';
-import './hostRide.css';
+import '../stylings/hostRide.css'
 import { GiReceiveMoney } from 'react-icons/gi';
 import { VscWorkspaceTrusted } from 'react-icons/vsc';
 import { TiTickOutline } from 'react-icons/ti';

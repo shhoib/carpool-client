@@ -1,5 +1,5 @@
 import { Button,Container,Image } from 'react-bootstrap';
-import './joinRide.css'
+import '../stylings/joinRide.css'
 // import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';

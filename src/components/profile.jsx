@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap"
-import './profile.css'
+import '../stylings/profile.css'
 import {BiPlusCircle} from 'react-icons/bi'
 import {AiFillEdit} from 'react-icons/ai'
 import {MdKeyboardArrowRight} from 'react-icons/md'

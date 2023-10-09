@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
-import './personalDetails.css'
+import '../stylings/personalDetails.css'
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import {Button} from 'react-bootstrap'

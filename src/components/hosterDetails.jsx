@@ -1,6 +1,6 @@
 // import React from 'react'
 import { Container } from "react-bootstrap"
-import './hosterDetails.css' 
+ import '../stylings/hosterDetails.css'
 import {BsChatRightDots,BsCarFront} from 'react-icons/bs'
 import { useParams } from "react-router-dom"
 import { useEffect,useState } from "react"

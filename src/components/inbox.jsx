@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axios';
 import { Container } from 'react-bootstrap'
 // import { HiOutlineChatBubbleLeft } from 'react-icons/hi'
-import './inbox.css'
+import '../stylings/inbox.css'
+
 
 
 

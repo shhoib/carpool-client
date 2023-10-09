@@ -9,7 +9,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import './myRides.css'
+import '../stylings/myrides.css'
 import { Container } from "react-bootstrap";
 import {MdLocationPin} from 'react-icons/md'
 import {BsPlusCircle} from 'react-icons/bs'
