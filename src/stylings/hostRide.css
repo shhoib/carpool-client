@@ -1,11 +1,11 @@
- body{
+ /* body{
     color: #054652;
     margin: 0;
  }
  @media (min-width: 601px) and (max-width: 1050px){
-  .overlay-form {
+  .overlay-form { */
       /* width: 50%; */
-  }
+  /* }
 }
 .overlay-form {
     position: absolute;
@@ -34,18 +34,28 @@
     padding: 0;
     margin: 0;
     position: absolute;
-    z-index: 1;
+    z-index: 1; */
     /* width: 100%; */
-    background-color: #ffffff;
+    /* background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 20px;
   }
   .suggestions li {
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; */
     /* border-radius: 20px; */
-    cursor: pointer;
-  }
+    /* cursor: pointer;
+  } */
   
+.hostRide-banner-container{
+  background-color: skyblue;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hostRide-banner-image{
+  width: 60%;
+}
 
   

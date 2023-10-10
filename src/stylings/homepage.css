@@ -51,4 +51,71 @@
     height: 300px;
     font-size: 800%;
   }
+  .carousel-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #072b41;
+    height: 300px;
+    padding: 20px;
+  }
   
+  .reviewer-image-container {
+    width: 15%;
+    height: 70%;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  @media(max-width:600px){
+    .reviewer-image-container{
+        width:33%;
+        height:40%;
+    }
+   .scam-text-container{
+    text-align: center;
+    padding-top: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+   }
+
+ }
+  
+  
+  .reviewer-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .review-content {
+    text-align: center;
+  }
+  
+  .review-text {
+    font-size: 16px;
+    color: white;
+  }
+  .scam-image{
+    width: 75%;
+  }
+  .scam-text-container{
+    text-align: center;
+    /* padding-top: 1%; */
+    /* padding-left: 9%; */
+    /* padding-right: 5%; */
+   }
+   .scam-image-container{
+    display: flex;
+    align-items: center;
+   justify-content: center;
+   }
+   .bonus-container{
+    /* background-color: rgb(170, 219, 238); */
+   }

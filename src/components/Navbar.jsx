@@ -195,7 +195,7 @@ export default function App() {
   return (
     <>
     <ToastContainer/>
-      <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={location.pathname === '/' ? 'top' : false} style={{boxShadow:'none'}}>
+      <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={location.pathname === '/'||location.pathname === '/HostRide' ? 'top' : false} style={{boxShadow:'none'}}>
         <MDBContainer fluid>
           <MDBNavbarBrand  style={{color:'grey', padding:'0px'}}>
             <img src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1696741863/coride_logo_ci0gw0.png'
