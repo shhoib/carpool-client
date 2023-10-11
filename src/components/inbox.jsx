@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axios';
 import { Container } from 'react-bootstrap'
-// import { HiOutlineChatBubbleLeft } from 'react-icons/hi'
+import { BsChatDots } from 'react-icons/bs'
 import '../stylings/inbox.css'
+import Lottie from 'react-lottie'
+import loading from '../animations/loading.json'
 
 
 
@@ -27,7 +29,7 @@ const Inbox = () => {
             console.log(response.data);
         }   
         fetchPreviuosChatDetails();
-    },[USER])
+    },[USER, userID])
 
     const handleChatClick=(chat)=>{
         navigate(`/chat/${chat._id}/`)
@@ -36,11 +38,11 @@ const Inbox = () => {
 
   return (
     <>
-    <Container className='chat d-flex flex-column align-items-center p-5'>
+    <Container className='chat d-flex flex-column align-items-center p-3'>
 
      {Array.isArray(previousChats.chattedUsers)&&
-      <div className='previousChat-banner d-flex flex-column align-items-center'>
-        <h3>previous chats</h3>
+      <div className='previousChat-banner d-flex flex-column align-items-center justify-content-center'>
+        <h3 >PREVIOUS CHATS <BsChatDots/> </h3>
       </div> }
 
       {Array.isArray(previousChats.chattedUsers) ? (previousChats.chattedUsers.map((chat, index) => (
@@ -54,12 +56,24 @@ const Inbox = () => {
            <h6>time</h6>
            </div>
 
-           <hr className="hr hr-blurry w-100" />
+           <hr className="hr hr-blurry w-100 m-0" />
            
         </div>
 
           ))) : (
-        <p>Loading...</p>
+          <Lottie
+  options={{
+    loop: true,
+    autoplay: true,
+    animationData: loading,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice', // Optional: Determines how the animation should be resized to fit the container
+    },
+  }}
+  height={200} // Set the height of the animation
+  width={200}  // Set the width of the animation
+/>
+
             )}
      </Container>
     </>

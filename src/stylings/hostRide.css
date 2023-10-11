@@ -69,10 +69,10 @@
   border-color: rgb(167, 165, 165);
   /* border: none; */
   margin: 10px;
-  transition: all 0.6s ease;  
+  transition: all 0.8s ease;  
 }
  .host-input-boxes:hover{
-  transform: scale(1.05);
+  transform: scale(1.09);
 
  }
 .host-input-boxes::placeholder {
@@ -114,10 +114,13 @@
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   font-weight: 800;
+  transition: all 0.8s ease, background-color 0.9s, color 0.9s;  
+
 
 }
 .radio-button:hover{
   background-color: #007bff;
+  color: white;
 }
 
 .radio-button.selected {

@@ -5,7 +5,7 @@
   import { useState,useEffect, useRef } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
-  import { useParams } from 'react-router-dom';
+  import { Navigate, useNavigate, useParams } from 'react-router-dom';
   import {RiSendPlaneLine} from 'react-icons/ri'
   import socket from '../api/socketIO.js'
   import Lottie from 'react-lottie'
@@ -47,6 +47,7 @@
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef = useRef()
+    const navigate = useNavigate();
 
     const {id} = useParams();
     
@@ -187,6 +188,9 @@
 		connectionRef.current.destroy()
 	}
 
+  const handlePreviousChatNavigate = (chattedUser)=>{
+    navigate(`/chat/${chattedUser._id}`)
+  }
     return ( 
       <>
       {/* {loading ? 
@@ -199,12 +203,11 @@
           {/* <h5><MDBIcon fas icon="user-edit" /></h5> */}
           <h4> <AiOutlineEdit/></h4>
         </div>
-        <hr className="hr hr-blurry"/>
         
         <input type="text" className="search-box" placeholder="Search users..."/>
 
         {previousChats?.map((chattedUser,index)=>(
-         <div key={index} className='each-chat px-2 py-1 my-2'>
+         <div onClick={()=>handlePreviousChatNavigate(chattedUser)} key={index} className='each-chat px-2 py-1 my-2'>
          <div className='profile_in_chat' style={{backgroundImage:`url(${chattedUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}} ></div>
          <h6 style={{color:'#007bff',fontFamily:'cursive'}}>{chattedUser?.name}</h6>
          </div>
@@ -217,7 +220,7 @@
         <div className='to-whom d-flex align-items-center justify-content-between p-3'>
          <div className='to-whom-profile-name d-flex align-items-center justify-content-around'>
             <div className='current-chat-profile' style={{backgroundImage:`url(${chatDetails?.toUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
-            <h3 className=''>{chatDetails?.toUser?.name}</h3>
+            <h3 style={{color:'white'}}>{chatDetails?.toUser?.name}</h3>
             <RiRadioButtonLine style={{color:'green'}}/>
           </div> 
         <div className='call-icon d-flex align-items-center justify-content-around'>

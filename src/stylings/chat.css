@@ -104,7 +104,9 @@
 .chat-heading{
     display: flex;
     justify-content: center;
-    border-bottom-right-radius: 10px;
+    /* border-bottom-right-radius: 10px; */
+    border-radius: 10px;
+    background-color: rgb(163, 162, 162);
 
 }
 .chats{
@@ -130,6 +132,10 @@
     cursor: pointer;
     color: white;
 }
+div.each-chat:hover h6 {
+  color: white !important;
+}
+
 .profile_in_chat{
     width: 40px;
     height: 40px;
@@ -140,7 +146,7 @@
 .search-box{
     padding: 9px;
     border: none;
-    border-radius: 50px;
+    border-radius: 15px;
     outline: none;
     font-size: 16px;
     font-family: Arial, Helvetica, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -149,20 +155,22 @@
     transition: border-color 0.3s ease-in-out;
     width: 90%;
     margin-bottom: 5px;
-    margin-left: 15px;
+    margin: 15px;
+    background-color: #c2bfbf;
 }
 
   input.message-input::placeholder {
-    color: rgb(32, 32, 32); /* Change this to your desired color */
+    color: rgb(32, 32, 32);
   }
   .username{
     color: #007bff;
     font-weight: 600;
     font-family: cursive;
   }
+  .username:hover{
+    color: white;
+  }
   .profile{
-    /* width: 15px;
-    height: 15px; */
     background-color: #333;
   }
   .current-chat-profile{
@@ -178,12 +186,14 @@
   }
   .to-whom{
     width: 100%;
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    margin-left: 10px;
   }
   .to-whom-profile-name{
     width: 18%;
   }
   .to-whom-profile-name h3{
-    /* font-weight: 500; */
     color: #575555;
     font-family: cursive;
   }

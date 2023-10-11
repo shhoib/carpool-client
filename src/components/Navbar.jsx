@@ -190,12 +190,14 @@ export default function App() {
             }, 
         });
         }
+     const navWithoutBackground = location.pathname === '/'||location.pathname === '/HostRide';
 
 
   return (
     <>
     <ToastContainer/>
-      <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={location.pathname === '/'||location.pathname === '/HostRide' ? 'top' : false} style={{boxShadow:'none'}}>
+      <MDBNavbar className="bg-body-tertiary p-0" bgColor ='transparent' fixed={navWithoutBackground ? 'top' : false} style={navWithoutBackground ? { boxShadow: 'none' } : null}
+>
         <MDBContainer fluid>
           <MDBNavbarBrand  style={{color:'grey', padding:'0px'}}>
             <img src='https://res.cloudinary.com/dzhfutnjh/image/upload/v1696741863/coride_logo_ci0gw0.png'
