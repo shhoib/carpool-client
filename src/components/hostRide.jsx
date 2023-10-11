@@ -278,21 +278,48 @@
 
 import {Col,Row} from 'react-bootstrap'
 import '../stylings/hostRide.css'
+import {MDBBtn} from 'mdb-react-ui-kit'
 
 const HostRide = () => {
 
 
   return (
     <>
-    <Row className='hostRide-banner-container'>
-      <Col xs={12} md={6} className='d-flex justfy-content-evenly align-items-evenly'>
-      <img className='hostRide-banner-image' src="https://o.remove.bg/downloads/3000cbec-f0d8-44c9-b78e-521aa63cb0ae/more_cars-removebg-preview.png" alt="" />
+    <Row className='hostRide-banner-container d-flex align-items-center'>
+    <Col md={6} xs={12} className='scam-image-container'>
+        <img className='hostRide-banner-image' src="https://res.cloudinary.com/dzhfutnjh/image/upload/v1696930137/more_cars_c4sbac.png" alt="" />
       </Col>
-      <Col xs={12} md={6}>
-      <h6 className='text-center'>Share your ride with passengers on your way, and save every time you travel by car.
-       Sign up as a driver to start saving on travel costs.</h6>
-      </Col>
+      
+      <Col className='hostRide-bannerText-container' md={6} xs={12}>
+        <h3 style={{fontWeight:'600'}}>Share your ride with passengers on your way, and save every time you travel by car.
+       Sign up as a driver to start saving on travel costs!!</h3>
+      </Col>   
     </Row>
+
+    <div className='host-heading'>
+      <h1>HOST YOUR RIDE HERE</h1>
+    </div>
+
+    <div className='host-input-box-container'>
+     <div>
+      <input className='host-input-boxes m-4' type="text" placeholder='from...'/>
+      <input className='host-input-boxes' type="text" placeholder='to...'/>
+     </div>
+      <Row>
+        <Col md={4} xs={12}><input className='host-input-boxes' type="date" placeholder='date...'/></Col>
+        <Col md={4} xs={12}><input className='host-input-boxes' type="text" placeholder='vehicle...'/></Col>
+        <Col md={4} xs={12}><input className='host-input-boxes' type="text" placeholder='amount...'/></Col>
+      </Row>
+
+      <div className='d-flex'>
+      <label>
+      <input className='radio-selector' value='1' type="radio" id="radioButton1" name="group1"/>1
+      </label>
+      <input className='radio-selector' type="radio" id="radioButton2" name="group1"/>
+      </div>
+
+       <MDBBtn>HOST</MDBBtn>
+     </div>
     </>
   )
 }

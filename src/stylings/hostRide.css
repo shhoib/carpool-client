@@ -49,13 +49,59 @@
   
 .hostRide-banner-container{
   background-color: skyblue;
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom-right-radius: 95px ;
+  border-bottom-left-radius: 95px ;
 }
 .hostRide-banner-image{
-  width: 60%;
+  width: 70%;
+}
+.hostRide-bannerText-container{
+  color: white;
+  font-weight: 800;
+}
+
+.host-input-boxes{
+  border-radius: 50px;
+  height: 45px;
+  border-color: rgb(167, 165, 165);
+  /* border: none; */
+  
+}
+.host-input-boxes::placeholder {
+  padding: 10px;
+}
+.host-heading{
+  /* background-color: skyblue; */
+  /* color: white; */
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+.host-input-box-container{
+  /* background-color: skyblue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.radio-selector{
+  width: 120px;
+  height: 40px;
+}
+
+
+
+
+
+@media(max-width:600px){
+  .hostRide-bannerText-container{
+    color: white;
+    padding: 15px;
+    /* padding-left: 5%; */
+  }
 }
 
   
