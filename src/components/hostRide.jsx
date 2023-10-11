@@ -296,17 +296,19 @@ import MapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 
 const HostRide = () => {
 
-   const [selectedNumber, setSelectedNumber] = useState(null);
-
-  const handleNumberChange = (number) => {
-    setSelectedNumber(number);
-  };
-
-  const [fromSuggestions, setFromSuggestions] = useState([])
+     const [selectedNumber, setSelectedNumber] = useState(null);
+     const [fromSuggestions, setFromSuggestions] = useState([])
      const [toSuggestions, setToSuggestions] = useState([])
      const [from, setFrom] = useState('');
      const [to,setTo] = useState('');
+     const [DATE,setDate] = useState('');
+     const [vehicle,setVehicle] = useState('');
+     const [amount,setAmount] = useState('');
      const [formSubmitted, setFormSubmitted] = useState(false);
+
+     const handleNumberChange = (number) => {
+      setSelectedNumber(number);
+    };
     
   
      const Alert = React.forwardRef(function Alert(props, ref) {
@@ -322,26 +324,22 @@ const HostRide = () => {
      e.preventDefault();
     
      try {
-       const DATE = inputRef.current.date.value;
        const dateValue = DATE.replace(/-/g, '/');
-       const passengersValue = inputRef.current.passengers.value;
-       const vehicle = inputRef.current.vehicle.value;
-       const amount = inputRef.current.amount.value;
-  console.log(DATE);
+    
+
        const requestData = {
          from: from,
          to: to,
          date: dateValue,
-         passengers: passengersValue,
+         passengers: selectedNumber,
          vehicle: vehicle,
          amount: amount,
          hoster:USER.name,
          hosterID:USER.userID,
          status:"hosted"
        };
-       console.log(requestData);
   
-       if (from === '' || to === '' || dateValue === '' || passengersValue === '' || amount === '') {
+       if (from === '' || to === '' || dateValue === '' || selectedNumber === null || amount === '') {
          toast.error("Please fill in all details");
        } else {
          try {
@@ -349,11 +347,11 @@ const HostRide = () => {
            if(response.status==201){
              setFrom('');
              setTo('')
-             inputRef.current.date.value = '';  
-             inputRef.current.passengers.value = ''; 
-             inputRef.current.vehicle.value = ''; 
-             inputRef.current.amount.value = ''; 
+             setAmount('')
+             setVehicle('')
+             setDate('')
              setFormSubmitted(true)
+             setSelectedNumber(null)
            }
          } catch (error) {
            console.error(error.message);
@@ -432,6 +430,19 @@ const HostRide = () => {
          document.removeEventListener('click', handleClickOutside);
        };
       }, []);
+
+      useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (inputRef.current.to && !inputRef.current.to.contains(event.target)) {
+             setToSuggestions([]);
+           }
+           };
+          document.addEventListener('click', handleClickOutside);
+         return () => {
+            document.removeEventListener('click', handleClickOutside);
+          };
+          }, []);
+        
   
   return (
     <>
@@ -443,7 +454,7 @@ const HostRide = () => {
             </Alert>
           </Snackbar>
         </Stack>
-        
+
     <Row className='hostRide-banner-container d-flex align-items-center'>
     <Col md={6} xs={12} className='scam-image-container'>
         <img className='hostRide-banner-image' src="https:res.cloudinary.com/dzhfutnjh/image/upload/v1696930137/more_cars_c4sbac.png" alt="" />
@@ -488,9 +499,9 @@ const HostRide = () => {
      </Col>
      </Row>
       <Row className='d-flex'> 
-        <Col md={4} xs={12}><Form.Control className='host-input-boxes' type="date" placeholder="date" /></Col>
-        <Col md={4} xs={12}><Form.Control className='host-input-boxes' type="text" placeholder="vehicle" /></Col>
-        <Col md={4} xs={12}> <Form.Control className='host-input-boxes' type="number" placeholder="amount" /> </Col>
+        <Col md={4} xs={12}><Form.Control onChange={(e)=>setDate(e.target.value)} value={DATE} className='host-input-boxes' type="date" placeholder="date" /></Col>
+        <Col md={4} xs={12}><Form.Control onChange={(e)=>setVehicle(e.target.value)} value={vehicle} className='host-input-boxes' type="text" placeholder="vehicle" /></Col>
+        <Col md={4} xs={12}> <Form.Control onChange={(e)=>setAmount(e.target.value)} value={amount} className='host-input-boxes' type="number" placeholder="amount" /> </Col>
       </Row>
 
       <h2 className='seats-text'>AVAILABLE SEATS</h2>
