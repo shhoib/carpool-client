@@ -5,7 +5,7 @@
   import { useState,useEffect, useRef } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
-  import { Navigate, useNavigate, useParams } from 'react-router-dom';
+  import { useNavigate, useParams } from 'react-router-dom';
   import {RiSendPlaneLine} from 'react-icons/ri'
   import socket from '../api/socketIO.js'
   import Lottie from 'react-lottie'
@@ -218,15 +218,15 @@
       
     <div className='chat-container d-flex flex-column justify-content-center align-items-center'>
         <div className='to-whom d-flex align-items-center justify-content-between p-3'>
-         <div className='to-whom-profile-name d-flex align-items-center justify-content-around'>
-            <div className='current-chat-profile' style={{backgroundImage:`url(${chatDetails?.toUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
-            <h3 style={{color:'white'}}>{chatDetails?.toUser?.name}</h3>
-            <RiRadioButtonLine style={{color:'green'}}/>
-          </div> 
-        <div className='call-icon d-flex align-items-center justify-content-around'>
-          <h2 onClick={handleVideoCall}><FcVideoCall/></h2>
-          <h2><FcPhone/></h2>
-        </div>
+          <div className='to-whom-profile-name d-flex align-items-center justify-content-around'>
+              <div className='current-chat-profile' style={{backgroundImage:`url(${chatDetails?.toUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
+              <h2 style={{color:"white",padding:"8px",fontFamily:"cursive",fontWeight:"500"}}>{chatDetails?.toUser?.name}</h2>
+              <RiRadioButtonLine style={{color:'green'}}/>
+         </div> 
+          <div className='call-icon d-flex align-items-center justify-content-end'>
+            <h2 onClick={handleVideoCall}><FcVideoCall/></h2>
+            <h2><FcPhone/></h2>
+          </div>
         </div>
         <hr className="hr hr-blurry w-100 m-0"/>
 

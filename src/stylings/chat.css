@@ -1,16 +1,7 @@
 .chat-container{
-    /* background-color: rgb(53, 52, 52); */
-    /* background-image: url('https://res.cloudinary.com/dzhfutnjh/image/upload/v1694842492/white-speech-bubble-chat-message-communication-icon-sign-symbol-background-3d-illustration_56104-2055_ulkdgv.avif'); */
     background-size: cover;
     width: 100%;
-    /* margin-left: 10px; */
-    /* margin-right: 10px; */
-    /* margin-top: 20px; */
     border: none;
-    /* border-radius: 20px; */
-    /* height: 80vh; */
-    /* box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);  */
-
 }
 
 .message-input{
@@ -28,15 +19,13 @@
 
 }
 .message-input:hover{
-    /* transform: scale(1.1); */
     border-color: #007bff;
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); 
 }
 .messages-container{
-    height: 75vh;
-    /* box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); */
-
-
+    height: 65vh;
+    background-color: #f0ecec;
+    border-radius: 10px;
 }
 
 .sendButton{
@@ -56,8 +45,6 @@
      display: flex;
      justify-content: flex-end;
      padding: 10px;
-     /* background-color: #007bff; */
-     /* flex-direction: column; */
  } 
 
  .other{
@@ -74,11 +61,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-end; */
     align-items: end;
-
-
-
 }
 .other-message-content{
     background-color: #f7f7f8;
@@ -99,12 +82,10 @@
 .previous-chats{
     width: 25%;
     background-color: #f7f7f8;
-    /* border-right: 1px solid black; */
 }
 .chat-heading{
     display: flex;
     justify-content: center;
-    /* border-bottom-right-radius: 10px; */
     border-radius: 10px;
     background-color: rgb(163, 162, 162);
 
@@ -176,8 +157,9 @@ div.each-chat:hover h6 {
   .current-chat-profile{
     width: 60px;
     height: 60px;
-    background-color: #333;
     border-radius: 50px;
+      background-position: center;
+
   }
   .inside-chat-profile{
     width: 25px;
@@ -190,8 +172,10 @@ div.each-chat:hover h6 {
     border-radius: 10px;
     margin-left: 10px;
   }
-  .to-whom-profile-name{
-    width: 18%;
+  .to-whom-username{
+    padding: 5px;
+    background-color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
   }
   .to-whom-profile-name h3{
     color: #575555;
@@ -199,4 +183,11 @@ div.each-chat:hover h6 {
   }
   .call-icon{
     width: 10%;
+  }
+
+
+  @media(max-width:600px){
+    .previous-chats{
+      display: none;
+    }
   }

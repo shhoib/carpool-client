@@ -62,19 +62,12 @@ const Inbox = () => {
 
           ))) : (
           <Lottie
-  options={{
-    loop: true,
-    autoplay: true,
-    animationData: loading,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice', // Optional: Determines how the animation should be resized to fit the container
-    },
-  }}
-  height={200} // Set the height of the animation
-  width={200}  // Set the width of the animation
-/>
-
-            )}
+       options={{
+        loop: true, autoplay: true,animationData: loading,rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice', 
+        }, }}
+      height={150}  width={150}  />
+       )}
      </Container>
     </>
   )
