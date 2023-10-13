@@ -175,7 +175,7 @@ const MyRides = () => {
             <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
             </div>
             </div>
-            <hr className="line"/>
+            <hr className="hr hr-blurry m-0 p-0"/>
           </Container>
         )):
         <Container className="d-flex flex-column align-items-center">

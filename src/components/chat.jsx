@@ -14,6 +14,7 @@
   import {RiRadioButtonLine} from 'react-icons/ri'
   import {FcVideoCall,FcPhone} from 'react-icons/fc'
   import Peer from 'simple-peer'
+  import {MDBBtn} from 'mdb-react-ui-kit'
 
  
 
@@ -30,23 +31,25 @@
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
     const [me, setMe] = useState('')
-    const [stream, setStream] = useState()
-    const [receivingCall, setReceivingCall] = useState(false)
+    const [stream, setStream] = useState(null)
+    // const [callAccepted, setReceivingCall] = useState(false)
     const [caller, setCaller] = useState('')
     const [callerSignal, setCallerSignal] = useState()
     const [idToCall, setIdToCall] = useState('')
     const [callEnded, setCallEnded] = useState(false)
-    const [name, setName] = useState('')
     const [callAccepted, setCallAccepted] = useState(false)
+    const [call, setCall] = useState(null)
    
 
 
     const USER = useSelector((state)=>state.userAuth);
     const userID = USER.userID 
+    const name = USER.name 
 
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef = useRef()
+
     const navigate = useNavigate();
 
     const {id} = useParams();
@@ -99,7 +102,7 @@
       })
       socket.on('typing',()=>setIsTyping(true))
       socket.on('stop typing',()=>setIsTyping(false))
-    }, [])  //TODO:include socket if not working
+    }, []) 
     
     const typingHandler = (e)=>{
       setmessage(e.target.value)
@@ -123,63 +126,62 @@
     }
 ;
 
-    const handleVideoCall = (ID)=>{
-      navigator.mediaDevices.getUserMedia({video:true,audio:true}).then((stream)=>{
-        setStream(stream)
-        myVideo.current.srcObject = stream
+    useEffect(()=>{
+      navigator.mediaDevices.getUserMedia({video:true,audio:true}).then((currentStream)=>{
+        setStream(currentStream)
+        myVideo.current.srcObject = currentStream
       })
       socket.on('me',(id)=>{
         setMe(id)
       })
-      socket.on('callUser',(data)=>{
-        setReceivingCall(true)
-        setCaller(data.from)
-        setName(data.name)
-        setCallerSignal(data.signal)
+
+      socket.on('calluser',({from,name:callerName,signal})=>{
+        setCall({isReceiveCall:true, from, name:callerName, signal})
       })
 
+    },[])
+
+    const handleVideoCall = ()=>{
+     
       const peer = new Peer({
         initiator: true,
         trickle: false,
         stream: stream
       })
       peer.on("signal", (data) => {
-        socket.emit("callUser", {
-          userToCall: ID,
+        socket.emit("calluser", {
+          userToCall: room,
           signalData: data,
           from: me,
           name: name
         })
       })
-      peer.on("stream", (stream) => {
-        
-          userVideo.current.srcObject = stream
+      peer.on("stream", (currentStream) => {       
+          userVideo.current.srcObject = currentStream
         
       })
-      socket.on("callAccepted", (signal) => {
+      socket.on("callaccepted", (signal) => {
         setCallAccepted(true)
         peer.signal(signal)
       })
   
       connectionRef.current = peer
-
       }
 
-    	const answerCall =() =>  {
+
+    const answerCall =() =>  { 
+
 		setCallAccepted(true)
-		const peer = new Peer({
-			initiator: false,
-			trickle: false,
-			stream: stream
-		})
+		const peer = new Peer({ initiator: false,	trickle: false,stream })
+
 		peer.on("signal", (data) => {
-			socket.emit("answerCall", { signal: data, to: caller })
+			socket.emit("answerCall", { signal: data, to: call.from })
 		})
-		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream
+		peer.on("stream", (currentStream) => {
+			userVideo.current.srcObject = currentStream
 		})
 
-		peer.signal(callerSignal)
+		peer.signal(call.signal)
 		connectionRef.current = peer
 	}
 
@@ -191,7 +193,10 @@
   const handlePreviousChatNavigate = (chattedUser)=>{
     navigate(`/chat/${chattedUser._id}`)
   }
+
+
     return ( 
+
       <>
       {/* {loading ? 
       <p>loading...</p>: */}   
@@ -261,7 +266,13 @@
       </Container>
 
     </div>
-    </div>   
+    </div> 
+
+    <MDBBtn onClick={answerCall}>accept</MDBBtn>
+    <MDBBtn onClick={leaveCall}>leave</MDBBtn>
+    
+    <video src="" muted ref={myVideo} style={{width:'60px',height:'60px'}}/>
+    <video src="" muted ref={userVideo} style={{width:'60px',height:'60px'}}/>
       
       </>
     )
