@@ -136,8 +136,34 @@ const MyRides = () => {
 
       const handlePayment = async(hostedRides)=>{
         try {
-          const response = axiosInstance.post('/orders',{amount:hostedRides.amount})
-          console.log(response?.data);
+          const keyResponse = await axiosInstance.get('/getKey')
+
+          const response = await axiosInstance.post('/orders',{amount:hostedRides?.amount})
+          // console.log(keyResponse);
+
+        const options = {
+          key: keyResponse.data.key, 
+          amount: response.data.amount, 
+          currency: "INR",
+          name: "coRide",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: response.data.id, 
+          callback_url: "https//localhost:3000/paymentVerification",
+          prefill: {
+              "name": "Gaurav Kumar",
+              "email": "gaurav.kumar@example.com",
+              "contact": "9000090000"
+          },
+          notes: {
+              "address": "Razorpay Corporate Office"
+          },
+          theme: {
+              "color": "#3399cc"
+          }
+      };
+      var razor = new window.Razorpay(options);
+          razor.open();
         } catch (error) {
           console.log(error);
         }
