@@ -155,7 +155,7 @@
 
 
 
-import {MDBContainer,MDBNavbar, MDBNavbarBrand,MDBDropdownToggle,MDBDropdown,MDBDropdownMenu,MDBDropdownItem} from 'mdb-react-ui-kit';
+import {MDBContainer,MDBNavbar,MDBIcon, MDBNavbarBrand,MDBDropdownToggle,MDBDropdown,MDBDropdownMenu,MDBDropdownItem} from 'mdb-react-ui-kit';
 import {MdOutlineLegendToggle} from 'react-icons/md'
 import {useNavigate,useLocation} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
@@ -192,6 +192,10 @@ export default function App() {
         }
      const navWithoutBackground = location.pathname === '/'||location.pathname === '/HostRide';
 
+     const handleNotificationNavigate=()=>{
+      navigate('/notifications')
+     }
+
 
   return (
     <>
@@ -204,7 +208,8 @@ export default function App() {
               height='60' alt='' loading='lazy'/>
             CoRide
           </MDBNavbarBrand>
-              <MDBDropdown>
+              <MDBDropdown className='d-flex'>
+                <MDBIcon className='m-2' onClick={handleNotificationNavigate} far icon="comment-alt" />
                 <MDBDropdownToggle tag='a' className='nav-link' role='button'>
                 <MdOutlineLegendToggle style={{fontSize:'30px', color:'grey', marginRight:'10px'}}/>
                 </MDBDropdownToggle>

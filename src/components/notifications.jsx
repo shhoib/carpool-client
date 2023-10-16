@@ -136,7 +136,9 @@ const Notifications = () => {
      <div>
      {requestNotifications?.length<=0 && acceptNotifications?.length<=0?(
       <Container className='d-flex justify-content-center align-items-center' style={{width:'100%',height:'100vh'}}>
-      <h1><MDBIcon fas icon="bell-slash" /> No new Notifications</h1></Container>
+      <h1> No new Notifications</h1>
+      <img className='w-10' src="https://i.pinimg.com/564x/87/9d/ea/879dead125a63bd3deb54f1196a33b7e.jpg" alt="" />
+      </Container>
      ):(
 
       <Container>
