@@ -151,9 +151,9 @@ const MyRides = () => {
           order_id: response.data.id, 
           callback_url: "http://localhost:3000/paymentVerification",
           prefill: {
-              "name": "Shuaib Salam",
-              "email": "shuaibsalam1234@gmail.com",
-              "contact": "9605155858"
+              "name": USER.name,
+              "email": USER.email,
+              "contact": USER.phoneNumber
           },
           notes: {
               "address": "Razorpay Corporate Office"

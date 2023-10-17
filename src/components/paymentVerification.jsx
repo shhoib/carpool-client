@@ -2,6 +2,8 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import {FcApproval} from 'react-icons/fc'
 import {MDBBtn} from 'mdb-react-ui-kit'
 import { useEffect } from "react"
+import { useSelector } from "react-redux"
+import axiosInstance from "../api/axios"
 
 const PaymentVerification = () => {
 
@@ -10,9 +12,17 @@ const PaymentVerification = () => {
   const refNum = searchQuery.get('reference')
   const navigate = useNavigate()
 
+  const USER = useSelector((state)=>state.userAuth);
+ 
+
   useEffect(()=>{
-    
-  })
+    const saveName = async()=>{
+      const response = await axiosInstance.post('/saveReceiverName',{userID:USER.userID,payment_id:refNum})
+      console.log(response.data);
+    }
+
+    saveName();
+  },[USER.userID, refNum])
 
 
   return (
