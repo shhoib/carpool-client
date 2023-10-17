@@ -139,7 +139,6 @@ const MyRides = () => {
           const keyResponse = await axiosInstance.get('/getKey')
 
           const response = await axiosInstance.post('/orders',{amount:hostedRides?.amount})
-          // console.log(keyResponse);
 
         const options = {
           key: keyResponse.data.key, 
@@ -149,7 +148,7 @@ const MyRides = () => {
           description: "Test Transaction",
           image: "https://example.com/your_logo",
           order_id: response.data.id, 
-          callback_url: "https//localhost:3000/paymentVerification",
+          callback_url: "http://localhost:5173/paymentVerification",
           prefill: {
               "name": "Gaurav Kumar",
               "email": "gaurav.kumar@example.com",

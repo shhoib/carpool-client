@@ -18,6 +18,7 @@ import Profile from "./components/profile";
 import RideDetails from './components/rideDetails';
 import HosterDetails from './components/hosterDetails';
 import EditPersonalDetails from './components/personalDetails';
+import PaymentVerification from './components/paymentVerification';
 import ChangePassword from './components/changePassword';
 import Notifications from './components/notifications';
 import MyRides from './components/myRides';
@@ -54,6 +55,7 @@ function App() {
           <Route path="/Inbox" element={ userAuth ? <Inbox />: <Navigate to='/login'/> } />
           <Route path="/Notifications" element={ userAuth ? <Notifications />: <Navigate to='/login'/> } />
           <Route path="/Ratings" element={ userAuth ? <Ratings />: <Navigate to='/login'/> } />
+          <Route path="/PaymentVerification" element={ userAuth ? <PaymentVerification />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      
