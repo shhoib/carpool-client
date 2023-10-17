@@ -13,6 +13,7 @@ import '../stylings/myrides.css'
 import { Container } from "react-bootstrap";
 import {MdLocationPin} from 'react-icons/md'
 import {BsPlusCircle} from 'react-icons/bs'
+import {SiRazorpay} from 'react-icons/si'
 import {BsFillCarFrontFill} from 'react-icons/bs'
 import  {FcConferenceCall,FcPlanner,FcAdvance,FcMoneyTransfer } from 'react-icons/fc'
 import PropTypes from 'prop-types';
@@ -146,13 +147,13 @@ const MyRides = () => {
           currency: "INR",
           name: "coRide",
           description: "Test Transaction",
-          image: "https://example.com/your_logo",
+          image: "https://res.cloudinary.com/dzhfutnjh/image/upload/v1696741863/coride_logo_ci0gw0.png",
           order_id: response.data.id, 
-          callback_url: "http://localhost:5173/paymentVerification",
+          callback_url: "http://localhost:3000/paymentVerification",
           prefill: {
-              "name": "Gaurav Kumar",
-              "email": "gaurav.kumar@example.com",
-              "contact": "9000090000"
+              "name": "Shuaib Salam",
+              "email": "shuaibsalam1234@gmail.com",
+              "contact": "9605155858"
           },
           notes: {
               "address": "Razorpay Corporate Office"
@@ -295,11 +296,13 @@ const MyRides = () => {
           <div>
           {toggleState && (
                   <div className="d-flex flex-column justify-content-center align-items-center">
-                    <div>
+                    <div className="d-flex flex-column justify-content-center align-items-center">
                  <hr className="hr hr-blurry"/>
                  <div>
-                  <h4 onClick={()=>handlePayment(hostedRides)}>go to payment section</h4>
+                  {/* <h4 onClick={()=>handlePayment(hostedRides)}>go to payment section</h4> */}
+
                  </div>
+                  <MDBBtn onClick={()=>handlePayment(hostedRides)} className="m-2" color='secondary'><SiRazorpay/> pay with Razorpay</MDBBtn>
                       <h4 className="experience">How was your ride experience !!</h4>                      
                     </div>
                       <div className="d-flex justify-content-center align-items-center">
