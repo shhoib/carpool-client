@@ -27,7 +27,7 @@ const PaymentVerification = () => {
 
   return (
     <div className="w-100 d-flex flex-column align-items-center justify-content-center" style={{height:'90vh'}}>
-    <h1 style={{fontWeight:'700'}}>Order Succesfull <FcApproval/></h1>
+    <h1 style={{fontWeight:'700'}}>Payment Succesfull <FcApproval/></h1>
     <h6 style={{fontWeight:'',color:'black'}}>ref number : {refNum}</h6>
     <MDBBtn onClick={()=>navigate('/')} className="m-2" color='secondary'>Go Home</MDBBtn>
     </div>

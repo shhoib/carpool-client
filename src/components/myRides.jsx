@@ -135,11 +135,14 @@ const MyRides = () => {
         }
       }
 
+
       const handlePayment = async(hostedRides)=>{
+        console.log(hostedRides);
         try {
           const keyResponse = await axiosInstance.get('/getKey')
 
           const response = await axiosInstance.post('/orders',{amount:hostedRides?.amount})
+          console.log(response.data);
 
         const options = {
           key: keyResponse.data.key, 
@@ -164,6 +167,28 @@ const MyRides = () => {
       };
       var razor = new window.Razorpay(options);
           razor.open();
+
+           const createdAtDate = new Date(response.data.created_at * 1000);
+           const formattedCreatedAt = createdAtDate.toLocaleString();
+
+          razor.on('payment.success', async () => {
+            try {
+                const additionalData = {
+                   order_id : response.data.id,
+                   USERID : hostedRides.hosterID,
+                   payed_by : hostedRides.joinerID,
+                   amount : hostedRides.amount,
+                   payed_At : formattedCreatedAt
+                };
+
+                const saveReceiverResponse = await axiosInstance.post('/saveReceiverName', additionalData);
+
+                console.log('Backend response:', saveReceiverResponse.data);
+
+               
+            } catch (error) {
+                console.error('Error sending POST request to backend:', error);
+            }})
         } catch (error) {
           console.log(error);
         }
@@ -215,8 +240,9 @@ const MyRides = () => {
 
       {/* ////////// 2nd tab//////////// */}
         <TabPanel value="2">
-        {myRides.length>0 ?
-          myRides.map((hostedRides,index)=>(
+        {(myRides.length>0 ||joinedRides.length>0) ?(
+          <>
+          {  myRides.map((hostedRides,index)=>(
           hostedRides.status == 'started' ? 
           <Container key={index} className="hosted-rides">
           <div className=" d-flex justify-content-center align-items-center" >
@@ -261,15 +287,8 @@ const MyRides = () => {
             <hr className="line"/>
           </Container>
             :null
-        )):
-        <Container className="d-flex flex-column align-items-center">
-          <h2 className="no-rides">No active rides available.</h2>
-        </Container>
-        }
-
-
-        {joinedRides.length>0 ?
-          joinedRides.map((hostedRides,index)=>(
+        ))}
+        {  joinedRides.map((hostedRides,index)=>(
           hostedRides.status == 'started' ? 
           <Container key={index} className="hosted-rides">
           <div className=" d-flex justify-content-center align-items-center" >
@@ -299,7 +318,6 @@ const MyRides = () => {
                     <div className="d-flex flex-column justify-content-center align-items-center">
                  <hr className="hr hr-blurry"/>
                  <div>
-                  {/* <h4 onClick={()=>handlePayment(hostedRides)}>go to payment section</h4> */}
 
                  </div>
                   <MDBBtn onClick={()=>handlePayment(hostedRides)} className="m-2" color='secondary'><SiRazorpay/> pay with Razorpay</MDBBtn>
@@ -319,12 +337,15 @@ const MyRides = () => {
             <hr className="line"/>
           </Container>
             :null
-        )):
+        ))}
+        </>
+        )
+       :
         <Container className="d-flex flex-column align-items-center">
           <h2 className="no-rides">No active rides available.</h2>
         </Container>
         }
-        </TabPanel>
+      </TabPanel>
 
 
       {/* ////////// 3rd tab//////////// */}
