@@ -37,7 +37,6 @@ const [ratings, setRatings] = useState([])
     fetchRatings();
   },[userID])
 
-  console.log(ratings);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
   '& .MuiRating-iconEmpty .MuiSvgIcon-root': {

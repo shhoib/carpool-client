@@ -15,6 +15,7 @@ import {MdLocationPin} from 'react-icons/md'
 import {BsPlusCircle} from 'react-icons/bs'
 import {SiRazorpay} from 'react-icons/si'
 import {BsFillCarFrontFill} from 'react-icons/bs'
+import {FcApproval} from 'react-icons/fc'
 import  {FcConferenceCall,FcPlanner,FcAdvance,FcMoneyTransfer } from 'react-icons/fc'
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
@@ -142,7 +143,6 @@ const MyRides = () => {
           const keyResponse = await axiosInstance.get('/getKey')
 
           const response = await axiosInstance.post('/orders',{amount:hostedRides?.amount})
-          console.log(response.data);
 
         const options = {
           key: keyResponse.data.key, 
@@ -152,7 +152,7 @@ const MyRides = () => {
           description: "Test Transaction",
           image: "https://res.cloudinary.com/dzhfutnjh/image/upload/v1696741863/coride_logo_ci0gw0.png",
           order_id: response.data.id, 
-          callback_url: "http://localhost:3000/paymentVerification",
+          callback_url: `http://localhost:3000/paymentVerification?USERID=${hostedRides.hosterID}&payed_by=${hostedRides.joinerID}&rideID=${hostedRides._id}`,
           prefill: {
               "name": USER.name,
               "email": USER.email,
@@ -168,27 +168,6 @@ const MyRides = () => {
       var razor = new window.Razorpay(options);
           razor.open();
 
-           const createdAtDate = new Date(response.data.created_at * 1000);
-           const formattedCreatedAt = createdAtDate.toLocaleString();
-
-          razor.on('payment.success', async () => {
-            try {
-                const additionalData = {
-                   order_id : response.data.id,
-                   USERID : hostedRides.hosterID,
-                   payed_by : hostedRides.joinerID,
-                   amount : hostedRides.amount,
-                   payed_At : formattedCreatedAt
-                };
-
-                const saveReceiverResponse = await axiosInstance.post('/saveReceiverName', additionalData);
-
-                console.log('Backend response:', saveReceiverResponse.data);
-
-               
-            } catch (error) {
-                console.error('Error sending POST request to backend:', error);
-            }})
         } catch (error) {
           console.log(error);
         }
@@ -320,7 +299,10 @@ const MyRides = () => {
                  <div>
 
                  </div>
+                 {hostedRides.isPaymentCompleted? 
+                 <h3 style={{fontWeight:'600'}}>payment completed <FcApproval/></h3>:
                   <MDBBtn onClick={()=>handlePayment(hostedRides)} className="m-2" color='secondary'><SiRazorpay/> pay with Razorpay</MDBBtn>
+                 }
                       <h4 className="experience">How was your ride experience !!</h4>                      
                     </div>
                       <div className="d-flex justify-content-center align-items-center">

@@ -1,0 +1,20 @@
+.total_balance{
+    background-color: rgb(233, 230, 230);
+    border-radius: 20px;
+    width: 50%;
+}
+
+.payment-container{
+    transition: all 0.6s ease; 
+    border-radius: 15px;
+}
+.payment-container:hover{
+    transform: scale(1.05);
+    /* background-color: rgb(218, 247, 237); */
+}
+
+@media(max-width:600px){
+    .payment-container{
+        padding: 0;
+    }
+}

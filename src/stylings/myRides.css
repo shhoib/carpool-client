@@ -34,9 +34,9 @@
     border-radius: 15px;
 }
 .hosted-rides:hover{
-  transform: scale(1);
+  transform: scale(1.02);
   border-color: #007bff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);  
+  /* box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);   */
 }
 .line{
   width: 60%;

@@ -95,10 +95,10 @@ const Profile = () => {
         <h4><MdKeyboardArrowRight/></h4>
       </div>
 
-      <div className="add-profile-section p-1 d-flex justify-content-between">
+      <div onClick={()=>Navigate('/PaymentReceived')} className="add-profile-section p-1 d-flex justify-content-between">
        <div className="  d-flex align-items-center my-">
         <h2 className="mx-3"><GiReceiveMoney/></h2>
-        <h5>Payment and refund</h5>
+        <h5>Payments</h5>
        </div>
         <h4><MdKeyboardArrowRight/></h4>
       </div>
@@ -112,6 +112,13 @@ const Profile = () => {
       <div onClick={()=>Navigate('/ratings')} className="rating-and-changePassword d-flex justify-content-between">
        <div>
         <h5>Ratings</h5>
+       </div>
+       <h4><MdKeyboardArrowRight/></h4>
+      </div>
+
+      <div className="rating-and-changePassword d-flex justify-content-between">
+       <div>
+        <h5>Confirm mobile number</h5>
        </div>
        <h4><MdKeyboardArrowRight/></h4>
       </div>

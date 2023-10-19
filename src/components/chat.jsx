@@ -268,8 +268,8 @@
     </div>
     </div> 
 
-    <MDBBtn onClick={answerCall}>accept</MDBBtn>
-    <MDBBtn onClick={leaveCall}>leave</MDBBtn>
+    {/* <MDBBtn onClick={answerCall}>accept</MDBBtn>
+    <MDBBtn onClick={leaveCall}>leave</MDBBtn> */}
     
     <video src="" muted ref={myVideo} style={{width:'60px',height:'60px'}}/>
     <video src="" muted ref={userVideo} style={{width:'60px',height:'60px'}}/>

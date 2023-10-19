@@ -21,6 +21,7 @@ import EditPersonalDetails from './components/personalDetails';
 import PaymentVerification from './components/paymentVerification';
 import ChangePassword from './components/changePassword';
 import Notifications from './components/notifications';
+import PaymentReceived from './components/paymentReceived';
 import MyRides from './components/myRides';
 import Chat from './components/chat';
 import Inbox from './components/inbox';
@@ -56,6 +57,7 @@ function App() {
           <Route path="/Notifications" element={ userAuth ? <Notifications />: <Navigate to='/login'/> } />
           <Route path="/Ratings" element={ userAuth ? <Ratings />: <Navigate to='/login'/> } />
           <Route path="/PaymentVerification" element={ userAuth ? <PaymentVerification />: <Navigate to='/login'/> } />
+          <Route path="/PaymentReceived" element={ userAuth ? <PaymentReceived />: <Navigate to='/login'/> } />
         </Routes>
         {/* <Footer /> */}
      
