@@ -4,14 +4,23 @@ import {BiPlusCircle} from 'react-icons/bi'
 import {AiFillEdit} from 'react-icons/ai'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import {GiReceiveMoney} from 'react-icons/gi'
+import {FcOk} from 'react-icons/fc'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from 'axios'
-import { updateProfile } from '../redux/userSlice';
+import { updateProfile,updateMobileNumber } from '../redux/userSlice';
 import { MDBBtn,MDBModal,MDBModalDialog, MDBModalContent, MDBModalHeader,
-   MDBModalTitle, MDBModalBody, MDBModalFooter,} from 'mdb-react-ui-kit';
-// import { AxiosInstance } from "axios"
+   MDBModalTitle, MDBModalBody, MDBModalFooter,MDBInput} from 'mdb-react-ui-kit';
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import {auth} from '../api/firebase'
+import axiosInstance from "../api/axios"
+import Stack from '@mui/material/Stack';
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 
 const Profile = () => {
@@ -24,16 +33,40 @@ const Profile = () => {
 
 
   const [profileImage, setProfileImage] = useState(null);
-
+  const [centredModal, setCentredModal] = useState(false);
   const [basicModal, setBasicModal] = useState(false);
+  const [number, setNumber] = useState('');
+  const [user, setUser] = useState(null);
+  const [otp, setOtp] = useState('');
+  const [error, setError] = useState('');
+  const [flag, setFlag] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
 
   const toggleShow = () => setBasicModal(!basicModal);
+  const showModal = () => setCentredModal(!centredModal);
 
   const Navigate = useNavigate();
 
   const handlePersonalDetailsNavigate=()=>{
     Navigate(`/EditPersonalDetails`)
   }
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
 
   const handleChangeProfile = (e)=>{
     setProfileImage(e.target.files[0])
@@ -64,6 +97,43 @@ const Profile = () => {
       console.log(error);
     }
   }
+
+  const getotp = async()=>{
+    setError('')
+     if(number === '' || number === undefined) return setError('Please enter a valid number')
+     try{
+        let recaptchaVerifier =  new RecaptchaVerifier(auth,'recaptcha', {} );
+        recaptchaVerifier.render()
+        let confirmation = await signInWithPhoneNumber(auth,number,recaptchaVerifier)
+        setUser(confirmation) 
+        setFlag(true)     
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  const verifyOtp = async()=>{
+    if(otp === null || otp === undefined ) {
+      return setError('please enter a valid otp')
+    }
+    try {
+     await user.confirm(otp)
+     try{
+      const response = await axiosInstance.get(`/updateNumber?id=${userID}`)
+      console.log(response.data);
+    }catch(error){
+      console.log(error);
+    }
+    dispatch(updateMobileNumber({phoneNumberVerified:true}))
+    showModal()
+      //  <Alert variant='success' >Mobile number updated successfully</Alert> 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(error);
+
+
 
   return (
     <>
@@ -116,12 +186,21 @@ const Profile = () => {
        <h4><MdKeyboardArrowRight/></h4>
       </div>
 
-      <div className="rating-and-changePassword d-flex justify-content-between">
+        {userDetails.phoneNumberVerified ?
+      <div onClick={handleClick} className="rating-and-changePassword d-flex justify-content-between">
        <div>
-        <h5>Confirm mobile number</h5>
+        <h5><FcOk/> Mobile Number verified </h5>
        </div>
        <h4><MdKeyboardArrowRight/></h4>
       </div>
+      :
+      <div onClick={showModal} className="rating-and-changePassword d-flex justify-content-between">
+       <div>
+        <h5>Validate mobile number </h5>
+       </div>
+       <h4><MdKeyboardArrowRight/></h4>
+      </div>
+        }
 
       <div className="rating-and-changePassword d-flex justify-content-between">
        <div>
@@ -136,20 +215,6 @@ const Profile = () => {
         </div>
         <h4><MdKeyboardArrowRight/></h4>
       </div>
-
-      {/* <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton> </Modal.Header>
-      <Modal.Body>
-     
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}> CLOSE </Button>
-        <Button variant="primary" onClick={handleUploadImage}>UPLOAD</Button>
-      </Modal.Footer>
-
-      </Modal> */}
-
 
       <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
         <MDBModalDialog>
@@ -171,9 +236,53 @@ const Profile = () => {
           </MDBModalContent>
         </MDBModalDialog>
       </MDBModal>
+
+      <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
+        <MDBModalDialog centered>
+          <MDBModalContent>
+            <MDBModalHeader style={{backgroundColor:'white'}}>          
+            </MDBModalHeader>
+
+            <MDBModalBody>
+            <div >
+            {error && <Alert variant='danger'>{error}</Alert>}
+            <PhoneInput
+           placeholder="Enter phone number" defaultCountry="IN" value={number} onChange={setNumber}/>
+           <MDBBtn className="m-2" onClick={getotp}>Send OTP</MDBBtn>
+           </div>
+
+            <div id="recaptcha"></div>
+
+            {flag &&
+            <div >
+           <MDBInput className="m-2" label='Enter OTP' id='form1' type='number' value={otp} onChange={(e)=>setOtp(e.target.value)}/>
+           <MDBBtn onClick={verifyOtp}>verify OTP</MDBBtn>
+           </div>
+            }
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={showModal}>
+                Close
+              </MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+      {open ? 
+        <Stack spacing={2} sx={{ width: '100%' }}>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          number already verified
+        </Alert>
+      </Snackbar>
+      
+       </Stack>
+        : null
+        }
     </Container>
     
-    </>
+    </>  
   )
 }
 

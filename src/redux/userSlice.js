@@ -9,7 +9,9 @@ const INITIAL_STATE = {
     phoneNumber:null,
     DOB:null,
     emailVerified:false,
-}
+    phoneNumberVerified:false
+    }
+
 export const userAuthSlice = createSlice({
     name:'userAuth',
     initialState: INITIAL_STATE,
@@ -17,7 +19,6 @@ export const userAuthSlice = createSlice({
         userLogin:(state,action)=>{
 
             const IsEmailVerified = action.payload.emailVerified ? true : false;
-            const IsphoneNumberVerified = action.payload.phoneNumberVerified ? true : false;
 
             state.name = action.payload.username;
             state.email = action.payload.email;
@@ -26,8 +27,17 @@ export const userAuthSlice = createSlice({
             state.DOB = action.payload.DOB;
             state.phoneNumber = action.payload.phoneNumber;
             state.emailVerified = IsEmailVerified;
-            state.phoneNumberVerified = IsphoneNumberVerified;
            
+        },
+
+        updateMobileNumber : (state, action)=>{
+
+        //   const IsphoneNumberVerified = action.payload.phoneNumberVerified ? true : false;
+        console.log(action.payload, 'payload');
+
+            state.phoneNumberVerified = action.payload.phoneNumberVerified;
+            console.log(state.phoneNumberVerified,'state');
+
         },
         updateProfile: (state, action) => {
             state.profile = action.payload.profile;
@@ -46,6 +56,6 @@ export const userAuthSlice = createSlice({
     }
 })
 
-export const {userLogin,userLogout,updateProfile} = userAuthSlice.actions;
+export const {userLogin,userLogout,updateProfile,updateMobileNumber} = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
