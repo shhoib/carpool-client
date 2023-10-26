@@ -14,7 +14,6 @@
   import {RiRadioButtonLine} from 'react-icons/ri'
   import {FcVideoCall,FcPhone} from 'react-icons/fc'
   import Peer from 'simple-peer'
-  import {MDBBtn} from 'mdb-react-ui-kit'
 
  
 
@@ -195,6 +194,7 @@
   }
 
 
+
     return ( 
 
       <>
@@ -203,7 +203,7 @@
     <div className='whole-chat-container d-flex'>
       <div className='previous-chats'>
         <div className='chat-heading p-2 d-flex align-items-center justify-content-evenly'>
-          <div className='profile'  style={{ backgroundImage:`url(${USER.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
+          <div className='profile'  style={{ backgroundImage:`url(${USER.profile || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
           <h4 className='username px-2'>{USER.name}</h4>
           {/* <h5><MDBIcon fas icon="user-edit" /></h5> */}
           <h4> <AiOutlineEdit/></h4>
@@ -244,7 +244,9 @@
                 <h6 className='message m-0'>{messages.message}</h6>  
                 <p className ='time m-0'>{messages.time}</p>
               </div> 
-              <div className='inside-chat-profile m-1'  style={{ backgroundImage:`url(${USER.profileURL || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'})`,backgroundSize: 'cover'}}></div>
+              <div className='inside-chat-profile m-1' style={{ backgroundImage: `url(${ USER.name === messages.author
+           ? USER.profile || 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745' : chatDetails?.toUser?.profileURL|| 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
+             })`, backgroundSize: 'cover' }}></div>
             </div>
 
             </div>     

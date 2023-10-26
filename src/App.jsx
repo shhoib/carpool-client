@@ -19,6 +19,7 @@ import RideDetails from './components/rideDetails';
 import HosterDetails from './components/hosterDetails';
 import EditPersonalDetails from './components/personalDetails';
 import PaymentVerification from './components/paymentVerification';
+import HostedRideDetails from './components/hostedRideDetails';
 import ChangePassword from './components/changePassword';
 import Notifications from './components/notifications';
 import PaymentReceived from './components/paymentReceived';
@@ -53,6 +54,7 @@ function App() {
           <Route path="/ChangePassword" element={ userAuth ? <ChangePassword />: <Navigate to='/login'/> } />
           <Route path="/Chat/:id" element={ userAuth ? <Chat />: <Navigate to='/login'/> } />
           <Route path="/MyRides" element={ userAuth ? <MyRides />: <Navigate to='/login'/> } />
+          <Route path="/HostedRideDetails/:id" element={ userAuth ? <HostedRideDetails />: <Navigate to='/login'/> } />
           <Route path="/Inbox" element={ userAuth ? <Inbox />: <Navigate to='/login'/> } />
           <Route path="/Notifications" element={ userAuth ? <Notifications />: <Navigate to='/login'/> } />
           <Route path="/Ratings" element={ userAuth ? <Ratings />: <Navigate to='/login'/> } />

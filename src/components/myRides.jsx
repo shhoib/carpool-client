@@ -25,9 +25,8 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import { MDBSwitch,MDBTextArea,MDBBtn   } from 'mdb-react-ui-kit';
+import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,} from 'mdb-react-ui-kit';
 import { ToastContainer, toast } from 'react-toastify';
-
 
 
 
@@ -173,6 +172,10 @@ const MyRides = () => {
         }
       }
 
+      const handleMyRideNavigate = (hostedRides)=>{
+        navigate(`/HostedRideDetails/${hostedRides._id}`)
+      }
+
   return (
     <>
     <ToastContainer/>
@@ -188,33 +191,36 @@ const MyRides = () => {
 
 
       {/* ////////1st tab///////// */}
-        <TabPanel value="1">
-        {myRides.length>0?
-          myRides.map((hostedRides,index)=>(
-          <Container key={index}>
-          <div className="hosted-rides d-flex justify-content-center" >
-            <div className="p-3">
-            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
-            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
-            <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
-            </div>
-
-            <div className="p-3">
-            <h5 className="p-2"><FcConferenceCall className="mx-2"/>passengers: {hostedRides.passengers}</h5>
-            <h5 className="p-2"><BsFillCarFrontFill className="mx-2"/>vehicle: {hostedRides.vehicle}</h5>
-            <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
-            </div>
-            </div>
-            <hr className="hr hr-blurry m-0 p-0"/>
+      <TabPanel value="1">
+        {myRides.length > 0 ? (
+          <div className="d-flex flex-wrap justify-content-center">
+            {myRides.map((hostedRides, index) => (
+              <div key={index} className="m-2">
+                <MDBCard className="shadow" alignment='center' style={{ width: '22rem',height:'16rem' }}>
+                  <MDBCardBody>
+                    
+                    <MDBCardText className="m-0">
+                     <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
+                    <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {hostedRides.from.split(', ').slice(0, 2).join(', ')}</h5>
+                    <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {hostedRides.to.split(', ').slice(0, 2).join(', ')}</h5>
+                    </MDBCardText>
+                    <MDBBtn onClick={()=>handleMyRideNavigate(hostedRides)} className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
+                </MDBCardBody>
+                </MDBCard>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Container className="d-flex flex-column align-items-center">
+            <h2 className="no-rides">You haven't hosted any rides</h2>
+            <h5>Click here to host your first ride...</h5>
+            <h1 onClick={() => navigate('/hostRide')}>
+              <BsPlusCircle />
+            </h1>
           </Container>
-        )):
-        <Container className="d-flex flex-column align-items-center">
-          <h2 className="no-rides">You havent hosted any rides</h2>
-          <h5>Click here to host your first ride...</h5>
-          <h1 onClick={()=>navigate('/hostRide')}><BsPlusCircle/></h1>
-        </Container>
-        }
-        </TabPanel>
+        )}
+      </TabPanel>
+
 
 
       {/* ////////// 2nd tab//////////// */}
@@ -364,8 +370,27 @@ const MyRides = () => {
       </TabContext>
     </Box>
 
+
     </>
   )
-}
+ }
 
 export default MyRides
+
+
+       {/* // <Container key={index}>
+          // <div className="hosted-rides d-flex justify-content-center" >
+          //   <div className="p-3">
+          //   <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
+          //   <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
+          //   <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
+          //   </div>
+
+          //   <div className="p-3">
+          //   <h5 className="p-2"><FcConferenceCall className="mx-2"/>passengers: {hostedRides.passengers}</h5>
+          //   <h5 className="p-2"><BsFillCarFrontFill className="mx-2"/>vehicle: {hostedRides.vehicle}</h5>
+          //   <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
+          //   </div>
+          //   </div>
+          //   <hr className="hr hr-blurry m-0 p-0"/>
+          // </Container> */}
