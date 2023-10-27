@@ -27,6 +27,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,} from 'mdb-react-ui-kit';
 import { ToastContainer, toast } from 'react-toastify';
+import Sidebar from "./sideBar";
 
 
 
@@ -177,7 +178,11 @@ const MyRides = () => {
       }
 
   return (
-    <>
+    <div className="d-flex">
+      <div style={{width:'17%'}}>
+    <Sidebar/>
+    </div>
+    <div>
     <ToastContainer/>
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -369,9 +374,10 @@ const MyRides = () => {
         </TabPanel>
       </TabContext>
     </Box>
+    </div>
 
 
-    </>
+    </div>
   )
  }
 

@@ -1,8 +1,7 @@
-  // import React from 'react'
   import {Container} from 'react-bootstrap'
   import '../stylings/chat.css'
   // import io from 'socket.io-client';
-  import { useState,useEffect, useRef } from 'react';
+  import { useState,useEffect } from 'react';
   import axiosInstance from '../api/axios';
   import { useSelector } from 'react-redux';
   import { useNavigate, useParams } from 'react-router-dom';
@@ -13,13 +12,8 @@
   import {AiOutlineEdit} from 'react-icons/ai'
   import {RiRadioButtonLine} from 'react-icons/ri'
   import {FcVideoCall,FcPhone} from 'react-icons/fc'
-  import Peer from 'simple-peer'
-
  
 
-
-
-  
 
   const Chat = () => {
 
@@ -29,25 +23,13 @@
     const [chatDetails, setChatDetails] = useState({})
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
-    const [me, setMe] = useState('')
-    const [stream, setStream] = useState(null)
-    // const [callAccepted, setReceivingCall] = useState(false)
-    const [caller, setCaller] = useState('')
-    const [callerSignal, setCallerSignal] = useState()
-    const [idToCall, setIdToCall] = useState('')
-    const [callEnded, setCallEnded] = useState(false)
-    const [callAccepted, setCallAccepted] = useState(false)
-    const [call, setCall] = useState(null)
    
 
 
     const USER = useSelector((state)=>state.userAuth);
     const userID = USER.userID 
-    const name = USER.name 
+    // const name = USER.name 
 
-    const myVideo = useRef()
-    const userVideo = useRef()
-    const connectionRef = useRef()
 
     const navigate = useNavigate();
 
@@ -123,76 +105,10 @@
         }
       }, timerLength);
     }
-;
-
-    useEffect(()=>{
-      navigator.mediaDevices.getUserMedia({video:true,audio:true}).then((currentStream)=>{
-        setStream(currentStream)
-        myVideo.current.srcObject = currentStream
-      })
-      socket.on('me',(id)=>{
-        setMe(id)
-      })
-
-      socket.on('calluser',({from,name:callerName,signal})=>{
-        setCall({isReceiveCall:true, from, name:callerName, signal})
-      })
-
-    },[])
-
-    const handleVideoCall = ()=>{
-     
-      const peer = new Peer({
-        initiator: true,
-        trickle: false,
-        stream: stream
-      })
-      peer.on("signal", (data) => {
-        socket.emit("calluser", {
-          userToCall: room,
-          signalData: data,
-          from: me,
-          name: name
-        })
-      })
-      peer.on("stream", (currentStream) => {       
-          userVideo.current.srcObject = currentStream
-        
-      })
-      socket.on("callaccepted", (signal) => {
-        setCallAccepted(true)
-        peer.signal(signal)
-      })
-  
-      connectionRef.current = peer
-      }
-
-
-    const answerCall =() =>  { 
-
-		setCallAccepted(true)
-		const peer = new Peer({ initiator: false,	trickle: false,stream })
-
-		peer.on("signal", (data) => {
-			socket.emit("answerCall", { signal: data, to: call.from })
-		})
-		peer.on("stream", (currentStream) => {
-			userVideo.current.srcObject = currentStream
-		})
-
-		peer.signal(call.signal)
-		connectionRef.current = peer
-	}
-
-	const leaveCall = () => {
-		setCallEnded(true)
-		connectionRef.current.destroy()
-	}
 
   const handlePreviousChatNavigate = (chattedUser)=>{
     navigate(`/chat/${chattedUser._id}`)
   }
-
 
 
     return ( 
@@ -229,7 +145,7 @@
               <RiRadioButtonLine style={{color:'green'}}/>
          </div> 
           <div className='call-icon d-flex align-items-center justify-content-end'>
-            <h2 onClick={handleVideoCall}><FcVideoCall/></h2>
+            <h2><FcVideoCall/></h2>
             <h2><FcPhone/></h2>
           </div>
         </div>
@@ -267,15 +183,8 @@
       <button className='sendButton' onClick={()=>sendMessage()}>Send <RiSendPlaneLine/></button>
       </Container>
 
-    </div>
-    </div> 
-
-    {/* <MDBBtn onClick={answerCall}>accept</MDBBtn>
-    <MDBBtn onClick={leaveCall}>leave</MDBBtn> */}
-    
-    <video src="" muted ref={myVideo} style={{width:'60px',height:'60px'}}/>
-    <video src="" muted ref={userVideo} style={{width:'60px',height:'60px'}}/>
-      
+        </div>
+        </div> 
       </>
     )
   }
