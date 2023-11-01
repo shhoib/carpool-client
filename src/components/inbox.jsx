@@ -7,6 +7,7 @@ import { BsChatDots } from 'react-icons/bs'
 import '../stylings/inbox.css'
 import Lottie from 'react-lottie'
 import loading from '../animations/loading.json'
+import Sidebar from "./sideBar";
 
 
 
@@ -37,7 +38,11 @@ const Inbox = () => {
     }
 
   return (
-    <>
+    <div className='d-flex'>
+      <div style={{width:'17%'}}>
+      <Sidebar/>
+      </div>
+      <div style={{width:'83%'}}>
     <Container className='chat d-flex flex-column align-items-center p-3'>
 
      {Array.isArray(previousChats.chattedUsers)&&
@@ -69,7 +74,8 @@ const Inbox = () => {
       height={150}  width={150}  />
        )}
      </Container>
-    </>
+     </div>
+    </div>
   )
 }
 

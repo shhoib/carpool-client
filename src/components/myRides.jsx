@@ -25,7 +25,8 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,} from 'mdb-react-ui-kit';
+import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,MDBModal,MDBModalDialog,
+  MDBModalContent,MDBModalHeader,MDBModalTitle,MDBModalBody,MDBModalFooter,} from 'mdb-react-ui-kit';
 import { ToastContainer, toast } from 'react-toastify';
 import Sidebar from "./sideBar";
 
@@ -43,7 +44,10 @@ const MyRides = () => {
       const [toggleState, setToggleState] = useState(false);
       const [selectedRating, setSelectedRating] = useState(4);
       const [aboutRide, setAboutRide] = useState('');
+      const [centredModal, setCentredModal] = useState(false);
 
+
+      const toggleShow = () => setCentredModal(!centredModal);
 
       const changeToggle=()=> setToggleState(!toggleState)
 
@@ -179,10 +183,10 @@ const MyRides = () => {
 
   return (
     <div className="d-flex">
-      <div style={{width:'17%'}}>
+      <div className="sidebar" style={{width:'17%'}}>
     <Sidebar/>
     </div>
-    <div>
+    <div className="container-div" >
     <ToastContainer/>
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -209,7 +213,7 @@ const MyRides = () => {
                     <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {hostedRides.from.split(', ').slice(0, 2).join(', ')}</h5>
                     <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {hostedRides.to.split(', ').slice(0, 2).join(', ')}</h5>
                     </MDBCardText>
-                    <MDBBtn onClick={()=>handleMyRideNavigate(hostedRides)} className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
+                    <MDBBtn onClick={toggleShow} className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
                 </MDBCardBody>
                 </MDBCard>
               </div>
@@ -345,25 +349,19 @@ const MyRides = () => {
         <TabPanel value="3">
         {joinedRides.length>0?
           joinedRides.map((rides,index)=>(
-          <Container key={index} >
-          <div className={rides.status=='completed'?'completedRide hosted-rides d-flex justify-content-center':
-           'notCompleted hosted-rides d-flex justify-content-center'}>
-            <div className="p-3">
-            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {rides.from}</h5>
-            <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {rides.to}</h5>
-            <h5 className="p-2"><FcPlanner className="mx-2"/>date: {rides.date}</h5>
-            </div>
-
-            <div className="p-3">
-            <h5 className="p-2"><FcConferenceCall className="mx-2"/>passengers: {rides.passengers}</h5>
-            <h5 className="p-2"><BsFillCarFrontFill className="mx-2"/>vehicle: {rides.vehicle}</h5>
-            <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {rides.amount}</h5>
-            </div>
-
-            </div>
-
-            <hr className="line"/>
-          </Container>
+            <div key={index} className="m-2">
+            <MDBCard className="shadow" alignment='center' style={{ width: '22rem',height:'16rem' }}>
+              <MDBCardBody>
+                
+                <MDBCardText className="m-0">
+                 <h5 className="p-2"><FcPlanner className="mx-2"/>date: {rides.date}</h5>
+                <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {rides.from.split(', ').slice(0, 2).join(', ')}</h5>
+                <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {rides.to.split(', ').slice(0, 2).join(', ')}</h5>
+                </MDBCardText>
+                <MDBBtn onClick={toggleShow}  className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
+            </MDBCardBody>
+            </MDBCard>
+          </div>
         )):
         <Container className="d-flex flex-column align-items-center">
           <h2 className="no-rides">You havent joined any rides</h2>
@@ -374,6 +372,21 @@ const MyRides = () => {
         </TabPanel>
       </TabContext>
     </Box>
+
+    <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
+        <MDBModalDialog centered>
+          <MDBModalContent>
+         
+            <MDBModalBody>
+           
+            </MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={toggleShow}> Close </MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+
     </div>
 
 
@@ -382,21 +395,3 @@ const MyRides = () => {
  }
 
 export default MyRides
-
-
-       {/* // <Container key={index}>
-          // <div className="hosted-rides d-flex justify-content-center" >
-          //   <div className="p-3">
-          //   <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><FcAdvance className="mx-2"/> from: {hostedRides.from}</h5>
-          //   <h5 className="p-2" style={{ color: "rgb(255, 68, 0)"}}><MdLocationPin className="mx-2"/> to: {hostedRides.to}</h5>
-          //   <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
-          //   </div>
-
-          //   <div className="p-3">
-          //   <h5 className="p-2"><FcConferenceCall className="mx-2"/>passengers: {hostedRides.passengers}</h5>
-          //   <h5 className="p-2"><BsFillCarFrontFill className="mx-2"/>vehicle: {hostedRides.vehicle}</h5>
-          //   <h5 className="p-2"><FcMoneyTransfer className="mx-2"/>amount: ₹ {hostedRides.amount}</h5>
-          //   </div>
-          //   </div>
-          //   <hr className="hr hr-blurry m-0 p-0"/>
-          // </Container> */}

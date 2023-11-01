@@ -8,14 +8,16 @@ const HostedRideDetails = () => {
 
     const { id } = useParams();
     const [hostedRide,setHostedRide] = useState({});
+
+
     useEffect(()=>{
         const fetchRideDetails = async()=>{
             const response = await axiosInstance.get(`hostedRideDetails?id=${id}`)
             setHostedRide(response.data)
-            // console.log(response.data);
         }
         fetchRideDetails()
-    },[])
+    },[id])
+
     console.log(hostedRide);
 
   return (
