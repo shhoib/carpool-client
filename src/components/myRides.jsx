@@ -25,8 +25,8 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,MDBModal,MDBModalDialog,
-  MDBModalContent,MDBModalHeader,MDBModalTitle,MDBModalBody,MDBModalFooter,} from 'mdb-react-ui-kit';
+import { MDBSwitch,MDBTextArea,MDBBtn, MDBCard, MDBCardBody,MDBCardText,MDBModal,MDBModalDialog,MDBModalHeader,
+  MDBModalTitle,MDBModalContent,MDBModalBody,MDBModalFooter,} from 'mdb-react-ui-kit';
 import { ToastContainer, toast } from 'react-toastify';
 import Sidebar from "./sideBar";
 
@@ -45,9 +45,15 @@ const MyRides = () => {
       const [selectedRating, setSelectedRating] = useState(4);
       const [aboutRide, setAboutRide] = useState('');
       const [centredModal, setCentredModal] = useState(false);
+      const [selectedRide, setSelectedRide] = useState(null);
 
 
-      const toggleShow = () => setCentredModal(!centredModal);
+
+      const toggleShow = (rideData) => {
+        setCentredModal(!centredModal);
+        setSelectedRide(rideData)
+      }
+      console.log(selectedRide)
 
       const changeToggle=()=> setToggleState(!toggleState)
 
@@ -177,9 +183,9 @@ const MyRides = () => {
         }
       }
 
-      const handleMyRideNavigate = (hostedRides)=>{
-        navigate(`/HostedRideDetails/${hostedRides._id}`)
-      }
+      // const handleMyRideNavigate = (hostedRides)=>{
+      //   navigate(`/HostedRideDetails/${hostedRides._id}`)
+      // }
 
   return (
     <div className="d-flex">
@@ -213,7 +219,7 @@ const MyRides = () => {
                     <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {hostedRides.from.split(', ').slice(0, 2).join(', ')}</h5>
                     <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {hostedRides.to.split(', ').slice(0, 2).join(', ')}</h5>
                     </MDBCardText>
-                    <MDBBtn onClick={toggleShow} className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
+                    <MDBBtn onClick={()=>toggleShow(hostedRides)} className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
                 </MDBCardBody>
                 </MDBCard>
               </div>
@@ -221,7 +227,7 @@ const MyRides = () => {
           </div>
         ) : (
           <Container className="d-flex flex-column align-items-center">
-            <h2 className="no-rides">You haven't hosted any rides</h2>
+            <h2 className="no-rides">You havent hosted any rides</h2>
             <h5>Click here to host your first ride...</h5>
             <h1 onClick={() => navigate('/hostRide')}>
               <BsPlusCircle />
@@ -354,11 +360,11 @@ const MyRides = () => {
               <MDBCardBody>
                 
                 <MDBCardText className="m-0">
-                 <h5 className="p-2"><FcPlanner className="mx-2"/>date: {rides.date}</h5>
-                <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {rides.from.split(', ').slice(0, 2).join(', ')}</h5>
-                <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {rides.to.split(', ').slice(0, 2).join(', ')}</h5>
+                 <h5 className="p-2"><FcPlanner className="mx-2"/>date: {rides?.date}</h5>
+                <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {rides?.from?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
+                <h5 className="p-2" style={{ color: "#EB455F"}}><MdLocationPin className="mx-2" style={{color:"grey"}}/> to: {rides?.to?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
                 </MDBCardText>
-                <MDBBtn onClick={toggleShow}  className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
+                <MDBBtn onClick={()=>toggleShow(rides)}  className="position-absolute bottom-0 start-50 translate-middle-x m-2">details</MDBBtn>
             </MDBCardBody>
             </MDBCard>
           </div>
@@ -376,11 +382,30 @@ const MyRides = () => {
     <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
         <MDBModalDialog centered>
           <MDBModalContent>
-         
-            <MDBModalBody>
-           
+          <MDBModalHeader className="modal_header d-flex justify-content-center">
+              <MDBModalTitle >Ride Details</MDBModalTitle>
+            </MDBModalHeader>
+            <MDBModalBody className="d-flex">
+              <div className="d-flex flex-column align-items-end mx-3">
+              <h5>Date : </h5>
+              <h5>Hoster : </h5>
+              <h5>From : </h5>
+              <h5>To : </h5>
+              <h5>Vehicle : </h5>
+              <h5>Amount : </h5>
+              <h5>Status : </h5>
+              </div>
+              <div className="d-flex flex-column align-items-start" style={{color:'#002f4b'}}>
+              <h5> {selectedRide?.date}</h5>
+              <h5> {selectedRide?.hoster}</h5>
+              <h5> {selectedRide?.from?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
+              <h5> {selectedRide?.to?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
+              <h5> {selectedRide?.vehicle}</h5>
+              <h5> ₹ {selectedRide?.amount}</h5>
+              <h5> {selectedRide?.status}</h5>
+              </div>
             </MDBModalBody>
-            <MDBModalFooter>
+            <MDBModalFooter className="d-flex justify-content-center">
               <MDBBtn color='secondary' onClick={toggleShow}> Close </MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
@@ -392,6 +417,6 @@ const MyRides = () => {
 
     </div>
   )
- }
+  }
 
 export default MyRides

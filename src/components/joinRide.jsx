@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import dayjs from 'dayjs'; 
 import axiosInstance from '../api/axios';
 import {useNavigate} from 'react-router-dom'
+import { MDBCard, MDBCardBody,MDBCardTitle,MDBCardText,MDBBtn } from 'mdb-react-ui-kit';
 
 
 const JoinRide = () => {
@@ -195,28 +196,56 @@ const JoinRide = () => {
     </Row>
 
     <hr className='horizontal-line'/>
+
+    
     
     {rides.length<0 ?<div><h1>no rides available</h1></div>: 
      rides.map((ride,index)=>(
-    <Container key={index} className='rideList mt-3' onClick={()=>handleRideClick(ride._id)}>
-     <Container className='d-flex justify-content-between mt-2 px-3'>
-      <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
-      <h5>{ride.to.split(', ').slice(0, 2).join(', ')}</h5>
-     </Container>
+      <div key={index}>
+     <MDBCard className=' p-1 m-3'>
+      <MDBCardBody>
+        <div className='d-flex justify-content-between'>
+        <h4 className='name'>{ride.hoster.charAt(0).toUpperCase() + ride.hoster.slice(1)}</h4>
+          <div>
+          <h4 className='rate'>₹{ride.amount}</h4>
+          <h6 style={{color:'grey'}}>per seat</h6>
+          </div>
+        </div>
 
-     <Container className='d-flex justify-content-center'>
-      <div className='circle mt-1'></div>
-      <hr  className='connectingLine'/>
-      <div className='circle mt-1'></div>
-     </Container>
+        <div className='d-flex justify-content-between'>
+          <div>
+            <h6 className='from'>{ride.from.split(', ').slice(0, 2).join(', ').charAt(0).toUpperCase() + ride.from.slice(1)}</h6>
+            <h4 className='to'>{ride.to.split(', ').slice(0, 2).join(', ').charAt(0).toUpperCase() + ride.to.slice(1)}</h4>
+           </div>
+            <h5 className='vehicle'>vehicle : {ride.vehicle.charAt(0).toUpperCase() + ride.vehicle.slice(1)}</h5>
+          </div>
 
-     <Container className='hosterDetails d-flex justify-content-between mb-2'>
-      <div><h5><AiOutlineUser/>{ride.hoster}</h5></div>
-      <h6>Date & time negotiable</h6>
-      <h6>{ride.vehicle}</h6>
-      <h5>₹{ride.amount}</h5>
-     </Container>
-    </Container>
+         <div className='d-flex justify-content-between'>
+          <h6 className='date'>{ride.date}</h6>
+          <MDBBtn onClick={()=>handleRideClick(ride._id)} outline className='mx-2' color='secondary'> Join </MDBBtn>
+          </div>    
+      </MDBCardBody>
+    </MDBCard>
+    </div>
+    // <Container key={index} className='rideList mt-3' onClick={()=>handleRideClick(ride._id)}>
+    //  <Container className='d-flex justify-content-between mt-2 px-3'>
+    //   <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
+    //   <h5>{ride.to.split(', ').slice(0, 2).join(', ')}</h5>
+    //  </Container>
+
+    //  <Container className='d-flex justify-content-center'>
+    //   <div className='circle mt-1'></div>
+    //   <hr  className='connectingLine'/>
+    //   <div className='circle mt-1'></div>
+    //  </Container>
+
+    //  <Container className='hosterDetails d-flex justify-content-between mb-2'>
+    //   <div><h5><AiOutlineUser/>{ride.hoster}</h5></div>
+    //   <h6>Date & time negotiable</h6>
+    //   <h6>{ride.vehicle}</h6>
+    //   <h5>₹{ride.amount}</h5>
+    //  </Container>
+    // </Container>
     ))
     }
     </>

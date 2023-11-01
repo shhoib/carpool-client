@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+
 @media(max-width:600px){
     .wholeInputBoxes{
         display: flex;
@@ -78,24 +80,7 @@
     background-color: rgb(197, 197, 197);
     width: 100%;
 }
-/* .suggestion {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    z-index: 1;
-    /* width: 100%; */
-    /* background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 20px; */
-  /* }  */
-  /* .suggestions li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    /* border-radius: 20px; */
-    /* cursor: pointer; */
-  /* } */ 
-  /* Add these styles to your joinRide.css file */
+
 .suggestion {
     list-style-type: none;
     padding: 0;
@@ -119,7 +104,30 @@
   .suggestion li:hover {
     background-color: #f5f5f5;
   }
-  
-  
+  .to{
+    color: rgb(102, 12, 247);
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+  .from{
+    color: rgb(138, 137, 137);
+    font-weight: 600;
+  }
+  .date{
+    color: #054652;
+  }
+  .name{
+    color: rgb(66, 66, 66);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+.vehicle{
+    color: rgb(88, 87, 87);
+}
+.rate{
+    color: #054652;
+    font-weight: 600;
+}
+
 
   

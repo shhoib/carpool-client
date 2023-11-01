@@ -83,6 +83,10 @@
   /* height: 100vh;  */
   /* overflow: auto; */
  } 
+ .modal_header{
+  background-color: white;
+  color: #002f4b;
+ }
 
 @media (max-width: 768px) {
   .sidebar {
