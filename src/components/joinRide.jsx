@@ -191,23 +191,20 @@ const JoinRide = () => {
              by great technology, you can book a ride close to you in just minutes.</h>
         </div>
      </div>
-
     </Col>
     </Row>
 
-    <hr className='horizontal-line'/>
-
-    
+    <hr className='horizontal-line'/>   
     
     {rides.length<0 ?<div><h1>no rides available</h1></div>: 
      rides.map((ride,index)=>(
       <div key={index}>
-     <MDBCard className=' p-1 m-3'>
+     <MDBCard className='ride_list px-1 m-3'>
       <MDBCardBody>
         <div className='d-flex justify-content-between'>
         <h4 className='name'>{ride.hoster.charAt(0).toUpperCase() + ride.hoster.slice(1)}</h4>
           <div>
-          <h4 className='rate'>₹{ride.amount}</h4>
+          <h3 className='rate'>₹{ride.amount}</h3>
           <h6 style={{color:'grey'}}>per seat</h6>
           </div>
         </div>
@@ -222,30 +219,11 @@ const JoinRide = () => {
 
          <div className='d-flex justify-content-between'>
           <h6 className='date'>{ride.date}</h6>
-          <MDBBtn onClick={()=>handleRideClick(ride._id)} outline className='mx-2' color='secondary'> Join </MDBBtn>
+          <MDBBtn onClick={()=>handleRideClick(ride._id)} outline className='join_button mx-2' color='secondary'> Join </MDBBtn>
           </div>    
       </MDBCardBody>
     </MDBCard>
     </div>
-    // <Container key={index} className='rideList mt-3' onClick={()=>handleRideClick(ride._id)}>
-    //  <Container className='d-flex justify-content-between mt-2 px-3'>
-    //   <h5>{ride.from.split(', ').slice(0, 2).join(', ')}</h5>
-    //   <h5>{ride.to.split(', ').slice(0, 2).join(', ')}</h5>
-    //  </Container>
-
-    //  <Container className='d-flex justify-content-center'>
-    //   <div className='circle mt-1'></div>
-    //   <hr  className='connectingLine'/>
-    //   <div className='circle mt-1'></div>
-    //  </Container>
-
-    //  <Container className='hosterDetails d-flex justify-content-between mb-2'>
-    //   <div><h5><AiOutlineUser/>{ride.hoster}</h5></div>
-    //   <h6>Date & time negotiable</h6>
-    //   <h6>{ride.vehicle}</h6>
-    //   <h5>₹{ride.amount}</h5>
-    //  </Container>
-    // </Container>
     ))
     }
     </>

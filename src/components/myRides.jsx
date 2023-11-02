@@ -186,6 +186,7 @@ const MyRides = () => {
       // const handleMyRideNavigate = (hostedRides)=>{
       //   navigate(`/HostedRideDetails/${hostedRides._id}`)
       // }
+      console.log(selectedRide)
 
   return (
     <div className="d-flex">
@@ -211,9 +212,9 @@ const MyRides = () => {
           <div className="d-flex flex-wrap justify-content-center">
             {myRides.map((hostedRides, index) => (
               <div key={index} className="m-2">
+
                 <MDBCard className="shadow" alignment='center' style={{ width: '22rem',height:'16rem' }}>
-                  <MDBCardBody>
-                    
+                  <MDBCardBody>                    
                     <MDBCardText className="m-0">
                      <h5 className="p-2"><FcPlanner className="mx-2"/>date: {hostedRides.date}</h5>
                     <h5 className="p-2" style={{ color: "#16C79A"}}><FcAdvance className="mx-2"/> from: {hostedRides.from.split(', ').slice(0, 2).join(', ')}</h5>
@@ -385,25 +386,23 @@ const MyRides = () => {
           <MDBModalHeader className="modal_header d-flex justify-content-center">
               <MDBModalTitle >Ride Details</MDBModalTitle>
             </MDBModalHeader>
-            <MDBModalBody className="d-flex">
-              <div className="d-flex flex-column align-items-end mx-3">
-              <h5>Date : </h5>
-              <h5>Hoster : </h5>
-              <h5>From : </h5>
-              <h5>To : </h5>
-              <h5>Vehicle : </h5>
-              <h5>Amount : </h5>
-              <h5>Status : </h5>
-              </div>
-              <div className="d-flex flex-column align-items-start" style={{color:'#002f4b'}}>
+            <MDBModalBody className="d-flex align-items-center justify-content-around" >
+              <div className="d-flex flex-column justify-content-center align-items-center" style={{color:'#002f4b'}}>
               <h5> {selectedRide?.date}</h5>
-              <h5> {selectedRide?.hoster}</h5>
-              <h5> {selectedRide?.from?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
-              <h5> {selectedRide?.to?.split(', ')?.slice(0, 2)?.join(', ')}</h5>
-              <h5> {selectedRide?.vehicle}</h5>
+              <h5> {selectedRide?.hoster?.charAt(0).toUpperCase() + selectedRide?.hoster?.slice(1)}</h5>
+              <h5> {selectedRide?.from?.split(', ')?.slice(0, 2)?.join(', ').charAt(0).toUpperCase() + selectedRide?.from?.slice(1)}</h5>
+              <h5> {selectedRide?.to?.split(', ')?.slice(0, 2)?.join(', ').charAt(0).toUpperCase() + selectedRide?.to.slice(1)}</h5>
+              <h5> {selectedRide?.vehicle.charAt(0).toUpperCase() + selectedRide?.vehicle.slice(1)}</h5>
               <h5> ₹ {selectedRide?.amount}</h5>
-              <h5> {selectedRide?.status}</h5>
+              <h5> {selectedRide?.status.charAt(0).toUpperCase() + selectedRide?.status.slice(1)}</h5>
+              {/* {selectedRide.joinerID? <h5>{selectedRide.joinerID.name}</h5>:null} */}
               </div>
+              {selectedRide?.joinerID ? (
+              <div>
+              <h5>companion : {selectedRide?.joinerID?.name.charAt(0).toUpperCase() + selectedRide.joinerID?.name?.slice(1)}</h5>
+              </div>
+              )
+               : (null)}
             </MDBModalBody>
             <MDBModalFooter className="d-flex justify-content-center">
               <MDBBtn color='secondary' onClick={toggleShow}> Close </MDBBtn>
