@@ -405,7 +405,7 @@ const MyRides = () => {
                : (null)}
             </MDBModalBody>
             <MDBModalFooter className="d-flex justify-content-center">
-              <MDBBtn color='secondary' onClick={toggleShow}> Close </MDBBtn>
+              <MDBBtn color='secondary'  onClick={toggleShow}> Close </MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>

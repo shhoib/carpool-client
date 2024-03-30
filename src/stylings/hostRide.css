@@ -72,8 +72,7 @@
   transition: all 0.8s ease;  
 }
  .host-input-boxes:hover{
-  transform: scale(1.09);
-
+  transform: scale(1.1);
  }
 .host-input-boxes::placeholder {
   padding: 10px;

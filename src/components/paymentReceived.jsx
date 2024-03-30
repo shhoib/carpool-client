@@ -18,13 +18,11 @@
                 console.log(response.data);
             }
 
-            // console.log(payments.payments.payment_details.length);
             fetchpayments();
         },[userID])
-    console.log(payments.payment_details);
 
-     const totalAmount = payments.payment_details.reduce((acc, payment) => {
-        return acc + payment.amount;
+     const totalAmount = payments?.payment_details?.reduce((acc, payment) => {
+        return acc + payment?.amount;
         }, 0);
 
         console.log(totalAmount);

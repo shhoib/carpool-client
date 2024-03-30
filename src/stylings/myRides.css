@@ -30,7 +30,7 @@
   /* background-color: #e2dfdf; */
     /* color: #333; */
     transition: border-color 0.3s ease-in-out;
-    transition: all 0.6s ease; 
+    transition: all 0.9s ease; 
     border-radius: 15px;
 }
 .hosted-rides:hover{
